@@ -2,31 +2,31 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Extjs on 点滴记录</title>
-    <link>http://cxjava.github.io/categories/extjs/</link>
+    <link>https://cxjava.github.io/categories/extjs/</link>
     <description>Recent content in Extjs on 点滴记录</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Wed, 11 Jan 2012 23:22:00 +0800</lastBuildDate>
     
-	<atom:link href="http://cxjava.github.io/categories/extjs/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://cxjava.github.io/categories/extjs/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Spring3MVC教程(Mybatis&#43;ExtJS基本权限管理)</title>
-      <link>http://cxjava.github.io/post/spring3mvc%E6%95%99%E7%A8%8Bmybatis&#43;extjs%E5%9F%BA%E6%9C%AC%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/</link>
+      <link>https://cxjava.github.io/post/spring3mvc%E6%95%99%E7%A8%8Bmybatis&#43;extjs%E5%9F%BA%E6%9C%AC%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/</link>
       <pubDate>Wed, 11 Jan 2012 23:22:00 +0800</pubDate>
       
-      <guid>http://cxjava.github.io/post/spring3mvc%E6%95%99%E7%A8%8Bmybatis&#43;extjs%E5%9F%BA%E6%9C%AC%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/</guid>
+      <guid>https://cxjava.github.io/post/spring3mvc%E6%95%99%E7%A8%8Bmybatis&#43;extjs%E5%9F%BA%E6%9C%AC%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;Spring3 MVC 教程 （Mybatis+ExtJS基本权限管理） &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>ExtJS input readOnly backspace</title>
-      <link>http://cxjava.github.io/post/ext%E7%9A%84%E7%BB%84%E4%BB%B6%E8%AE%BE%E7%BD%AEreadonly%E5%92%8Cdisabled%E4%B9%8B%E5%90%8E%E6%8C%89backspace%E9%A1%B5%E9%9D%A2%E5%90%8E%E9%80%80%E7%9A%84%E9%97%AE%E9%A2%98/</link>
+      <link>https://cxjava.github.io/post/ext%E7%9A%84%E7%BB%84%E4%BB%B6%E8%AE%BE%E7%BD%AEreadonly%E5%92%8Cdisabled%E4%B9%8B%E5%90%8E%E6%8C%89backspace%E9%A1%B5%E9%9D%A2%E5%90%8E%E9%80%80%E7%9A%84%E9%97%AE%E9%A2%98/</link>
       <pubDate>Mon, 15 Aug 2011 16:59:00 +0800</pubDate>
       
-      <guid>http://cxjava.github.io/post/ext%E7%9A%84%E7%BB%84%E4%BB%B6%E8%AE%BE%E7%BD%AEreadonly%E5%92%8Cdisabled%E4%B9%8B%E5%90%8E%E6%8C%89backspace%E9%A1%B5%E9%9D%A2%E5%90%8E%E9%80%80%E7%9A%84%E9%97%AE%E9%A2%98/</guid>
+      <guid>https://cxjava.github.io/post/ext%E7%9A%84%E7%BB%84%E4%BB%B6%E8%AE%BE%E7%BD%AEreadonly%E5%92%8Cdisabled%E4%B9%8B%E5%90%8E%E6%8C%89backspace%E9%A1%B5%E9%9D%A2%E5%90%8E%E9%80%80%E7%9A%84%E9%97%AE%E9%A2%98/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;Ext的组件设置readOnly和disabled之后，按backspace页面后退的问题 &lt;/p&gt;</description>
     </item>

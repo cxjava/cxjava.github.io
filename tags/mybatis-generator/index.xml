@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Mybatis Generator on 点滴记录</title>
-    <link>http://cxjava.github.io/tags/mybatis-generator/</link>
+    <link>https://cxjava.github.io/tags/mybatis-generator/</link>
     <description>Recent content in Mybatis Generator on 点滴记录</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Wed, 03 Aug 2011 13:43:00 +0800</lastBuildDate>
     
-	<atom:link href="http://cxjava.github.io/tags/mybatis-generator/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://cxjava.github.io/tags/mybatis-generator/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>mybatis-generator修改版</title>
-      <link>http://cxjava.github.io/post/mybatis-generator%E4%BF%AE%E6%94%B9%E7%89%88/</link>
+      <link>https://cxjava.github.io/post/mybatis-generator%E4%BF%AE%E6%94%B9%E7%89%88/</link>
       <pubDate>Wed, 03 Aug 2011 13:43:00 +0800</pubDate>
       
-      <guid>http://cxjava.github.io/post/mybatis-generator%E4%BF%AE%E6%94%B9%E7%89%88/</guid>
+      <guid>https://cxjava.github.io/post/mybatis-generator%E4%BF%AE%E6%94%B9%E7%89%88/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;mybatis-generator 修改版&lt;/p&gt;
 

@@ -2,147 +2,147 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on 点滴记录</title>
-    <link>http://cxjava.github.io/categories/</link>
+    <link>https://cxjava.github.io/categories/</link>
     <description>Recent content in Categories on 点滴记录</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Sat, 13 Sep 2014 22:22:50 +0800</lastBuildDate>
     
-	<atom:link href="http://cxjava.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://cxjava.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>12306</title>
-      <link>http://cxjava.github.io/categories/12306/</link>
+      <link>https://cxjava.github.io/categories/12306/</link>
       <pubDate>Sat, 13 Sep 2014 22:22:50 +0800</pubDate>
       
-      <guid>http://cxjava.github.io/categories/12306/</guid>
+      <guid>https://cxjava.github.io/categories/12306/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Eclipse</title>
-      <link>http://cxjava.github.io/categories/eclipse/</link>
+      <link>https://cxjava.github.io/categories/eclipse/</link>
       <pubDate>Fri, 24 Jun 2011 13:45:00 +0800</pubDate>
       
-      <guid>http://cxjava.github.io/categories/eclipse/</guid>
+      <guid>https://cxjava.github.io/categories/eclipse/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Extjs</title>
-      <link>http://cxjava.github.io/categories/extjs/</link>
+      <link>https://cxjava.github.io/categories/extjs/</link>
       <pubDate>Wed, 11 Jan 2012 23:22:00 +0800</pubDate>
       
-      <guid>http://cxjava.github.io/categories/extjs/</guid>
+      <guid>https://cxjava.github.io/categories/extjs/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Ffu</title>
-      <link>http://cxjava.github.io/categories/ffu/</link>
+      <link>https://cxjava.github.io/categories/ffu/</link>
       <pubDate>Sun, 23 Apr 2017 11:07:14 +0800</pubDate>
       
-      <guid>http://cxjava.github.io/categories/ffu/</guid>
+      <guid>https://cxjava.github.io/categories/ffu/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Golang</title>
-      <link>http://cxjava.github.io/categories/golang/</link>
+      <link>https://cxjava.github.io/categories/golang/</link>
       <pubDate>Sat, 13 Sep 2014 22:22:50 +0800</pubDate>
       
-      <guid>http://cxjava.github.io/categories/golang/</guid>
+      <guid>https://cxjava.github.io/categories/golang/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Grid</title>
-      <link>http://cxjava.github.io/categories/grid/</link>
+      <link>https://cxjava.github.io/categories/grid/</link>
       <pubDate>Tue, 16 Aug 2011 11:24:00 +0800</pubDate>
       
-      <guid>http://cxjava.github.io/categories/grid/</guid>
+      <guid>https://cxjava.github.io/categories/grid/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Ibatis</title>
-      <link>http://cxjava.github.io/categories/ibatis/</link>
+      <link>https://cxjava.github.io/categories/ibatis/</link>
       <pubDate>Wed, 24 Nov 2010 22:49:00 +0800</pubDate>
       
-      <guid>http://cxjava.github.io/categories/ibatis/</guid>
+      <guid>https://cxjava.github.io/categories/ibatis/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Javascript</title>
-      <link>http://cxjava.github.io/categories/javascript/</link>
+      <link>https://cxjava.github.io/categories/javascript/</link>
       <pubDate>Fri, 06 Apr 2012 15:06:00 +0800</pubDate>
       
-      <guid>http://cxjava.github.io/categories/javascript/</guid>
+      <guid>https://cxjava.github.io/categories/javascript/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Jquery</title>
-      <link>http://cxjava.github.io/categories/jquery/</link>
+      <link>https://cxjava.github.io/categories/jquery/</link>
       <pubDate>Tue, 16 Aug 2011 11:24:00 +0800</pubDate>
       
-      <guid>http://cxjava.github.io/categories/jquery/</guid>
+      <guid>https://cxjava.github.io/categories/jquery/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Jquery Form Validation</title>
-      <link>http://cxjava.github.io/categories/jquery-form-validation/</link>
+      <link>https://cxjava.github.io/categories/jquery-form-validation/</link>
       <pubDate>Mon, 02 Aug 2010 11:40:00 +0800</pubDate>
       
-      <guid>http://cxjava.github.io/categories/jquery-form-validation/</guid>
+      <guid>https://cxjava.github.io/categories/jquery-form-validation/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Maven</title>
-      <link>http://cxjava.github.io/categories/maven/</link>
+      <link>https://cxjava.github.io/categories/maven/</link>
       <pubDate>Fri, 06 Apr 2012 15:06:00 +0800</pubDate>
       
-      <guid>http://cxjava.github.io/categories/maven/</guid>
+      <guid>https://cxjava.github.io/categories/maven/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Mybatis</title>
-      <link>http://cxjava.github.io/categories/mybatis/</link>
+      <link>https://cxjava.github.io/categories/mybatis/</link>
       <pubDate>Wed, 11 Jan 2012 23:22:00 +0800</pubDate>
       
-      <guid>http://cxjava.github.io/categories/mybatis/</guid>
+      <guid>https://cxjava.github.io/categories/mybatis/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Slf4j</title>
-      <link>http://cxjava.github.io/categories/slf4j/</link>
+      <link>https://cxjava.github.io/categories/slf4j/</link>
       <pubDate>Wed, 29 Jun 2011 09:19:00 +0800</pubDate>
       
-      <guid>http://cxjava.github.io/categories/slf4j/</guid>
+      <guid>https://cxjava.github.io/categories/slf4j/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Spring</title>
-      <link>http://cxjava.github.io/categories/spring/</link>
+      <link>https://cxjava.github.io/categories/spring/</link>
       <pubDate>Wed, 11 Jan 2012 23:22:00 +0800</pubDate>
       
-      <guid>http://cxjava.github.io/categories/spring/</guid>
+      <guid>https://cxjava.github.io/categories/spring/</guid>
       <description></description>
     </item>
     
     <item>
       <title>空气净化器</title>
-      <link>http://cxjava.github.io/categories/%E7%A9%BA%E6%B0%94%E5%87%80%E5%8C%96%E5%99%A8/</link>
+      <link>https://cxjava.github.io/categories/%E7%A9%BA%E6%B0%94%E5%87%80%E5%8C%96%E5%99%A8/</link>
       <pubDate>Sun, 23 Apr 2017 11:07:14 +0800</pubDate>
       
-      <guid>http://cxjava.github.io/categories/%E7%A9%BA%E6%B0%94%E5%87%80%E5%8C%96%E5%99%A8/</guid>
+      <guid>https://cxjava.github.io/categories/%E7%A9%BA%E6%B0%94%E5%87%80%E5%8C%96%E5%99%A8/</guid>
       <description></description>
     </item>
     

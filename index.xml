@@ -2,57 +2,57 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>点滴记录</title>
-    <link>http://cxjava.github.io/</link>
+    <link>https://cxjava.github.io/</link>
     <description>Recent content on 点滴记录</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Sun, 23 Apr 2017 11:07:14 +0800</lastBuildDate>
     
-	<atom:link href="http://cxjava.github.io/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://cxjava.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>净化空气购买安装FFU</title>
-      <link>http://cxjava.github.io/post/%E5%87%80%E5%8C%96%E7%A9%BA%E6%B0%94-%E8%B4%AD%E4%B9%B0%E5%AE%89%E8%A3%85ffu/</link>
+      <link>https://cxjava.github.io/post/%E5%87%80%E5%8C%96%E7%A9%BA%E6%B0%94-%E8%B4%AD%E4%B9%B0%E5%AE%89%E8%A3%85ffu/</link>
       <pubDate>Sun, 23 Apr 2017 11:07:14 +0800</pubDate>
       
-      <guid>http://cxjava.github.io/post/%E5%87%80%E5%8C%96%E7%A9%BA%E6%B0%94-%E8%B4%AD%E4%B9%B0%E5%AE%89%E8%A3%85ffu/</guid>
+      <guid>https://cxjava.github.io/post/%E5%87%80%E5%8C%96%E7%A9%BA%E6%B0%94-%E8%B4%AD%E4%B9%B0%E5%AE%89%E8%A3%85ffu/</guid>
       <description>自从老婆怀孕之后，为了宝宝健康着想，加上预防小区旁边新修的高楼扬灰。所以打算买个空气净化器，查阅了各种资料，特别是这两篇文章之后，更加坚定了</description>
     </item>
     
     <item>
       <title>一个自动切换12306CDN的代理</title>
-      <link>http://cxjava.github.io/post/%E4%B8%80%E4%B8%AA%E8%87%AA%E5%8A%A8%E5%88%87%E6%8D%A212306cdn%E7%9A%84%E4%BB%A3%E7%90%86/</link>
+      <link>https://cxjava.github.io/post/%E4%B8%80%E4%B8%AA%E8%87%AA%E5%8A%A8%E5%88%87%E6%8D%A212306cdn%E7%9A%84%E4%BB%A3%E7%90%86/</link>
       <pubDate>Sat, 13 Sep 2014 22:22:50 +0800</pubDate>
       
-      <guid>http://cxjava.github.io/post/%E4%B8%80%E4%B8%AA%E8%87%AA%E5%8A%A8%E5%88%87%E6%8D%A212306cdn%E7%9A%84%E4%BB%A3%E7%90%86/</guid>
+      <guid>https://cxjava.github.io/post/%E4%B8%80%E4%B8%AA%E8%87%AA%E5%8A%A8%E5%88%87%E6%8D%A212306cdn%E7%9A%84%E4%BB%A3%E7%90%86/</guid>
       <description>一个自动切换12306 CDN的代理，只需设置浏览器的代理为此软件监听端口，每次查询请求都会更换CDN，达到快速刷票的目的。 思路来自分享123</description>
     </item>
     
     <item>
       <title>12306图形界面抢票之Golang版</title>
-      <link>http://cxjava.github.io/post/12306%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2%E6%8A%A2%E7%A5%A8%E4%B9%8Bgolang%E7%89%88/</link>
+      <link>https://cxjava.github.io/post/12306%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2%E6%8A%A2%E7%A5%A8%E4%B9%8Bgolang%E7%89%88/</link>
       <pubDate>Fri, 27 Jun 2014 09:22:11 +0800</pubDate>
       
-      <guid>http://cxjava.github.io/post/12306%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2%E6%8A%A2%E7%A5%A8%E4%B9%8Bgolang%E7%89%88/</guid>
+      <guid>https://cxjava.github.io/post/12306%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2%E6%8A%A2%E7%A5%A8%E4%B9%8Bgolang%E7%89%88/</guid>
       <description>由于12306及时封堵了相关无需验证码购票的漏洞，导致原来写的无验证码版本不能使用，所以现在想自己用golang写一个GUI版本出来自己使用</description>
     </item>
     
     <item>
       <title>12306命令行无验证码抢票之Golang版</title>
-      <link>http://cxjava.github.io/post/12306%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%97%A0%E9%AA%8C%E8%AF%81%E7%A0%81%E6%8A%A2%E7%A5%A8%E4%B9%8Bgolang%E7%89%88/</link>
+      <link>https://cxjava.github.io/post/12306%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%97%A0%E9%AA%8C%E8%AF%81%E7%A0%81%E6%8A%A2%E7%A5%A8%E4%B9%8Bgolang%E7%89%88/</link>
       <pubDate>Mon, 06 Jan 2014 09:22:22 +0800</pubDate>
       
-      <guid>http://cxjava.github.io/post/12306%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%97%A0%E9%AA%8C%E8%AF%81%E7%A0%81%E6%8A%A2%E7%A5%A8%E4%B9%8Bgolang%E7%89%88/</guid>
+      <guid>https://cxjava.github.io/post/12306%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%97%A0%E9%AA%8C%E8%AF%81%E7%A0%81%E6%8A%A2%E7%A5%A8%E4%B9%8Bgolang%E7%89%88/</guid>
       <description>前些天在网上看见12306可以在最后一步的时候绕过验证码提交买票请求，然后结合到这段时间的抢票经验和技巧，加上golang在网络方面的强大以</description>
     </item>
     
     <item>
       <title>UglifyJS压缩js文件和jsp里面的js代码</title>
-      <link>http://cxjava.github.io/post/uglifyjs%E5%8E%8B%E7%BC%A9js%E6%96%87%E4%BB%B6%E5%92%8Cjsp%E9%87%8C%E9%9D%A2%E7%9A%84js%E4%BB%A3%E7%A0%81/</link>
+      <link>https://cxjava.github.io/post/uglifyjs%E5%8E%8B%E7%BC%A9js%E6%96%87%E4%BB%B6%E5%92%8Cjsp%E9%87%8C%E9%9D%A2%E7%9A%84js%E4%BB%A3%E7%A0%81/</link>
       <pubDate>Fri, 06 Apr 2012 15:06:00 +0800</pubDate>
       
-      <guid>http://cxjava.github.io/post/uglifyjs%E5%8E%8B%E7%BC%A9js%E6%96%87%E4%BB%B6%E5%92%8Cjsp%E9%87%8C%E9%9D%A2%E7%9A%84js%E4%BB%A3%E7%A0%81/</guid>
+      <guid>https://cxjava.github.io/post/uglifyjs%E5%8E%8B%E7%BC%A9js%E6%96%87%E4%BB%B6%E5%92%8Cjsp%E9%87%8C%E9%9D%A2%E7%9A%84js%E4%BB%A3%E7%A0%81/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;如果你不知道UglifyJS就out了，jquery的官方压缩工具啦～
 本来UglifyJS没有windows的客户端压缩工具，后来自己参照YUI的BAT工具（好像是淘宝一个哥们写的）改写了一个，具体见下面的说明。&lt;/p&gt;</description>
@@ -60,50 +60,50 @@
     
     <item>
       <title>maven中用yuicompressor和closure-compiler对js、css文件进行压缩</title>
-      <link>http://cxjava.github.io/post/maven%E4%B8%AD%E7%94%A8yuicompressor%E5%92%8Cclosure-compiler%E5%AF%B9jscss%E6%96%87%E4%BB%B6%E8%BF%9B%E8%A1%8C%E5%8E%8B%E7%BC%A9/</link>
+      <link>https://cxjava.github.io/post/maven%E4%B8%AD%E7%94%A8yuicompressor%E5%92%8Cclosure-compiler%E5%AF%B9jscss%E6%96%87%E4%BB%B6%E8%BF%9B%E8%A1%8C%E5%8E%8B%E7%BC%A9/</link>
       <pubDate>Fri, 06 Apr 2012 15:06:00 +0800</pubDate>
       
-      <guid>http://cxjava.github.io/post/maven%E4%B8%AD%E7%94%A8yuicompressor%E5%92%8Cclosure-compiler%E5%AF%B9jscss%E6%96%87%E4%BB%B6%E8%BF%9B%E8%A1%8C%E5%8E%8B%E7%BC%A9/</guid>
+      <guid>https://cxjava.github.io/post/maven%E4%B8%AD%E7%94%A8yuicompressor%E5%92%8Cclosure-compiler%E5%AF%B9jscss%E6%96%87%E4%BB%B6%E8%BF%9B%E8%A1%8C%E5%8E%8B%E7%BC%A9/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;项目采用maven构建的时候，需要压缩js，css等，网上找了相关资料，自己综合了下～&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Spring3MVC教程(Mybatis&#43;ExtJS基本权限管理)</title>
-      <link>http://cxjava.github.io/post/spring3mvc%E6%95%99%E7%A8%8Bmybatis&#43;extjs%E5%9F%BA%E6%9C%AC%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/</link>
+      <link>https://cxjava.github.io/post/spring3mvc%E6%95%99%E7%A8%8Bmybatis&#43;extjs%E5%9F%BA%E6%9C%AC%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/</link>
       <pubDate>Wed, 11 Jan 2012 23:22:00 +0800</pubDate>
       
-      <guid>http://cxjava.github.io/post/spring3mvc%E6%95%99%E7%A8%8Bmybatis&#43;extjs%E5%9F%BA%E6%9C%AC%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/</guid>
+      <guid>https://cxjava.github.io/post/spring3mvc%E6%95%99%E7%A8%8Bmybatis&#43;extjs%E5%9F%BA%E6%9C%AC%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;Spring3 MVC 教程 （Mybatis+ExtJS基本权限管理） &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>flexigrid、sigmagrid、datatables使用</title>
-      <link>http://cxjava.github.io/post/flexigridsigmagriddatatables%E4%BD%BF%E7%94%A8/</link>
+      <link>https://cxjava.github.io/post/flexigridsigmagriddatatables%E4%BD%BF%E7%94%A8/</link>
       <pubDate>Tue, 16 Aug 2011 11:24:00 +0800</pubDate>
       
-      <guid>http://cxjava.github.io/post/flexigridsigmagriddatatables%E4%BD%BF%E7%94%A8/</guid>
+      <guid>https://cxjava.github.io/post/flexigridsigmagriddatatables%E4%BD%BF%E7%94%A8/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;最近把datatables熟悉了下，做了个小的demo，后来想下，以后要是用到类似的grid的时候，为什么不做个集合了，so就有了这个东西了&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>ExtJS input readOnly backspace</title>
-      <link>http://cxjava.github.io/post/ext%E7%9A%84%E7%BB%84%E4%BB%B6%E8%AE%BE%E7%BD%AEreadonly%E5%92%8Cdisabled%E4%B9%8B%E5%90%8E%E6%8C%89backspace%E9%A1%B5%E9%9D%A2%E5%90%8E%E9%80%80%E7%9A%84%E9%97%AE%E9%A2%98/</link>
+      <link>https://cxjava.github.io/post/ext%E7%9A%84%E7%BB%84%E4%BB%B6%E8%AE%BE%E7%BD%AEreadonly%E5%92%8Cdisabled%E4%B9%8B%E5%90%8E%E6%8C%89backspace%E9%A1%B5%E9%9D%A2%E5%90%8E%E9%80%80%E7%9A%84%E9%97%AE%E9%A2%98/</link>
       <pubDate>Mon, 15 Aug 2011 16:59:00 +0800</pubDate>
       
-      <guid>http://cxjava.github.io/post/ext%E7%9A%84%E7%BB%84%E4%BB%B6%E8%AE%BE%E7%BD%AEreadonly%E5%92%8Cdisabled%E4%B9%8B%E5%90%8E%E6%8C%89backspace%E9%A1%B5%E9%9D%A2%E5%90%8E%E9%80%80%E7%9A%84%E9%97%AE%E9%A2%98/</guid>
+      <guid>https://cxjava.github.io/post/ext%E7%9A%84%E7%BB%84%E4%BB%B6%E8%AE%BE%E7%BD%AEreadonly%E5%92%8Cdisabled%E4%B9%8B%E5%90%8E%E6%8C%89backspace%E9%A1%B5%E9%9D%A2%E5%90%8E%E9%80%80%E7%9A%84%E9%97%AE%E9%A2%98/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;Ext的组件设置readOnly和disabled之后，按backspace页面后退的问题 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>mybatis-generator修改版</title>
-      <link>http://cxjava.github.io/post/mybatis-generator%E4%BF%AE%E6%94%B9%E7%89%88/</link>
+      <link>https://cxjava.github.io/post/mybatis-generator%E4%BF%AE%E6%94%B9%E7%89%88/</link>
       <pubDate>Wed, 03 Aug 2011 13:43:00 +0800</pubDate>
       
-      <guid>http://cxjava.github.io/post/mybatis-generator%E4%BF%AE%E6%94%B9%E7%89%88/</guid>
+      <guid>https://cxjava.github.io/post/mybatis-generator%E4%BF%AE%E6%94%B9%E7%89%88/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;mybatis-generator 修改版&lt;/p&gt;
 
@@ -114,10 +114,10 @@
     
     <item>
       <title>mybatis错误 Mapped Statements collection does not contain value for</title>
-      <link>http://cxjava.github.io/post/mybatis%E9%94%99%E8%AF%AF-mapped-statements-collection-does-not-contain-value-for/</link>
+      <link>https://cxjava.github.io/post/mybatis%E9%94%99%E8%AF%AF-mapped-statements-collection-does-not-contain-value-for/</link>
       <pubDate>Tue, 19 Jul 2011 15:08:00 +0800</pubDate>
       
-      <guid>http://cxjava.github.io/post/mybatis%E9%94%99%E8%AF%AF-mapped-statements-collection-does-not-contain-value-for/</guid>
+      <guid>https://cxjava.github.io/post/mybatis%E9%94%99%E8%AF%AF-mapped-statements-collection-does-not-contain-value-for/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;出现这个错误有网上说的：命名空间没写对，如果使用mapper，则
 &lt;code&gt;&amp;lt;mapper namespace=&amp;quot;com.sitech.mapper.StudentMapper&amp;quot;&amp;gt;&lt;/code&gt;
@@ -126,30 +126,30 @@
     
     <item>
       <title>SLF4J错误</title>
-      <link>http://cxjava.github.io/post/slf4j%E9%94%99%E8%AF%AF/</link>
+      <link>https://cxjava.github.io/post/slf4j%E9%94%99%E8%AF%AF/</link>
       <pubDate>Wed, 29 Jun 2011 09:19:00 +0800</pubDate>
       
-      <guid>http://cxjava.github.io/post/slf4j%E9%94%99%E8%AF%AF/</guid>
+      <guid>https://cxjava.github.io/post/slf4j%E9%94%99%E8%AF%AF/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;前些天在写一个基于JMS的程序时报这个错误，开始编译阶段还好好的，后来打包发布的时候就出现这个问题 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>优化eclipse</title>
-      <link>http://cxjava.github.io/post/%E4%BC%98%E5%8C%96eclipse/</link>
+      <link>https://cxjava.github.io/post/%E4%BC%98%E5%8C%96eclipse/</link>
       <pubDate>Fri, 24 Jun 2011 13:45:00 +0800</pubDate>
       
-      <guid>http://cxjava.github.io/post/%E4%BC%98%E5%8C%96eclipse/</guid>
+      <guid>https://cxjava.github.io/post/%E4%BC%98%E5%8C%96eclipse/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;分享下eclipse的一个优化设置&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>ibator改造之返回数据库注释和数据库分页</title>
-      <link>http://cxjava.github.io/post/ibator%E6%94%B9%E9%80%A0%E4%B9%8B%E8%BF%94%E5%9B%9E%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B3%A8%E9%87%8A%E5%92%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E5%88%86%E9%A1%B5/</link>
+      <link>https://cxjava.github.io/post/ibator%E6%94%B9%E9%80%A0%E4%B9%8B%E8%BF%94%E5%9B%9E%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B3%A8%E9%87%8A%E5%92%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E5%88%86%E9%A1%B5/</link>
       <pubDate>Wed, 24 Nov 2010 22:49:00 +0800</pubDate>
       
-      <guid>http://cxjava.github.io/post/ibator%E6%94%B9%E9%80%A0%E4%B9%8B%E8%BF%94%E5%9B%9E%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B3%A8%E9%87%8A%E5%92%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E5%88%86%E9%A1%B5/</guid>
+      <guid>https://cxjava.github.io/post/ibator%E6%94%B9%E9%80%A0%E4%B9%8B%E8%BF%94%E5%9B%9E%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B3%A8%E9%87%8A%E5%92%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E5%88%86%E9%A1%B5/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;插件基于ibator1.2.2（&lt;a href=&#34;http://svn.apache.org/repos/asf/ibatis/java/ibator）&#34;&gt;http://svn.apache.org/repos/asf/ibatis/java/ibator）&lt;/a&gt;&lt;/p&gt;
 
@@ -158,20 +158,20 @@
     
     <item>
       <title>jQuery Form Validation验证框架(修改与扩展)二</title>
-      <link>http://cxjava.github.io/post/jquery-form-validation%E9%AA%8C%E8%AF%81%E6%A1%86%E6%9E%B6%E4%BF%AE%E6%94%B9%E4%B8%8E%E6%89%A9%E5%B1%95%E4%BA%8C/</link>
+      <link>https://cxjava.github.io/post/jquery-form-validation%E9%AA%8C%E8%AF%81%E6%A1%86%E6%9E%B6%E4%BF%AE%E6%94%B9%E4%B8%8E%E6%89%A9%E5%B1%95%E4%BA%8C/</link>
       <pubDate>Mon, 02 Aug 2010 11:40:00 +0800</pubDate>
       
-      <guid>http://cxjava.github.io/post/jquery-form-validation%E9%AA%8C%E8%AF%81%E6%A1%86%E6%9E%B6%E4%BF%AE%E6%94%B9%E4%B8%8E%E6%89%A9%E5%B1%95%E4%BA%8C/</guid>
+      <guid>https://cxjava.github.io/post/jquery-form-validation%E9%AA%8C%E8%AF%81%E6%A1%86%E6%9E%B6%E4%BF%AE%E6%94%B9%E4%B8%8E%E6%89%A9%E5%B1%95%E4%BA%8C/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;最近在项目中要用到验证，所以重新看了下jquery的一个验证框架。 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>扩展ibator1.2.1支持Oracle、MySQL分页</title>
-      <link>http://cxjava.github.io/post/%E6%89%A9%E5%B1%95ibator1.2.1%E6%94%AF%E6%8C%81oraclemysql%E5%88%86%E9%A1%B5/</link>
+      <link>https://cxjava.github.io/post/%E6%89%A9%E5%B1%95ibator1.2.1%E6%94%AF%E6%8C%81oraclemysql%E5%88%86%E9%A1%B5/</link>
       <pubDate>Tue, 25 May 2010 12:07:00 +0800</pubDate>
       
-      <guid>http://cxjava.github.io/post/%E6%89%A9%E5%B1%95ibator1.2.1%E6%94%AF%E6%8C%81oraclemysql%E5%88%86%E9%A1%B5/</guid>
+      <guid>https://cxjava.github.io/post/%E6%89%A9%E5%B1%95ibator1.2.1%E6%94%AF%E6%8C%81oraclemysql%E5%88%86%E9%A1%B5/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;最近在项目中用到ibator1.2.1，但是感觉其自动生成的代码不能满足自己的需要，
 自己下载代码进行了相关扩展：
@@ -183,41 +183,41 @@
     
     <item>
       <title>jQuery插件flexigrid使用总结</title>
-      <link>http://cxjava.github.io/post/jquery%E6%8F%92%E4%BB%B6flexigrid%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93/</link>
+      <link>https://cxjava.github.io/post/jquery%E6%8F%92%E4%BB%B6flexigrid%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93/</link>
       <pubDate>Wed, 10 Mar 2010 16:49:00 +0800</pubDate>
       
-      <guid>http://cxjava.github.io/post/jquery%E6%8F%92%E4%BB%B6flexigrid%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93/</guid>
+      <guid>https://cxjava.github.io/post/jquery%E6%8F%92%E4%BB%B6flexigrid%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;jQuery插件flexigrid使用总结 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>用jQuery让GT-Grid的下拉列表实现二级联动</title>
-      <link>http://cxjava.github.io/post/%E7%94%A8jquery%E8%AE%A9gt-grid%E7%9A%84%E4%B8%8B%E6%8B%89%E5%88%97%E8%A1%A8%E5%AE%9E%E7%8E%B0%E4%BA%8C%E7%BA%A7%E8%81%94%E5%8A%A8/</link>
+      <link>https://cxjava.github.io/post/%E7%94%A8jquery%E8%AE%A9gt-grid%E7%9A%84%E4%B8%8B%E6%8B%89%E5%88%97%E8%A1%A8%E5%AE%9E%E7%8E%B0%E4%BA%8C%E7%BA%A7%E8%81%94%E5%8A%A8/</link>
       <pubDate>Fri, 26 Feb 2010 16:49:00 +0800</pubDate>
       
-      <guid>http://cxjava.github.io/post/%E7%94%A8jquery%E8%AE%A9gt-grid%E7%9A%84%E4%B8%8B%E6%8B%89%E5%88%97%E8%A1%A8%E5%AE%9E%E7%8E%B0%E4%BA%8C%E7%BA%A7%E8%81%94%E5%8A%A8/</guid>
+      <guid>https://cxjava.github.io/post/%E7%94%A8jquery%E8%AE%A9gt-grid%E7%9A%84%E4%B8%8B%E6%8B%89%E5%88%97%E8%A1%A8%E5%AE%9E%E7%8E%B0%E4%BA%8C%E7%BA%A7%E8%81%94%E5%8A%A8/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;最近项目里面要实现下列列表的二级联动，由于GT-Grid的下拉列表不支持二级联动，自己实现了这个功能。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>不错的jQuery验证框架Form Validation使用总结</title>
-      <link>http://cxjava.github.io/post/%E4%B8%8D%E9%94%99%E7%9A%84jquery%E9%AA%8C%E8%AF%81%E6%A1%86%E6%9E%B6form-validation%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93/</link>
+      <link>https://cxjava.github.io/post/%E4%B8%8D%E9%94%99%E7%9A%84jquery%E9%AA%8C%E8%AF%81%E6%A1%86%E6%9E%B6form-validation%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93/</link>
       <pubDate>Thu, 24 Dec 2009 09:37:44 +0800</pubDate>
       
-      <guid>http://cxjava.github.io/post/%E4%B8%8D%E9%94%99%E7%9A%84jquery%E9%AA%8C%E8%AF%81%E6%A1%86%E6%9E%B6form-validation%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93/</guid>
+      <guid>https://cxjava.github.io/post/%E4%B8%8D%E9%94%99%E7%9A%84jquery%E9%AA%8C%E8%AF%81%E6%A1%86%E6%9E%B6form-validation%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;前天看了&lt;a href=&#34;http://www.iteye.com/topic/550761&#34;&gt;不错的jquery验证框架&lt;/a&gt;这个帖子，自己下载下来看看，感觉还不错。就自己动手试一试。同时自己汉化了一下，官方只有英文的。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>About Me</title>
-      <link>http://cxjava.github.io/about-me/</link>
+      <link>https://cxjava.github.io/about-me/</link>
       <pubDate>Mon, 04 May 2009 21:05:26 +0800</pubDate>
       
-      <guid>http://cxjava.github.io/about-me/</guid>
-      <description>佛系程序员 不会当厨师的匠人不是好码农 把编程当生活的一部分 懂得把自己的优势利益最大化</description>
+      <guid>https://cxjava.github.io/about-me/</guid>
+      <description>佛系程序员 不会当厨师的匠人不是好码农 把编程当生活的一部分 懂得把自己的优势最大化</description>
     </item>
     
   </channel>

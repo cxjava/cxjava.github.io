@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Spring on 点滴记录</title>
-    <link>http://cxjava.github.io/tags/spring/</link>
+    <link>https://cxjava.github.io/tags/spring/</link>
     <description>Recent content in Spring on 点滴记录</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Wed, 11 Jan 2012 23:22:00 +0800</lastBuildDate>
     
-	<atom:link href="http://cxjava.github.io/tags/spring/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://cxjava.github.io/tags/spring/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Spring3MVC教程(Mybatis&#43;ExtJS基本权限管理)</title>
-      <link>http://cxjava.github.io/post/spring3mvc%E6%95%99%E7%A8%8Bmybatis&#43;extjs%E5%9F%BA%E6%9C%AC%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/</link>
+      <link>https://cxjava.github.io/post/spring3mvc%E6%95%99%E7%A8%8Bmybatis&#43;extjs%E5%9F%BA%E6%9C%AC%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/</link>
       <pubDate>Wed, 11 Jan 2012 23:22:00 +0800</pubDate>
       
-      <guid>http://cxjava.github.io/post/spring3mvc%E6%95%99%E7%A8%8Bmybatis&#43;extjs%E5%9F%BA%E6%9C%AC%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/</guid>
+      <guid>https://cxjava.github.io/post/spring3mvc%E6%95%99%E7%A8%8Bmybatis&#43;extjs%E5%9F%BA%E6%9C%AC%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;Spring3 MVC 教程 （Mybatis+ExtJS基本权限管理） &lt;/p&gt;</description>
     </item>

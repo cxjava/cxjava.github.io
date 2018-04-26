@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Js on 点滴记录</title>
-    <link>http://cxjava.github.io/tags/js/</link>
+    <link>https://cxjava.github.io/tags/js/</link>
     <description>Recent content in Js on 点滴记录</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Mon, 15 Aug 2011 16:59:00 +0800</lastBuildDate>
     
-	<atom:link href="http://cxjava.github.io/tags/js/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://cxjava.github.io/tags/js/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>ExtJS input readOnly backspace</title>
-      <link>http://cxjava.github.io/post/ext%E7%9A%84%E7%BB%84%E4%BB%B6%E8%AE%BE%E7%BD%AEreadonly%E5%92%8Cdisabled%E4%B9%8B%E5%90%8E%E6%8C%89backspace%E9%A1%B5%E9%9D%A2%E5%90%8E%E9%80%80%E7%9A%84%E9%97%AE%E9%A2%98/</link>
+      <link>https://cxjava.github.io/post/ext%E7%9A%84%E7%BB%84%E4%BB%B6%E8%AE%BE%E7%BD%AEreadonly%E5%92%8Cdisabled%E4%B9%8B%E5%90%8E%E6%8C%89backspace%E9%A1%B5%E9%9D%A2%E5%90%8E%E9%80%80%E7%9A%84%E9%97%AE%E9%A2%98/</link>
       <pubDate>Mon, 15 Aug 2011 16:59:00 +0800</pubDate>
       
-      <guid>http://cxjava.github.io/post/ext%E7%9A%84%E7%BB%84%E4%BB%B6%E8%AE%BE%E7%BD%AEreadonly%E5%92%8Cdisabled%E4%B9%8B%E5%90%8E%E6%8C%89backspace%E9%A1%B5%E9%9D%A2%E5%90%8E%E9%80%80%E7%9A%84%E9%97%AE%E9%A2%98/</guid>
+      <guid>https://cxjava.github.io/post/ext%E7%9A%84%E7%BB%84%E4%BB%B6%E8%AE%BE%E7%BD%AEreadonly%E5%92%8Cdisabled%E4%B9%8B%E5%90%8E%E6%8C%89backspace%E9%A1%B5%E9%9D%A2%E5%90%8E%E9%80%80%E7%9A%84%E9%97%AE%E9%A2%98/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;Ext的组件设置readOnly和disabled之后，按backspace页面后退的问题 &lt;/p&gt;</description>
     </item>
