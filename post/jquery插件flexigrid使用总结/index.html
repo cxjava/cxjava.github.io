@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-cn" lang="zh-cn">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.37.1" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>jQuery插件flexigrid使用总结 &middot; 点滴记录</title>
+
+  
+  <link type="text/css" rel="stylesheet" href="http://cxjava.github.io/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="http://cxjava.github.io/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="http://cxjava.github.io/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="http://cxjava.github.io/css/hyde.css">
+  
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="点滴记录" />
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai-sublime.min.css">
+
+<script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+  <body class=" ">
+  <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="http://cxjava.github.io/"><h1>点滴记录</h1></a>
+      <p class="lead">
+       Charles的个人博客 
+      </p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="http://cxjava.github.io/">Home</a> </li>
+      <li><a href="/categories/"> Categories </a></li><li><a href="/tags/"> Tags </a></li><li><a href="/about-me/"> About Me </a></li>
+    </ul>
+
+    <p>&copy; 2018. All rights reserved. </p>
+  </div>
+</div>
+
+    <div class="content container">
+    <div class="post">
+  <h1>jQuery插件flexigrid使用总结</h1>
+  <span class="post-date">2010-03-10</span>
+  <blockquote>
+<p>jQuery插件flexigrid使用总结 </p>
+</blockquote>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ol>
+<li><a href="http://gundumw100.iteye.com/blog/545610">jQuery插件flexiGrid的完全使用，附代码下载</a></li>
+<li><a href="http://www.eps2008.cn/index.php?aid=50">修改flexigrid源码一(json,checkbox)[原创]</a></li>
+<li><a href="http://rikugun.iteye.com/blog/252165">jQuery +UI + flexigrid做的一个用户管理界面</a></li>
+<li><a href="http://www.codeproject.com/KB/aspnet/MVCFlexigrid.aspx">ASP.NET MVC Flexigrid sample</a></li>
+<li><a href="http://www.cnblogs.com/xuanye/archive/2009/11/04/1596244.html">基于jQuery的GridView-FlexiGrid的使用和改造（1）&ndash;如何使用，完全参数说明</a></li>
+<li><a href="http://www.flexigrid.info/">官方网站</a></li>
+<li><a href="http://www.21andy.com/blog/20090615/1328.html">总结!最佳jQuery窗口插件jqModal</a></li>
+</ol>
+
+<h2 id="说明">说明</h2>
+
+<ul>
+<li><p>本文是在参考了以上内容后写出的，引用了相关代码。如有侵权，请与我联系。</p></li>
+
+<li><p>自己整理了2套皮肤。</p></li>
+
+<li><p>附件为eclipse工程文件，带数据库文件，导入相关sql，修改配置文件就能运行。</p></li>
+
+<li><p>注意：部署的时候下面的一个文件：.mymetadata这个里面关系到这个项目的名称，由于我是直接拷贝的/gtgrid_LianDong这个项目，所以导致了名字不是flexigrid，请自行修改，</p></li>
+</ul>
+
+<pre><code class="language-xml">  &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+  &lt;project-module
+    type=&quot;WEB&quot;
+    name=&quot;flexigrid&quot;
+    id=&quot;myeclipse.1267149904578&quot;
+    context-root=&quot;&lt;span style=&quot;color: #ff0000;&quot;&gt;/gtgrid_LianDong&lt;/span&gt;&quot;
+    j2ee-spec=&quot;1.4&quot;
+    archive=&quot;flexigrid.war&quot;&gt;
+    &lt;attributes&gt;
+      &lt;attribute name=&quot;webrootdir&quot; value=&quot;WebRoot&quot; /&gt;
+    &lt;/attributes&gt;
+  &lt;/project-module&gt;
+</code></pre>
+
+<ul>
+<li>相关代码如下：</li>
+</ul>
+
+<pre><code class="language-javascript">if (t.grid)
+            return false; // return if already exist
+
+        // apply default properties
+        p = $.extend({
+            height : 200, // flexigrid插件的高度，单位为px
+            width : 'auto', // 宽度值，auto表示根据每列的宽度自动计算
+            striped : true, // 是否显示斑纹效果，默认是奇偶交互的形式
+            novstripe : false,
+            minwidth : 30, // 列的最小宽度
+            minheight : 80, // 列的最小高度
+            resizable : true, // 是否可伸缩
+            url : false, // ajax方式对应的url地址
+            method : 'POST', // 数据发送方式
+            dataType : 'xml', // 数据加载的类型
+            checkbox : false,// 是否要多选框
+            errormsg : '连接错误!',// 错误提示信息
+            usepager : false, // 是否分页
+            nowrap : true, // 是否不换行
+            page : 1, // 默认当前页
+            total : 1, // 总页面数
+            useRp : true, // 是否可以动态设置每页显示的结果数
+            rp : 15, // 每页默认的结果数
+            rpOptions : [5,10, 15, 20, 25, 30, 40],// 可选择设定的每页结果数
+            title : false,// 是否包含标题
+            pagestat : '显示第 {from} 条到 {to} 条,共 {total} 条数据',// 显示当前页和总页面的样式
+            procmsg : '正在处理,请稍候 ...',// 正在处理的提示信息
+            query : '',// 搜索查询的条件
+            qtype : '',// 搜索查询的类别
+            nomsg : '没有数据存在!',// 无结果的提示信息
+            minColToggle : 1, // 允许显示的最小列数
+            showToggleBtn : true, // 是否允许显示隐藏列，该属性有bug设置成false点击头脚本报错
+            hideOnSubmit : true,// 隐藏提交
+            autoload : true,// 自动加载
+            blockOpacity : 0.5,// 透明度设置
+            onToggleCol : false,// 当在行之间转换时，可在此方法中重写默认实现，基本无用
+            onChangeSort : false,// 当改变排序时，可在此方法中重写默认实现，自行实现客户端排序
+            onSuccess : false,// 成功后执行
+            onSubmit : false
+              // 调用自定义的计算函数
+          }, p);
+</code></pre>
+
+<ul>
+<li>test.js代码：</li>
+</ul>
+
+<pre><code class="language-javascript">$(function() {
+        $(&quot;#flex&quot;).flexigrid({
+                url : 'all.action',
+                dataType : 'json',
+                colModel : [{
+                        display : 'ID',
+                        name : 'id',
+                        width : 50,// 得加上 要不IE报错
+                        sortable : true,
+                        align : 'center'
+                    }, {
+                        display : '商品名称',
+                        name : 'name',
+                        width : 100,
+                        sortable : true,
+                        align : 'center'
+                    }, {
+                        display : '标准',
+                        name : 'stand',
+                        width : 100,
+                        sortable : true,
+                        align : 'center'
+                    }, {
+                        display : '单价',
+                        name : 'money',
+                        width : 100,
+                        sortable : true,
+                        align : 'center'
+                    }, {
+                        display : '库存',
+                        name : 'leavings',
+                        width : 100,
+                        sortable : true,
+                        align : 'center'
+                    }, {
+                        display : '已经订购',
+                        name : 'orders',
+                        width : 100,
+                        sortable : true,
+                        align : 'center'
+                    }],
+                buttons : [{
+                        name : '添加',
+                        bclass : 'add',
+                        onpress : action
+                    }, {
+                        // 设置分割线
+                        separator : true
+                    }, {
+                        name : '删除',
+                        bclass : 'delete',
+                        onpress : action
+                    }, {
+                        separator : true
+                    }, {
+                        name : '修改',
+                        bclass : 'edit',
+                        onpress : action
+                    }, {
+                        separator : true
+                    }],
+//              searchitems : [{
+//                      display : 'ID',
+//                      name : 'id',
+//                      isdefault : true
+//                  }, {
+//                      display : '库存',
+//                      name : 'leavings'
+//                  }],
+                sortname : &quot;id&quot;,
+                sortorder : &quot;asc&quot;,
+                usepager : true,
+                title : '商品信息',
+                useRp : true,
+                checkbox : true,// 是否要多选框
+                rowId : 'id',// 多选框绑定行的id
+                rp : 10,
+                showTableToggleBtn : true,
+                width : 700,
+                height : 263
+            });
+        var actions=&quot;&quot;;
+        function action(com, grid) {
+            switch (com) {
+                case '添加' :
+                    $(&quot;#savegoods input[type='text']&quot;).each(function() {
+                            $(this).val(&quot;&quot;);
+                        });
+                     $('#savegoods input[name=&quot;id&quot;]').removeAttr(&quot;&lt;span style=&quot;font-family: 'Courier New', monospace;&quot;&gt;disabled&lt;span style=&quot;font-family: Verdana, Arial, Helvetica, sans-serif;&quot;&gt;&quot;);&lt;/span&gt;&lt;/span&gt;
+                     $('#savegoods').attr(&quot;action&quot;,&quot;add.action&quot;);
+                    actions=&quot;add.action&quot;;
+                    $(&quot;#goods&quot;).jqmShow();
+                    break;
+                case '修改' :
+                    selected_count = $('.trSelected', grid).length;
+                    if (selected_count == 0) {
+                        alert('请选择一条记录!');
+                        return;
+                    }
+                    if (selected_count &gt; 1) {
+                        alert('抱歉只能同时修改一条记录!');
+                        return;
+                    }
+                    data = new Array();
+                    $('.trSelected td', grid).each(function(i) {
+                            data[i] = $(this).children('div').text();
+                        });
+                    $('#savegoods input[name=&quot;id&quot;]').val(data[0]).attr(&quot;&lt;span style=&quot;font-family: 'Courier New', monospace;&quot;&gt;disabled&lt;span style=&quot;font-family: Verdana, Arial, Helvetica, sans-serif;&quot;&gt;&quot;,true);&lt;/span&gt;&lt;/span&gt;
+                    $('#savegoods input[name=&quot;name&quot;]').val(data[1]);
+                    $('#savegoods input[name=&quot;stand&quot;]').val(data[2]);
+                    $('#savegoods input[name=&quot;money&quot;]').val(data[3]);
+                    $('#savegoods input[name=&quot;leavings&quot;]').val(data[4]);
+                    $('#savegoods input[name=&quot;orders&quot;]').val(data[5]);
+
+                   actions=&quot;modify.action&quot;;
+
+                    $(&quot;#goods&quot;).jqmShow();
+                    break;
+                case '删除' :
+                    selected_count = $('.trSelected', grid).length;
+                    if (selected_count == 0) {
+                        alert('请选择一条记录!');
+                        return;
+                    }
+                    names = '';
+                    $('.trSelected td:nth-child(3) div', grid).each(function(i) {
+                            if (i)
+                                names += ',';
+                            names += $(this).text();
+                        });
+                    ids = '';
+                    $('.trSelected td:nth-child(2) div', grid).each(function(i) {
+                            if (i)
+                                ids += ',';
+                            ids += $(this).text();
+                        })
+                    if (confirm(&quot;确定删除商品[&quot; + names + &quot;]?&quot;)) {
+                        delUser(ids);
+                    }
+                    break;
+            }
+        }
+        $(&quot;#goods&quot;).jqm({
+            // trigger : 'a.showDialog',// 触发
+            // ajax: '@href',//ajax读取方式
+            // ajaxText:'',//提示语言
+            modal : true,// 限制输入（鼠标点击，按键）的对话
+            overlay : 60 // 遮罩程度%
+              // target : t,// 提示
+              // onHide : function(h) {
+              // // // t.html('Please Wait...'); // Clear Content HTML on Hide.
+              // h.o.remove(); // remove overlay
+              // // h.w.fadeOut(888); // hide window
+              // }
+          }).jqmAddClose('.close')// 添加触发关闭的selector
+          .jqDrag('.drag');// 添加拖拽的selector
+
+        function delUser(ids) {
+            $.ajax({
+                    url : 'delete.action',
+                    data : {
+                        ids : ids
+                    },
+                    type : 'POST',
+                    dataType : 'json',
+                    success : function() {
+                        $('#flex').flexReload();//表格重载
+                    }
+                });
+        }
+        $(&quot;#submit&quot;).click(function(){
+             $.ajax({
+                    url : actions,
+                    data : $(&quot;#savegoods&quot;).serialize(),
+                    type : 'POST',
+                    dataType : 'json',
+                    success : function(data) {
+                        $(&quot;#goods&quot;).jqmHide();
+                        $('#flex').flexReload();
+                    }
+                });
+        })
+    });
+</code></pre>
+
+<p>index.jsp:</p>
+
+<pre><code class="language-jsp">&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot; &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;商品信息&lt;/title&gt;
+        &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot;
+            href=&quot;flexigrid_my/css/flexigrid_gray.css&quot;&gt;
+        &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot;
+            href=&quot;flexigrid_my/jqModal/css/jqModal_gray.css&quot;&gt;
+        &lt;script type=&quot;text/javascript&quot; src=&quot;flexigrid_my/jquery-1.3.2.min.js&quot;&gt;&lt;/script&gt;
+        &lt;script type=&quot;text/javascript&quot; src=&quot;flexigrid_my/flexigrid.js&quot;&gt;&lt;/script&gt;
+        &lt;script type=&quot;text/javascript&quot; src=&quot;flexigrid_my/jqModal/jqDnR.js&quot;&gt;&lt;/script&gt;
+        &lt;script type=&quot;text/javascript&quot; src=&quot;flexigrid_my/jqModal/jqModal.js&quot;&gt;&lt;/script&gt;
+        &lt;script type=&quot;text/javascript&quot; src=&quot;flexigrid_my/test.js&quot;&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;table id=&quot;flex&quot; style=&quot;display: none&quot;&gt;&lt;/table&gt;
+        &lt;div class=&quot;jqmWindow&quot; style=&quot;width: 300px;&quot; id=&quot;goods&quot;&gt;
+            &lt;div class=&quot;drag&quot;&gt;
+                商品信息编辑
+                &lt;div class=&quot;close&quot;&gt;&lt;/div&gt;
+            &lt;/div&gt;
+            &lt;form id=&quot;savegoods&quot; method=&quot;post&quot;&gt;
+                &lt;table width=&quot;252&quot; border=&quot;0&quot; align=&quot;center&quot;
+                    cellpadding=&quot;0&quot; cellspacing=&quot;0&quot;&gt;
+                    &lt;tr&gt;
+                        &lt;td&gt;ID：&lt;/td&gt;
+                        &lt;td&gt;&lt;input type=&quot;text&quot; name=&quot;id&quot; &gt;&lt;/td&gt;
+                    &lt;/tr&gt;
+                    &lt;tr&gt;
+                        &lt;td&gt;商品名称：&lt;/td&gt;
+                        &lt;td&gt;&lt;input type=&quot;text&quot; name=&quot;name&quot;&gt;&lt;/td&gt;
+                    &lt;/tr&gt;
+                    &lt;tr&gt;
+                        &lt;td&gt;标准：&lt;/td&gt;
+                        &lt;td&gt;&lt;input type=&quot;text&quot; name=&quot;stand&quot;&gt;&lt;/td&gt;
+                    &lt;/tr&gt;
+                    &lt;tr&gt;
+                        &lt;td&gt;单价：&lt;/td&gt;
+                        &lt;td&gt;&lt;input type=&quot;text&quot; name=&quot;money&quot;&gt;&lt;/td&gt;
+                    &lt;/tr&gt;
+                    &lt;tr&gt;
+                        &lt;td&gt;库存：&lt;/td&gt;
+                        &lt;td&gt;&lt;input type=&quot;text&quot; name=&quot;leavings&quot;&gt;&lt;/td&gt;
+                    &lt;/tr&gt;
+                    &lt;tr&gt;
+                        &lt;td&gt;已经订购：&lt;/td&gt;
+                        &lt;td&gt;&lt;input type=&quot;text&quot; name=&quot;orders&quot;&gt;&lt;/td&gt;
+                    &lt;/tr&gt;
+                &lt;/table&gt;
+                &lt;div align=&quot;center&quot;&gt;
+                    &lt;input type=&quot;button&quot; id=&quot;submit&quot; class=&quot;input-button&quot; value=&quot;提交&quot; /&gt;
+                    &lt;input type=&quot;reset&quot; class=&quot;input-button&quot; value=&quot;重置&quot; /&gt;
+                &lt;/div&gt;
+            &lt;/form&gt;
+        &lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;&lt;span style=&quot;white-space: normal;&quot;&gt;&lt;strong&gt;
+&lt;/strong&gt;&lt;/span&gt;
+</code></pre>
+
+<h2 id="部分效果图">部分效果图</h2>
+
+<p>蓝色皮肤</p>
+
+<p><img src="http://p6ca8sani.bkt.clouddn.com/static/images/FlexiGrid/80544114-bf90-3f6a-bee7-0d67ae6b9358.jpg" alt="flexiGrid" /></p>
+
+<p>蓝色皮肤下的修改<img src="http://p6ca8sani.bkt.clouddn.com/static/images/FlexiGrid/1029c10d-af52-3754-b74b-6dff1a3e3b3d.jpg" alt="flexiGrid" /></p>
+
+<p>灰色皮肤</p>
+
+<p><img src="http://p6ca8sani.bkt.clouddn.com/static/images/FlexiGrid/8e2304e8-2d60-3c7c-bb4a-e7f38de3cfde.jpg" alt="flexiGrid" /></p>
+
+<p>灰色皮肤下的修改<img src="http://p6ca8sani.bkt.clouddn.com/static/images/FlexiGrid/b0b0b68c-add6-3807-b1bf-7d359896caeb.jpg" alt="flexiGrid" /></p>
+
+<h2 id="bug">BUG</h2>
+
+<p>在Firefox3.6、IE6、7、8、Chrome5下测试通过。</p>
+
+<p>修复了在ie8下checkbox显示的问题。</p>
+
+<p>修改了禁止修改ID,改为：</p>
+
+<pre><code class="language-js">$('#savegoods input[name=&quot;id&quot;]').val(data[0]).attr(&quot;disabled&quot;,true);同时： $('#savegoods input[name=&quot;id&quot;]').removeAttr(&quot;disabled&quot;);
+</code></pre>
+
+<h4 id="附件下载">附件下载</h4>
+
+<ul>
+<li><a href="http://p6ca8sani.bkt.clouddn.com/static/attachments/flexigrid.rar">flexigrid.rar</a> (4.2 MB)</li>
+<li><a href="http://p6ca8sani.bkt.clouddn.com/static/attachments/wht.7z">wht.7z</a> (72.8 KB) 新增加的例子，附带条件查询以及后台封装</li>
+</ul>
+
+<h4 id="原文链接">原文链接</h4>
+
+<p><a href="http://www.iteye.com/topic/611837">jQuery插件flexigrid使用总结</a></p>
+</div>
+
+
+    </div>
+
+    
+  </body>
+</html>

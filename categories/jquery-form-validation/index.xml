@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Jquery Form Validation on 点滴记录</title>
+    <link>http://cxjava.github.io/categories/jquery-form-validation/</link>
+    <description>Recent content in Jquery Form Validation on 点滴记录</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 02 Aug 2010 11:40:00 +0800</lastBuildDate>
+    
+	<atom:link href="http://cxjava.github.io/categories/jquery-form-validation/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>jQuery Form Validation验证框架(修改与扩展)二</title>
+      <link>http://cxjava.github.io/post/jquery-form-validation%E9%AA%8C%E8%AF%81%E6%A1%86%E6%9E%B6%E4%BF%AE%E6%94%B9%E4%B8%8E%E6%89%A9%E5%B1%95%E4%BA%8C/</link>
+      <pubDate>Mon, 02 Aug 2010 11:40:00 +0800</pubDate>
+      
+      <guid>http://cxjava.github.io/post/jquery-form-validation%E9%AA%8C%E8%AF%81%E6%A1%86%E6%9E%B6%E4%BF%AE%E6%94%B9%E4%B8%8E%E6%89%A9%E5%B1%95%E4%BA%8C/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;最近在项目中要用到验证，所以重新看了下jquery的一个验证框架。 &lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

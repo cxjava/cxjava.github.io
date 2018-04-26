@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Cdn on 点滴记录</title>
+    <link>http://cxjava.github.io/tags/cdn/</link>
+    <description>Recent content in Cdn on 点滴记录</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 13 Sep 2014 22:22:50 +0800</lastBuildDate>
+    
+	<atom:link href="http://cxjava.github.io/tags/cdn/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>一个自动切换12306CDN的代理</title>
+      <link>http://cxjava.github.io/post/%E4%B8%80%E4%B8%AA%E8%87%AA%E5%8A%A8%E5%88%87%E6%8D%A212306cdn%E7%9A%84%E4%BB%A3%E7%90%86/</link>
+      <pubDate>Sat, 13 Sep 2014 22:22:50 +0800</pubDate>
+      
+      <guid>http://cxjava.github.io/post/%E4%B8%80%E4%B8%AA%E8%87%AA%E5%8A%A8%E5%88%87%E6%8D%A212306cdn%E7%9A%84%E4%BB%A3%E7%90%86/</guid>
+      <description>一个自动切换12306 CDN的代理，只需设置浏览器的代理为此软件监听端口，每次查询请求都会更换CDN，达到快速刷票的目的。 思路来自分享123</description>
+    </item>
+    
+  </channel>
+</rss>

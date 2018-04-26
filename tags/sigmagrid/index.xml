@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Sigmagrid on 点滴记录</title>
+    <link>http://cxjava.github.io/tags/sigmagrid/</link>
+    <description>Recent content in Sigmagrid on 点滴记录</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 16 Aug 2011 11:24:00 +0800</lastBuildDate>
+    
+	<atom:link href="http://cxjava.github.io/tags/sigmagrid/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>flexigrid、sigmagrid、datatables使用</title>
+      <link>http://cxjava.github.io/post/flexigridsigmagriddatatables%E4%BD%BF%E7%94%A8/</link>
+      <pubDate>Tue, 16 Aug 2011 11:24:00 +0800</pubDate>
+      
+      <guid>http://cxjava.github.io/post/flexigridsigmagriddatatables%E4%BD%BF%E7%94%A8/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;最近把datatables熟悉了下，做了个小的demo，后来想下，以后要是用到类似的grid的时候，为什么不做个集合了，so就有了这个东西了&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

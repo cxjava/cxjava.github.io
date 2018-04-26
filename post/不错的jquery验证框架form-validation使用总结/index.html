@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-cn" lang="zh-cn">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.37.1" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>不错的jQuery验证框架Form Validation使用总结 &middot; 点滴记录</title>
+
+  
+  <link type="text/css" rel="stylesheet" href="http://cxjava.github.io/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="http://cxjava.github.io/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="http://cxjava.github.io/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="http://cxjava.github.io/css/hyde.css">
+  
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="点滴记录" />
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai-sublime.min.css">
+
+<script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+  <body class=" ">
+  <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="http://cxjava.github.io/"><h1>点滴记录</h1></a>
+      <p class="lead">
+       Charles的个人博客 
+      </p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="http://cxjava.github.io/">Home</a> </li>
+      <li><a href="/categories/"> Categories </a></li><li><a href="/tags/"> Tags </a></li><li><a href="/about-me/"> About Me </a></li>
+    </ul>
+
+    <p>&copy; 2018. All rights reserved. </p>
+  </div>
+</div>
+
+    <div class="content container">
+    <div class="post">
+  <h1>不错的jQuery验证框架Form Validation使用总结</h1>
+  <span class="post-date">2009-12-24</span>
+  <blockquote>
+<p>前天看了<a href="http://www.iteye.com/topic/550761">不错的jquery验证框架</a>这个帖子，自己下载下来看看，感觉还不错。就自己动手试一试。同时自己汉化了一下，官方只有英文的。</p>
+</blockquote>
+
+<p><strong>解决ie6下select遮挡div的办法：</strong></p>
+
+<ul>
+<li>jquery.validationEngine.js要修改的地方：</li>
+</ul>
+
+<pre><code class="language-javascript">calculatedPosition.callerTopPosition += &quot;px&quot;;
+           calculatedPosition.callerleftPosition += &quot;px&quot;;
+           calculatedPosition.marginTopSize += &quot;px&quot;;
+           //add matychen
+           if ( $.browser.msie &amp;&amp; /6.0/.test(navigator.userAgent) ) {
+           $(divFormError).append('&lt;iframe class=&quot;iframe&quot; frameborder=&quot;0&quot; scr=&quot;javascript:false;&quot;&gt;&lt;/iframe&gt;');
+           }
+           // add matychen
+           $(divFormError).css({
+               &quot;top&quot;: calculatedPosition.callerTopPosition,
+               &quot;left&quot;: calculatedPosition.callerleftPosition,
+               &quot;marginTop&quot;: calculatedPosition.marginTopSize,
+               &quot;opacity&quot;: 0
+           });
+</code></pre>
+
+<ul>
+<li>validationEngine.jquery.css里面加入以下代码：</li>
+</ul>
+
+<pre><code class="language-css">.iframe {
+    position: absolute;
+    width: expression(this.parentNode.offsetWidth+\'px\');
+    height: expression(this.parentNode.offsetHeight-32+\'px\');
+    z-index: -1;
+    top: expression(((parseInt(this.parentNode.currentStyle.borderTopWidth)||0)*-1)+\'px\');
+    left: expression(((parseInt(this.parentNode.currentStyle.borderLeftWidth)||0)*-1)+\'px\');
+}
+</code></pre>
+
+<ul>
+<li>formvalidator.html如下：</li>
+</ul>
+
+<pre><code class="language-html">&lt;!DOCTYPE HTML PUBLIC &quot;-//IETF//DTD LEVEL1//EN&quot;&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;formvalidator.html&lt;/title&gt;
+
+    &lt;meta http-equiv=&quot;keywords&quot; content=&quot;keyword1,keyword2,keyword3&quot;&gt;
+    &lt;meta http-equiv=&quot;description&quot; content=&quot;this is my page&quot;&gt;
+    &lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;
+        &lt;link rel=&quot;stylesheet&quot; href=&quot;formValidator/css/validationEngine.jquery.css&quot; type=&quot;text/css&quot; /&gt;
+        &lt;link rel=&quot;stylesheet&quot; href=&quot;formValidator/css/template.css&quot; type=&quot;text/css&quot; /&gt;
+        &lt;script src=&quot;formValidator/jquery.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+        &lt;script src=&quot;formValidator/js/jquery.validationEngine-cn.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+        &lt;script src=&quot;formValidator/js/jquery.validationEngine.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+
+
+&lt;script&gt;
+        $(document).ready(function() {
+            $(&quot;#formID&quot;).validationEngine({
+            validationEventTriggers:&quot;blur&quot;,  //触发的事件  validationEventTriggers:&quot;keyup blur&quot;,
+            inlineValidation: true,//是否即时验证，false为提交表单时验证,默认true
+            success :  false,//为true时即使有不符合的也提交表单,false表示只有全部通过验证了才能提交表单,默认false
+            promptPosition: &quot;topRight&quot;,//提示所在的位置，topLeft, topRight, bottomLeft,  centerRight, bottomRight
+            //failure : function() { alert(&quot;验证失败，请检查。&quot;);  }//验证失败时调用的函数
+            //success : function() { callSuccessFunction() },//验证通过时调用的函数
+            });
+        });
+    &lt;/script&gt;
+  &lt;/head&gt;
+
+  &lt;body&gt;
+    &lt;form id=&quot;formID&quot; class=&quot;formular&quot; method=&quot;post&quot; action=&quot;&quot;&gt;
+            &lt;fieldset&gt;
+                &lt;legend&gt;User informations&lt;/legend&gt;
+                &lt;label&gt;
+                    &lt;span&gt;Desired username (ajax validation, only karnius is available) : &lt;/span&gt;
+                    &lt;input value=&quot;&quot; class=&quot;validate[required,custom[noSpecialCaracters],length[0,20],ajax[ajaxUser]]&quot; type=&quot;text&quot; name=&quot;user&quot; id=&quot;user&quot; /&gt;//ajax验证用户名的地方
+                &lt;/label&gt;
+                &lt;label&gt;
+                    &lt;span&gt;First name (optional)&lt;/span&gt;
+                    &lt;input value=&quot;karnius&quot;  class=&quot;validate[optional,custom[onlyLetter],length[0,100]] text-input&quot; type=&quot;text&quot; name=&quot;firstname&quot; id=&quot;firstname&quot; /&gt;
+                &lt;/label&gt;
+                &lt;label&gt;
+                    &lt;span&gt;Last name : &lt;/span&gt;
+                    &lt;input value=&quot;karnius&quot;  class=&quot;validate[required,custom[onlyLetter],length[0,100]] text-input&quot; type=&quot;text&quot; id=&quot;data[Use6][preferedColor]&quot; name=&quot;lastname&quot;  /&gt;
+                &lt;/label&gt;
+                &lt;div&gt;
+                    &lt;span&gt;Radio Groupe : &lt;br /&gt;&lt;/span&gt;
+                    &lt;span&gt;radio 1: &lt;/span&gt;
+                    &lt;input class=&quot;validate[required] radio&quot; type=&quot;radio&quot; name=&quot;data[User][preferedColor]&quot;  id=&quot;radio1&quot;  value=&quot;5&quot;&gt;
+                    &lt;span&gt;radio 2: &lt;/span&gt;
+                    &lt;input class=&quot;validate[required] radio&quot; type=&quot;radio&quot; name=&quot;data[User][preferedColor]&quot;  id=&quot;radio2&quot;  value=&quot;3&quot;/&gt;
+                    &lt;span&gt;radio 3: &lt;/span&gt;
+                    &lt;input class=&quot;validate[required] radio&quot; type=&quot;radio&quot; name=&quot;data[User][preferedColor]&quot;  id=&quot;radio3&quot;  value=&quot;9&quot;/&gt;
+                &lt;/div&gt;
+                &lt;div&gt;
+                    &lt;span&gt;Minimum 2 checkbox : &lt;br /&gt;&lt;/span&gt;
+
+                    &lt;input class=&quot;validate[minCheckbox[2],maxCheckbox[3]] checkbox&quot; type=&quot;checkbox&quot;  name=&quot;data[User3][preferedColor]&quot; id=&quot;data[User3][preferedColor]&quot; value=&quot;5&quot;&gt;
+                    &lt;input class=&quot;validate[minCheckbox[2],maxCheckbox[3]] checkbox&quot; type=&quot;checkbox&quot;  name=&quot;data[User3][preferedColor]&quot; id=&quot;data[User3][preferedColor]&quot; value=&quot;5&quot;&gt;
+
+                    &lt;input class=&quot;validate[minCheckbox[2],maxCheckbox[3]] checkbox&quot; type=&quot;checkbox&quot; name=&quot;data[User3][preferedColor]&quot; id=&quot;maxcheck2&quot;  value=&quot;3&quot;/&gt;
+
+                    &lt;input class=&quot;validate[minCheckbox[2],maxCheckbox[3]] checkbox&quot; type=&quot;checkbox&quot; name=&quot;data[User3][preferedColor]&quot; id=&quot;maxcheck3&quot;  value=&quot;9&quot;/&gt;
+                &lt;/div&gt;
+                &lt;label&gt;
+                    &lt;span&gt;Date : (format YYYY-MM-DD)&lt;/span&gt;
+                    &lt;input value=&quot;1111-11-11&quot;  class=&quot;validate[required,custom[date]] text-input&quot; type=&quot;text&quot; name=&quot;date&quot;  id=&quot;date&quot; /&gt;
+                &lt;/label&gt;
+                &lt;label&gt;
+                    &lt;span&gt;Favorite sport 1:&lt;/span&gt;
+                &lt;select name=&quot;sport&quot; id=&quot;sport&quot;  class=&quot;validate[required]&quot;  id=&quot;sport&quot;  &gt;
+                    &lt;option value=&quot;&quot;&gt;Choose a sport&lt;/option&gt;
+                    &lt;option value=&quot;option1&quot;&gt;Tennis&lt;/option&gt;
+                    &lt;option value=&quot;option2&quot;&gt;Football&lt;/option&gt;
+                    &lt;option value=&quot;option3&quot;&gt;Golf&lt;/option&gt;
+                &lt;/select&gt;
+                &lt;/label&gt;
+                &lt;label&gt;
+                    &lt;span&gt;Favorite sport 2:&lt;/span&gt;
+                &lt;select name=&quot;sport2&quot; id=&quot;sport2&quot; multiple class=&quot;validate[required]&quot;  id=&quot;sport2&quot;  &gt;
+                    &lt;option value=&quot;&quot;&gt;Choose a sport&lt;/option&gt;
+                    &lt;option value=&quot;option1&quot;&gt;Tennis&lt;/option&gt;
+                    &lt;option value=&quot;option2&quot;&gt;Football&lt;/option&gt;
+                    &lt;option value=&quot;option3&quot;&gt;Golf&lt;/option&gt;
+                &lt;/select&gt;
+                &lt;/label&gt;
+                &lt;label&gt;
+                    &lt;span&gt;Age : &lt;/span&gt;
+                    &lt;input value=&quot;22&quot;  class=&quot;validate[required,custom[onlyNumber],length[0,3]] text-input&quot; type=&quot;text&quot; name=&quot;age&quot;  id=&quot;age&quot; /&gt;
+                &lt;/label&gt;
+
+                &lt;label&gt;
+                    &lt;span&gt;Telephone : &lt;/span&gt;
+                    &lt;input value=&quot;1111111&quot;  class=&quot;validate[required,custom[telephone]] text-input&quot; type=&quot;text&quot; name=&quot;telephone&quot;  id=&quot;telephone&quot; /&gt;
+                &lt;/label&gt;
+                &lt;label&gt;
+                    &lt;span&gt;mobilephone : &lt;/span&gt;
+                    &lt;input value=&quot;111111&quot;  class=&quot;validate[required,custom[mobilephone]] text-input&quot; type=&quot;text&quot; name=&quot;telphone&quot;  id=&quot;telphone&quot; /&gt;
+                &lt;/label&gt;
+                &lt;label&gt;
+                    &lt;span&gt;chinese : &lt;/span&gt;
+                    &lt;input value=&quot;asdf&quot;  class=&quot;validate[required,custom[chinese]] text-input&quot; type=&quot;text&quot; name=&quot;chinese&quot;  id=&quot;chinese&quot; /&gt;
+                &lt;/label&gt;
+                &lt;label&gt;
+                    &lt;span&gt;url : &lt;/span&gt;
+                    &lt;input value=&quot;url&quot;  class=&quot;validate[required,custom[url]] text-input&quot; type=&quot;text&quot; name=&quot;url&quot;  id=&quot;url&quot; /&gt;
+                &lt;/label&gt;
+                &lt;label&gt;
+                    &lt;span&gt;zipcode : &lt;/span&gt;
+                    &lt;input value=&quot;zipcode&quot;  class=&quot;validate[required,custom[zipcode]] text-input&quot; type=&quot;text&quot; name=&quot;zipcode&quot;  id=&quot;zipcode&quot; /&gt;
+                &lt;/label&gt;
+                &lt;label&gt;
+                    &lt;span&gt;ip : &lt;/span&gt;
+                    &lt;input value=&quot;ip&quot;  class=&quot;validate[required,custom[ip]] text-input&quot; type=&quot;text&quot; name=&quot;ip&quot;  id=&quot;ip&quot; /&gt;
+                &lt;/label&gt;
+                &lt;label&gt;
+                    &lt;span&gt;qq : &lt;/span&gt;
+                    &lt;input value=&quot;01234&quot;  class=&quot;validate[required,custom[qq]] text-input&quot; type=&quot;text&quot; name=&quot;qq&quot;  id=&quot;qq&quot; /&gt;
+                &lt;/label&gt;
+            &lt;/fieldset&gt;
+            &lt;fieldset&gt;
+                &lt;legend&gt;Password&lt;/legend&gt;
+                &lt;label&gt;
+                    &lt;span&gt;Password : &lt;/span&gt;
+                    &lt;input value=&quot;karnius&quot;  class=&quot;validate[required,length[6,11]] text-input&quot; type=&quot;password&quot; name=&quot;password&quot;  id=&quot;password&quot; /&gt;
+                &lt;/label&gt;
+                &lt;label&gt;
+                    &lt;span&gt;Confirm password : &lt;/span&gt;
+                    &lt;input value=&quot;karnius&quot;  class=&quot;validate[required,confirm[password]] text-input&quot; type=&quot;password&quot; name=&quot;password2&quot;  id=&quot;password2&quot; /&gt;
+                &lt;/label&gt;
+            &lt;/fieldset&gt;
+            &lt;fieldset&gt;
+                &lt;legend&gt;Email&lt;/legend&gt;
+                &lt;label&gt;
+                    &lt;span&gt;Email address : &lt;/span&gt;
+                    &lt;input value=&quot;ced@hotmail.com&quot;  class=&quot;validate[required,custom[email]] text-input&quot; type=&quot;text&quot; name=&quot;email&quot; id=&quot;email&quot;  /&gt;
+                &lt;/label&gt;
+                &lt;label&gt;
+                    &lt;span&gt;Confirm email address : &lt;/span&gt;
+                    &lt;input value=&quot;ced@hotmail.com&quot; class=&quot;validate[required,confirm[email]] text-input&quot; type=&quot;text&quot; name=&quot;email2&quot;  id=&quot;email2&quot; /&gt;
+                &lt;/label&gt;
+            &lt;/fieldset&gt;
+            &lt;fieldset&gt;
+                &lt;legend&gt;Comments&lt;/legend&gt;
+                &lt;label&gt;
+                    &lt;span&gt;Comments : &lt;/span&gt;
+                    &lt;textarea value=&quot;ced@hotmail.com&quot; class=&quot;validate[required,length[6,300]] text-input&quot; name=&quot;comments&quot; id=&quot;comments&quot; /&gt; &lt;/textarea&gt;
+                &lt;/label&gt;
+
+            &lt;/fieldset&gt;
+            &lt;fieldset&gt;
+                &lt;legend&gt;Conditions&lt;/legend&gt;
+                &lt;div class=&quot;infos&quot;&gt;Checking this box indicates that you accept terms of use. If you do not accept these terms, do not use this website : &lt;/div&gt;
+                &lt;label&gt;
+                    &lt;span class=&quot;checkbox&quot;&gt;I accept terms of use : &lt;/span&gt;
+                    &lt;input class=&quot;validate[required] checkbox&quot; type=&quot;checkbox&quot;  id=&quot;agree&quot;  name=&quot;agree&quot;/&gt;
+                &lt;/label&gt;
+            &lt;/fieldset&gt;
+&lt;input class=&quot;submit&quot; type=&quot;submit&quot; value=&quot;Validate &amp; Send the form!&quot;/&gt;
+&lt;hr/&gt;
+&lt;/form&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<ul>
+<li>jquery.validationEngine-cn.js如下：</li>
+</ul>
+
+<pre><code class="language-javascript">(function($) {
+    $.fn.validationEngineLanguage = function() {};
+    $.validationEngineLanguage = {
+        newLang: function() {
+            $.validationEngineLanguage.allRules =   {&quot;required&quot;:{               // Add your regex rules here, you can take telephone as an example
+                        &quot;regex&quot;:&quot;none&quot;,
+                        &quot;alertText&quot;:&quot;* 非空选项.&quot;,
+                        &quot;alertTextCheckboxMultiple&quot;:&quot;* 请选择一个单选框.&quot;,
+                        &quot;alertTextCheckboxe&quot;:&quot;* 请选择一个复选框.&quot;},
+                    &quot;length&quot;:{
+                        &quot;regex&quot;:&quot;none&quot;,
+                        &quot;alertText&quot;:&quot;* 长度必须在 &quot;,
+                        &quot;alertText2&quot;:&quot; 至 &quot;,
+                        &quot;alertText3&quot;: &quot; 之间.&quot;},
+                    &quot;maxCheckbox&quot;:{
+                        &quot;regex&quot;:&quot;none&quot;,
+                        &quot;alertText&quot;:&quot;* 最多选择 &quot;,//官方文档这里有问题
+                        &quot;alertText2&quot;:&quot; 项.&quot;},
+                    &quot;minCheckbox&quot;:{
+                        &quot;regex&quot;:&quot;none&quot;,
+                        &quot;alertText&quot;:&quot;* 至少选择 &quot;,
+                        &quot;alertText2&quot;:&quot; 项.&quot;},
+                    &quot;confirm&quot;:{
+                        &quot;regex&quot;:&quot;none&quot;,
+                        &quot;alertText&quot;:&quot;* 两次输入不一致,请重新输入.&quot;},
+                    &quot;telephone&quot;:{
+                        &quot;regex&quot;:&quot;/^(0[0-9]{2,3}\-)?([2-9][0-9]{6,7})+(\-[0-9]{1,4})?$/&quot;,
+                        &quot;alertText&quot;:&quot;* 请输入有效的电话号码,如:010-29292929.&quot;},
+                    &quot;mobilephone&quot;:{
+                        &quot;regex&quot;:&quot;/(^0?[1][358][0-9]{9}$)/&quot;,
+                        &quot;alertText&quot;:&quot;* 请输入有效的手机号码.&quot;},
+                    &quot;email&quot;:{
+                        &quot;regex&quot;:&quot;/^[a-zA-Z0-9_\.\-]+\@([a-zA-Z0-9\-]+\.)+[a-zA-Z0-9]{2,4}$/&quot;,
+                        &quot;alertText&quot;:&quot;* 请输入有效的邮件地址.&quot;},
+                    &quot;date&quot;:{
+                         &quot;regex&quot;:&quot;/^(([0-9]{3}[1-9]|[0-9]{2}[1-9][0-9]{1}|[0-9]{1}[1-9][0-9]{2}|[1-9][0-9]{3})-(((0[13578]|1[02])-(0[1-9]|[12][0-9]|3[01]))|((0[469]|11)-(0[1-9]|[12][0-9]|30))|(02-(0[1-9]|[1][0-9]|2[0-8]))))|((([0-9]{2})(0[48]|[2468][048]|[13579][26])|((0[48]|[2468][048]|[3579][26])00))-02-29)$/&quot;,
+                         &quot;alertText&quot;:&quot;* 请输入有效的日期,如:2008-08-08.&quot;},
+                    &quot;ip&quot;:{
+                         &quot;regex&quot;:&quot;/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/&quot;,
+                         &quot;alertText&quot;:&quot;* 请输入有效的IP.&quot;},
+                    &quot;chinese&quot;:{
+                        &quot;regex&quot;:&quot;/^[\u4e00-\u9fa5]+$/&quot;,
+                        &quot;alertText&quot;:&quot;* 请输入中文.&quot;},
+                    &quot;url&quot;:{
+                        &quot;regex&quot;:&quot;/^[a-zA-z]:\\/\\/[^s]$/&quot;,//这些验证请自己加强
+                        &quot;alertText&quot;:&quot;* 请输入有效的网址.&quot;},
+                    &quot;zipcode&quot;:{
+                        &quot;regex&quot;:&quot;/^[1-9]\d{5}$/&quot;,
+                        &quot;alertText&quot;:&quot;* 请输入有效的邮政编码.&quot;},
+                    &quot;qq&quot;:{
+                        &quot;regex&quot;:&quot;/^[1-9]\d{4,9}$/&quot;,
+                        &quot;alertText&quot;:&quot;* 请输入有效的QQ号码.&quot;},
+                    &quot;onlyNumber&quot;:{
+                        &quot;regex&quot;:&quot;/^[0-9]+$/&quot;,
+                        &quot;alertText&quot;:&quot;* 请输入数字.&quot;},
+                    &quot;onlyLetter&quot;:{
+                        &quot;regex&quot;:&quot;/^[a-zA-Z]+$/&quot;,
+                        &quot;alertText&quot;:&quot;* 请输入英文字母.&quot;},
+                    &quot;noSpecialCaracters&quot;:{
+                        &quot;regex&quot;:&quot;/^[0-9a-zA-Z]+$/&quot;,
+                        &quot;alertText&quot;:&quot;* 请输入英文字母和数字.&quot;},
+                    &quot;ajaxUser&quot;:{
+                        &quot;file&quot;:&quot;validate.action&quot;,//ajax验证用户名，会post如下参数：validateError    ajaxUser；validateId user；validateValue  cccc
+                        &quot;alertTextOk&quot;:&quot;* 帐号可以使用.&quot;,
+                        &quot;alertTextLoad&quot;:&quot;* 检查中, 请稍后...&quot;,
+                        &quot;alertText&quot;:&quot;* 帐号不能使用.&quot;},
+                    &quot;ajaxName&quot;:{
+                        &quot;file&quot;:&quot;validateUser.php&quot;,
+                        &quot;alertText&quot;:&quot;* This name is already taken&quot;,
+                        &quot;alertTextOk&quot;:&quot;* This name is available&quot;,
+                        &quot;alertTextLoad&quot;:&quot;* Loading, please wait&quot;}
+                    }
+        }
+    }
+})(jQuery);
+
+$(document).ready(function() {
+    $.validationEngineLanguage.newLang()
+});
+</code></pre>
+
+<ul>
+<li>部分jquery.validationEngine.js</li>
+</ul>
+
+<pre><code class="language-javascript">/* AJAX VALIDATION HAS ITS OWN UPDATE AND BUILD UNLIKE OTHER RULES */
+            if(!ajaxisError){
+                $.ajax({
+                    type: &quot;POST&quot;,
+                    url: postfile,
+                    async: true,
+                    data: &quot;validateValue=&quot;+fieldValue+&quot;&amp;validateId=&quot;+fieldId+&quot;&amp;validateError=&quot;+customAjaxRule,//+extraData,//自己把其中的+extraData去掉了，不然后面的ajax验证有问题。
+                    beforeSend: function(){     // BUILD A LOADING PROMPT IF LOAD TEXT EXIST
+                        if($.validationEngine.settings.allrules[customAjaxRule].alertTextLoad){
+
+                            if(!$(&quot;div.&quot;+fieldId+&quot;formError&quot;)[0]){
+                                return $.validationEngine.buildPrompt(ajaxCaller,$.validationEngine.settings.allrules[customAjaxRule].alertTextLoad,&quot;load&quot;);
+                            }else{
+                                $.validationEngine.updatePromptText(ajaxCaller,$.validationEngine.settings.allrules[customAjaxRule].alertTextLoad,&quot;load&quot;);
+                            }
+                        }
+                    },
+</code></pre>
+
+<ul>
+<li>struts.xml文件：</li>
+</ul>
+
+<pre><code class="language-xml"> &lt;struts&gt;
+    &lt;package name=&quot;json&quot; extends=&quot;json-default&quot;&gt;
+        &lt;!--验证--&gt;
+        &lt;action name=&quot;validate&quot; class=&quot;com.bw30.zjvote.action.ValidateAction&quot;
+            method=&quot;vali&quot;&gt;
+            &lt;result type=&quot;json&quot;&gt;
+            &lt;param name=&quot;excludeProperties&quot;&gt;msg&lt;/param&gt;//jsonplugin-0.32.jar
+            &lt;/result&gt;
+        &lt;/action&gt;
+
+    &lt;/package&gt;
+&lt;/struts&gt;
+</code></pre>
+
+<ul>
+<li><p>validateAction.java</p>
+
+<pre><code class="language-java">public String vali() {
+    ActionContext ac = ActionContext.getContext();
+    HttpServletRequest request = (HttpServletRequest) ac
+    .get(ServletActionContext.HTTP_REQUEST);
+    String validateId = request.getParameter(&quot;validateId&quot;);
+    logger.info(&quot;vali() - String validateId=&quot; + validateId);
+
+    String validateValue = request.getParameter(&quot;validateValue&quot;);
+    String validateError = request.getParameter(&quot;validateError&quot;);
+    logger.info(&quot;vali() - String validateError=&quot; + validateError);
+            //注意下面的顺序，感觉这是个缺陷之一，不过可以在jquery.validationEngine.js更改，
+    jsonValidateReturn.add(validateId);
+    jsonValidateReturn.add(validateError);
+    if(validateValue.equals(&quot;chen&quot;))
+    jsonValidateReturn.add(&quot;true&quot;);
+    else
+        jsonValidateReturn.add(&quot;false&quot;);
+    return SUCCESS;
+}
+</code></pre></li>
+
+<li><p>jquery.validationEngine.js要更改的地方：</p></li>
+</ul>
+
+<pre><code class="language-javascript">success: function(data){                    // GET SUCCESS DATA RETURN JSON
+                        data = eval( &quot;(&quot;+data+&quot;)&quot;);             // GET JSON DATA FROM PHP AND PARSE IT
+                        ajaxisError = data.jsonValidateReturn[2];//这里官方文档写死了，可以根据自己需求更改。
+                        customAjaxRule = data.jsonValidateReturn[1];//这里官方文档写死了，可以根据自己需求更改。
+                        ajaxCaller = $(&quot;#&quot;+data.jsonValidateReturn[0])[0];
+                        fieldId = ajaxCaller;
+                        ajaxErrorLength = $.validationEngine.ajaxValidArray.length;
+                        existInarray = false;
+
+                         if(ajaxisError == &quot;false&quot;){            // DATA FALSE UPDATE PROMPT WITH ERROR;
+
+                            _checkInArray(false)                // Check if ajax validation alreay used on this field
+
+                            if(!existInarray){                  // Add ajax error to stop submit
+                                $.validationEngine.ajaxValidArray[ajaxErrorLength] =  new Array(2);
+                                $.validationEngine.ajaxValidArray[ajaxErrorLength][0] = fieldId;
+                                $.validationEngine.ajaxValidArray[ajaxErrorLength][1] = false;
+                                existInarray = false;
+                            }
+</code></pre>
+
+<ul>
+<li>用到了jsonplugin-0.32.jar这个包在附件里面，其他struts的包，自己添加。</li>
+</ul>
+
+<p><img src="http://p6ca8sani.bkt.clouddn.com/static/images/jQuery-Validation-Engine/8b8ee9c6-a284-31ee-ad37-6bf93022422e.jpg" alt="" />
+<img src="http://p6ca8sani.bkt.clouddn.com/static/images/jQuery-Validation-Engine/f7d73da7-67d8-3aac-a9f6-ec52dec44f08.jpg" alt="" />
+<img src="http://p6ca8sani.bkt.clouddn.com/static/images/jQuery-Validation-Engine/69c877b0-ffab-3053-ad0b-5b3a09615c74.jpg" alt="" />
+<img src="http://p6ca8sani.bkt.clouddn.com/static/images/jQuery-Validation-Engine/41333a22-47f9-32e4-a851-385805be5cc7.jpg" alt="" /></p>
+
+<h4 id="附件下载">附件下载</h4>
+
+<p><a href="http://p6ca8sani.bkt.clouddn.com/static/attachments/validation.rar">validation.rar (75.2 KB)</a></p>
+
+<h4 id="原文链接">原文链接</h4>
+
+<p><a href="http://matychen.iteye.com/blog/555489">不错的jQuery验证框架-form validation使用总结</a></p>
+</div>
+
+
+    </div>
+
+    
+  </body>
+</html>

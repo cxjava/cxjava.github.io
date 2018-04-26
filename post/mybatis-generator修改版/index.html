@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-cn" lang="zh-cn">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.37.1" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>mybatis-generator修改版 &middot; 点滴记录</title>
+
+  
+  <link type="text/css" rel="stylesheet" href="http://cxjava.github.io/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="http://cxjava.github.io/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="http://cxjava.github.io/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="http://cxjava.github.io/css/hyde.css">
+  
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="点滴记录" />
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai-sublime.min.css">
+
+<script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+  <body class=" ">
+  <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="http://cxjava.github.io/"><h1>点滴记录</h1></a>
+      <p class="lead">
+       Charles的个人博客 
+      </p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="http://cxjava.github.io/">Home</a> </li>
+      <li><a href="/categories/"> Categories </a></li><li><a href="/tags/"> Tags </a></li><li><a href="/about-me/"> About Me </a></li>
+    </ul>
+
+    <p>&copy; 2018. All rights reserved. </p>
+  </div>
+</div>
+
+    <div class="content container">
+    <div class="post">
+  <h1>mybatis-generator修改版</h1>
+  <span class="post-date">2011-08-03</span>
+  <blockquote>
+<p>mybatis-generator 修改版</p>
+
+<p>mybatis-generator.7z为git的详细修改记录，可用git进行查看。</p>
+
+<p>mybatis-generator-test.7z为测试，只测试了生成的mysql和oracle的一些用法，其他的并未测试。 </p>
+</blockquote>
+
+<h2 id="更新">更新</h2>
+
+<ul>
+<li>更新 <code>SerializablePlugin</code>插件变量<code>serialVersionUID</code>的位置 <code>topLevelClass.addField(0,field);</code></li>
+<li>增加了数据库的返回注释，去掉了不必要的一些注释</li>
+<li>注释所有的接口方法</li>
+<li>为<code>ibatis2</code>增加了个 给<code>dao</code>增加注解的插件</li>
+<li>增加公共查询条件类 <code>ibatis</code> 和<code>mybatis</code></li>
+<li>增加了<code>service</code>的生成插件</li>
+<li>增加<code>pojo</code>类注释-》<code>table</code>的注释</li>
+<li>增加了几个插件类，可在<code>package org.mybatis.generator.plugins</code>包下面找到。 <code>package org.mybatis.generator.update.update.txt</code>为更新的记录，生成相关代码只需配置下对应的xml，在<code>config/grid.xml</code>，以及<code>mysql.xml</code>和<code>oracle.xml</code>里面是配置例子。 然后运行<code>config</code>包下面的<code>Ibator_Run_Test</code> 即可，里面<code>grid.xml</code>是对应的配置文件名称。</li>
+<li>增加了2个<code>maven</code>的工程，分别为修改后的<code>mybatis-generator 1.3.1</code>版本和<code>test</code>文件。</li>
+
+<li><p>默认不加入<code>jdbcType</code>属性，如：<code>#{condition.myaccount,jdbcType=VARCHAR}</code>或者 <code>#condition.myaccount:VARCHAR#</code></p>
+
+<ul>
+<li>如果需要使用，在<code>context</code> 的下面配置<code>&lt;property name=&quot;jdbcType&quot; value=&quot;true&quot; /&gt;</code>即可</li>
+</ul>
+
+<pre><code class="language-xml">&lt;context id=&quot;Ibatis2Java5&quot; targetRuntime=&quot;Ibatis2Java5&quot;&gt;
+&lt;property name=&quot;jdbcType&quot; value=&quot;true&quot; /&gt;
+</code></pre></li>
+
+<li><p>2011-09-13：增加了<code>SQL Server</code>获取数据库注释，字段注释的方法，只测试过2000版本。其他版本请自己测试。</p></li>
+
+<li><p>2011-12-08：发现里面的方法只需要这样的参数就可以了。在xml里面省了一个<code>&lt;sql id=&quot;Example_Where_Clause&quot; &gt;</code>，推荐使用这个版本的。</p></li>
+</ul>
+
+<p>​</p>
+
+<pre><code class="language-java">/**
+     * 根据条件更新属性不为空的记录
+     */
+    int updateByExampleSelective(@Param(&quot;record&quot;) BaseModules record, @Param(&quot;condition&quot;) Map&lt;String, Object&gt; condition);
+
+    /**
+     * 根据条件更新记录
+     */
+    int updateByExample(@Param(&quot;record&quot;) BaseModules record, @Param(&quot;condition&quot;) Map&lt;String, Object&gt; condition);
+</code></pre>
+
+<h3 id="所有源码可以在github上面找到"><strong>所有源码可以在github上面找到</strong></h3>
+
+<ul>
+<li><a href="https://github.com/cxjava/mybatis-generator-core">mybatis-generator-core</a></li>
+<li><a href="https://github.com/cxjava/mybatis-generator-testor">mybatis-generator-testor</a></li>
+</ul>
+
+<h4 id="原文链接">原文链接</h4>
+
+<p><a href="http://matychen.iteye.com/blog/1139009">mybatis-generator修改版</a></p>
+</div>
+
+
+    </div>
+
+    
+  </body>
+</html>

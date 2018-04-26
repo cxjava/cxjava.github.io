@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Slf4j on 点滴记录</title>
+    <link>http://cxjava.github.io/categories/slf4j/</link>
+    <description>Recent content in Slf4j on 点滴记录</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 29 Jun 2011 09:19:00 +0800</lastBuildDate>
+    
+	<atom:link href="http://cxjava.github.io/categories/slf4j/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>SLF4J错误</title>
+      <link>http://cxjava.github.io/post/slf4j%E9%94%99%E8%AF%AF/</link>
+      <pubDate>Wed, 29 Jun 2011 09:19:00 +0800</pubDate>
+      
+      <guid>http://cxjava.github.io/post/slf4j%E9%94%99%E8%AF%AF/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;前些天在写一个基于JMS的程序时报这个错误，开始编译阶段还好好的，后来打包发布的时候就出现这个问题 &lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

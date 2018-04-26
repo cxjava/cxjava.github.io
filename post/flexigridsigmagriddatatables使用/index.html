@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-cn" lang="zh-cn">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.37.1" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>flexigrid、sigmagrid、datatables使用 &middot; 点滴记录</title>
+
+  
+  <link type="text/css" rel="stylesheet" href="http://cxjava.github.io/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="http://cxjava.github.io/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="http://cxjava.github.io/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="http://cxjava.github.io/css/hyde.css">
+  
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="点滴记录" />
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai-sublime.min.css">
+
+<script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+  <body class=" ">
+  <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="http://cxjava.github.io/"><h1>点滴记录</h1></a>
+      <p class="lead">
+       Charles的个人博客 
+      </p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="http://cxjava.github.io/">Home</a> </li>
+      <li><a href="/categories/"> Categories </a></li><li><a href="/tags/"> Tags </a></li><li><a href="/about-me/"> About Me </a></li>
+    </ul>
+
+    <p>&copy; 2018. All rights reserved. </p>
+  </div>
+</div>
+
+    <div class="content container">
+    <div class="post">
+  <h1>flexigrid、sigmagrid、datatables使用</h1>
+  <span class="post-date">2011-08-16</span>
+  <blockquote>
+<p>最近把datatables熟悉了下，做了个小的demo，后来想下，以后要是用到类似的grid的时候，为什么不做个集合了，so就有了这个东西了</p>
+</blockquote>
+
+<p>项目采用的是<code>spring3mvc+mybatis</code>，应该还比较好用。</p>
+
+<p>引入的<code>js</code>插件有：</p>
+
+<ul>
+<li><a href="http://lhgcore.com/">lhgdialog</a> 弹出窗口组件</li>
+<li><a href="http://www.dynarch.com/projects/calendar">日期插件</a></li>
+<li><a href="http://www.yhuan.com/">jQuery formValidator</a></li>
+</ul>
+
+<p>数据库脚本在<code>webapp/readme/</code>下面</p>
+
+<ul>
+<li><p>在一次加载2900条数据的情况下，<code>sigmagrid</code>和<code>datatables</code>相差不大，<code>flexigrid</code>就直接卡了半天。不过在小数据的时候，几个grid相差不大</p></li>
+
+<li><p><code>datatables</code>的<code>ajax</code>请求的格式被我改过了，我还是喜欢<code>sigmagrid</code>传到后台的格式，后台可以使用<code>jackson</code>直接转为<code>Java</code>对象。</p></li>
+
+<li><p><code>flexgrid</code>自己改了个支持<code>jquery</code>的主题，改的不是很完美，不需要的，可以不用。</p></li>
+
+<li><p><code>sigmagrid</code>准备改主题的，但是发现好像比较难啊。。后来就放弃了。</p></li>
+
+<li><p>后期准备加入个<code>jqgrid</code></p></li>
+</ul>
+
+<p>下面是几个效果图片：</p>
+
+<p><img src="http://p6ca8sani.bkt.clouddn.com/static/images/Grid/48c43feb-ab28-3409-9f34-bb9f825607d3.jpg" alt="GT-Grid" />
+<img src="http://p6ca8sani.bkt.clouddn.com/static/images/Grid/49aee8a0-78fd-343c-8763-53af09239eb5.jpg" alt="GT-Grid" />
+<img src="http://p6ca8sani.bkt.clouddn.com/static/images/Grid/816b1c63-8599-3c90-a0dc-de3a3e82d76c.jpg" alt="GT-Grid" />
+<img src="http://p6ca8sani.bkt.clouddn.com/static/images/Grid/cc07b447-fb82-3270-b6cb-828de229455a.jpg" alt="GT-Grid" />
+<img src="http://p6ca8sani.bkt.clouddn.com/static/images/Grid/f675e944-3d4f-3075-8af0-3ebfd72d22b5.jpg" alt="GT-Grid" /></p>
+
+<h4 id="附件下载">附件下载</h4>
+
+<ul>
+<li><p><a href="http://p6ca8sani.bkt.clouddn.com/static/attachments/mygrids.7z">mygrids.7z (806.9 KB)</a>描述: maven构建的，jar包自己找</p></li>
+
+<li><p><a href="http://p6ca8sani.bkt.clouddn.com/static/attachments/lib.7z">lib.7z (7.7 MB)</a>描述: 有些同学难得去找jar包，这里上传了，jdbc驱动就自己加进去吧。</p></li>
+</ul>
+
+<h4 id="原文链接">原文链接</h4>
+
+<p><a href="http://matychen.iteye.com/blog/1150279">flexigrid、sigmagrid、datatables使用</a></p>
+</div>
+
+
+    </div>
+
+    
+  </body>
+</html>

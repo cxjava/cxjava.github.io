@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Mybatis on 点滴记录</title>
+    <link>http://cxjava.github.io/tags/mybatis/</link>
+    <description>Recent content in Mybatis on 点滴记录</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 11 Jan 2012 23:22:00 +0800</lastBuildDate>
+    
+	<atom:link href="http://cxjava.github.io/tags/mybatis/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Spring3MVC教程(Mybatis&#43;ExtJS基本权限管理)</title>
+      <link>http://cxjava.github.io/post/spring3mvc%E6%95%99%E7%A8%8Bmybatis&#43;extjs%E5%9F%BA%E6%9C%AC%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/</link>
+      <pubDate>Wed, 11 Jan 2012 23:22:00 +0800</pubDate>
+      
+      <guid>http://cxjava.github.io/post/spring3mvc%E6%95%99%E7%A8%8Bmybatis&#43;extjs%E5%9F%BA%E6%9C%AC%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;Spring3 MVC 教程 （Mybatis+ExtJS基本权限管理） &lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>mybatis-generator修改版</title>
+      <link>http://cxjava.github.io/post/mybatis-generator%E4%BF%AE%E6%94%B9%E7%89%88/</link>
+      <pubDate>Wed, 03 Aug 2011 13:43:00 +0800</pubDate>
+      
+      <guid>http://cxjava.github.io/post/mybatis-generator%E4%BF%AE%E6%94%B9%E7%89%88/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;mybatis-generator 修改版&lt;/p&gt;
+
+&lt;p&gt;mybatis-generator.7z为git的详细修改记录，可用git进行查看。&lt;/p&gt;
+
+&lt;p&gt;mybatis-generator-test.7z为测试，只测试了生成的mysql和oracle的一些用法，其他的并未测试。 &lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>mybatis错误 Mapped Statements collection does not contain value for</title>
+      <link>http://cxjava.github.io/post/mybatis%E9%94%99%E8%AF%AF-mapped-statements-collection-does-not-contain-value-for/</link>
+      <pubDate>Tue, 19 Jul 2011 15:08:00 +0800</pubDate>
+      
+      <guid>http://cxjava.github.io/post/mybatis%E9%94%99%E8%AF%AF-mapped-statements-collection-does-not-contain-value-for/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;出现这个错误有网上说的：命名空间没写对，如果使用mapper，则
+&lt;code&gt;&amp;lt;mapper namespace=&amp;quot;com.sitech.mapper.StudentMapper&amp;quot;&amp;gt;&lt;/code&gt;
+空间中一定要写上&lt;code&gt;Mapper&lt;/code&gt;的名称，否则就会报错。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

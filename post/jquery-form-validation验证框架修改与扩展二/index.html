@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-cn" lang="zh-cn">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.37.1" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>jQuery Form Validation验证框架(修改与扩展)二 &middot; 点滴记录</title>
+
+  
+  <link type="text/css" rel="stylesheet" href="http://cxjava.github.io/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="http://cxjava.github.io/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="http://cxjava.github.io/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="http://cxjava.github.io/css/hyde.css">
+  
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="点滴记录" />
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai-sublime.min.css">
+
+<script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+  <body class=" ">
+  <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="http://cxjava.github.io/"><h1>点滴记录</h1></a>
+      <p class="lead">
+       Charles的个人博客 
+      </p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="http://cxjava.github.io/">Home</a> </li>
+      <li><a href="/categories/"> Categories </a></li><li><a href="/tags/"> Tags </a></li><li><a href="/about-me/"> About Me </a></li>
+    </ul>
+
+    <p>&copy; 2018. All rights reserved. </p>
+  </div>
+</div>
+
+    <div class="content container">
+    <div class="post">
+  <h1>jQuery Form Validation验证框架(修改与扩展)二</h1>
+  <span class="post-date">2010-08-02</span>
+  <blockquote>
+<p>最近在项目中要用到验证，所以重新看了下jquery的一个验证框架。 </p>
+</blockquote>
+
+<ul>
+<li>作者已经更新到1.7 <strong>官方网站：</strong><a href="http://www.position-absolute.com/articles/jquery-form-validator-because-form-validation-is-a-mess/">A jQuery inline form validation, because validation is a mess</a></li>
+<li>此版本是在<strong>bluespring+官方1.7</strong>的基础上修改的。感谢<strong>bluespring</strong>。</li>
+<li><strong>bluespring</strong>原帖：<a href="http://www.iteye.com/topic/658779">配置超简单的Jquery form validate验证框架（修改与扩展）</a></li>
+</ul>
+
+<p>0.2版本小小的bug修改。</p>
+
+<p>修改地方：</p>
+
+<pre><code class="language-js">/** Inline Form Validation Engine 1.7, jQuery plugin
+ *
+ * Copyright(c) 2010, Cedric Dugas
+ * http://www.position-relative.net
+ *
+ * Form validation engine allowing custom regex rules to be added.
+ * Thanks to Francois Duquette and Teddy Limousin
+ * and everyone helping me find bugs on the forum
+ * Licenced under the MIT Licence
+ *
+ * bluespring 修改1.6.4.1
+ *  1.提供选项定制是否关闭提示框箭头 showArray
+ *  2.提供选项定制提示框是否在鼠标放上去的时刻出现还是一直出现 showOnMouseOver
+ *  3.提供选项定制input 效验错误样式
+ *
+ * Quentin 修改
+ *  1. 无法全部去掉红色边框的bug
+ *
+ * matychen 修改
+ *  1.把css 中的errorform的padding-bottom改为margin-bottom ，如果不改，在checkbox的时候会遮挡。
+ *  2.当showOnMouseOver为true时。增加处理checkbox时，下面被占用，自己减少了top的高度，如果不减少top的高度，在checkbox的时候会遮挡。
+ *  3.修复了ie6的select遮挡div的bug
+ *  4.增加验证规则存放的属性名称
+ *  5.修改了ajax的发送到客户端的参数名称，返回值不用数组，直接用json对象。
+ *      验证规则的名称validateError--&amp;gt;customAjaxRule
+ */
+</code></pre>
+
+<ul>
+<li><p>原作者的代码会出现这种情况，前提是要开起bluespring的鼠标悬停提示（showOnMouseOver为true）。不开起悬停提示不会出现这种情况。发现是因为作者的设置div的padding，改为margin就不会有问题。详见图片：
+<img src="http://p6ca8sani.bkt.clouddn.com/static/images/jQuery-Validation-Engine/a629de03-d8a7-3cc4-aa1b-1731cfdcc4ec.jpg" alt="" />
+<img src="http://p6ca8sani.bkt.clouddn.com/static/images/jQuery-Validation-Engine/3498cf6d-44da-38ac-94e4-3883eeb1a841.jpg" alt="" /></p></li>
+
+<li><p>当然在ie6下面会出现select遮挡div的情况，只要在div里面加个iframe就可以了没修改前：
+<img src="http://p6ca8sani.bkt.clouddn.com/static/images/jQuery-Validation-Engine/7959b595-92a8-351d-8a1b-bf790cba64b4.jpg" alt="" /></p></li>
+
+<li><p>修改后：
+<img src="http://p6ca8sani.bkt.clouddn.com/static/images/jQuery-Validation-Engine/8c674757-3b57-33db-9b3d-f548f55098c8.jpg" alt="" /></p></li>
+</ul>
+
+<h4 id="增加验证规则存放的属性名称">增加验证规则存放的属性名称</h4>
+
+<p>可以不用定义规则在<code>class</code>里面，自己写个属性也可以：<code>$(&quot;#formID&quot;).validationEngine({validateAttribute: &quot;validate&quot;});</code></p>
+
+<p>在<code>input</code>里面：<code>&lt;input value=&quot;&quot; validate=&quot;validate[required,custom[noSpecialCaracters],length[0,20],ajax[ajaxUser]]&quot; type=&quot;text&quot; name=&quot;user&quot; id=&quot;user&quot; /&gt;</code></p>
+
+<h4 id="修改了ajax的提交参数-和返回参数">修改了ajax的提交参数，和返回参数</h4>
+
+<pre><code class="language-javascript">if (!ajaxisError) {
+                    $.ajax({
+                        type: &quot;POST&quot;,
+                        url: postfile,
+                        //async: true,//要验证的值                       验证值的名称              验证规则的名称validateError--&gt;customAjaxRule
+                        data: &quot;validateValue=&quot; + fieldValue + &quot;&amp;validateId=&quot; + fieldId + &quot;&amp;customAjaxRule=&quot; + customAjaxRule + &quot;&amp;extraData=&quot; + extraData,
+                        beforeSend: function () { // BUILD A LOADING PROMPT IF LOAD TEXT EXIST
+                            if ($.validationEngine.settings.allrules[customAjaxRule].alertTextLoad) {
+                                if (!$(&quot;div.&quot; + fieldId + &quot;formError&quot;)[0]) {
+                                    return $.validationEngine.buildPrompt(ajaxCaller, $.validationEngine.settings.allrules[customAjaxRule].alertTextLoad, &quot;load&quot;);
+                                } else {
+                                    $.validationEngine.updatePromptText(ajaxCaller, $.validationEngine.settings.allrules[customAjaxRule].alertTextLoad, &quot;load&quot;);
+                                }
+                            }
+                        }, error: function (data, transport) {
+                            $.validationEngine.debug(&quot;Ajax 错误: &quot; + data.status + &quot; &quot; + transport);
+                        }, success: function (data) { // GET SUCCESS DATA RETURN JSON
+                            //  jquery 已经转为json了，所以不要这句话，不然会报：missing ] after element list的错误
+                            //  data = eval(&quot;(&quot; + data + &quot;)&quot;); // GET JSON DATA FROM PHP AND PARSE IT
+                            // add by matychen 不用数组，直接用json对象。例如：{&quot;validateId&quot;:&quot;user&quot;,&quot;ajaxisError&quot;:false,&quot;customAjaxRule&quot;:&quot;ajaxUser&quot;}
+                            ajaxisError = data.ajaxisError; //true or false
+                            customAjaxRule = data.customAjaxRule; //验证规则的名称
+                            ajaxCaller = $(&quot;#&quot; + data.validateId)[0]; //验证值的id
+                            //
+                            fieldId = ajaxCaller;
+                            ajaxErrorLength = $.validationEngine.ajaxValidArray.length;
+                            existInarray = false;
+                            //对象就不能是&quot;false&quot;了
+                            if (ajaxisError == false) { // DATA FALSE UPDATE PROMPT WITH ERROR;
+                                _checkInArray(false); // Check if ajax validation alreay used on this field
+                                if (!existInarray) { // Add ajax error to stop submit
+                                    $.validationEngine.ajaxValidArray[ajaxErrorLength] = new Array(2);
+                                    $.validationEngine.ajaxValidArray[ajaxErrorLength][0] = fieldId;
+                                    $.validationEngine.ajaxValidArray[ajaxErrorLength][1] = false;
+                                    existInarray = false;
+                                }
+                                $.validationEngine.ajaxValid = false;
+                                promptText += $.validationEngine.settings.allrules[customAjaxRule].alertText + &quot;&lt;br /&gt;&quot;;
+                                $.validationEngine.updatePromptText(ajaxCaller, promptText, &quot;&quot;, true);
+                            } else {
+                                _checkInArray(true);
+                                $.validationEngine.ajaxValid = true;
+                                if (!customAjaxRule) {
+                                    $.validationEngine.debug(&quot;customAjaxRule没有返回值, 请检查. &quot;);
+                                }
+                                if ($.validationEngine.settings.allrules[customAjaxRule].alertTextOk) { // NO OK TEXT MEAN CLOSE PROMPT
+                                    $.validationEngine.updatePromptText(ajaxCaller, $.validationEngine.settings.allrules[customAjaxRule].alertTextOk, &quot;pass&quot;, true);
+                                } else {
+                                    ajaxValidate = false;
+                                    $.validationEngine.closePrompt(ajaxCaller);
+                                }
+                            }
+
+                            function _checkInArray(validate) {
+                                for (x = 0; x &lt; ajaxErrorLength; x++) {
+                                    if ($.validationEngine.ajaxValidArray[x][0] == fieldId) {
+                                        $.validationEngine.ajaxValidArray[x][1] = validate;
+                                        existInarray = true;
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+</code></pre>
+
+<p>在服务端的代码只要这样就可以了:</p>
+
+<pre><code class="language-java">/**
+     * Ajax验证用户名
+     *
+     * @param customAjaxRule
+     *            验证规则名称
+     * @param validateId
+     *            验证值的ID
+     * @param validateValue
+     *            验证值
+     * @return
+     */
+    @RequestMapping(value = &quot;/validateAjaxUser&quot;)
+    @ResponseBody
+    public Map&lt;String, Object&gt; validateAjaxUser(
+            @RequestParam(&quot;customAjaxRule&quot;) String customAjaxRule,
+            @RequestParam(&quot;validateId&quot;) String validateId,
+            @RequestParam(&quot;validateValue&quot;) String validateValue) {
+        logger.info(&quot;validateAjaxUser&quot;);
+        Map&lt;String, Object&gt; map = new HashMap&lt;String, Object&gt;();
+        // 验证用户名是否等于javaeye
+        if (&quot;javaeye&quot;.equals(validateValue)) {
+            // 是否通过
+            map.put(&quot;ajaxisError&quot;, true);
+        } else {
+            map.put(&quot;ajaxisError&quot;, false);
+        }
+        // 验证规则的名称
+        map.put(&quot;customAjaxRule&quot;, customAjaxRule);
+        // 验证值的ID
+        map.put(&quot;validateId&quot;, validateId);
+        return map;
+    }
+</code></pre>
+
+<h3 id="其他的修改请看附件源码"><strong>其他的修改请看附件源码</strong></h3>
+
+<ul>
+<li><a href="http://p6ca8sani.bkt.clouddn.com/static/attachments/jquery_validate.rar">jquery_validate.rar (43.9 KB)</a></li>
+<li><a href="http://p6ca8sani.bkt.clouddn.com/static/attachments/jquery_validate-0.2.rar">jquery_validate-0.2.rar (44 KB)</a></li>
+</ul>
+
+<h4 id="原文链接">原文链接</h4>
+
+<p><a href="http://matychen.iteye.com/blog/726980">Jquery form validate验证框架（修改与扩展）二</a></p>
+</div>
+
+
+    </div>
+
+    
+  </body>
+</html>

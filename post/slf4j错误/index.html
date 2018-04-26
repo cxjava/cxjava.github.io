@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-cn" lang="zh-cn">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.37.1" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>SLF4J错误 &middot; 点滴记录</title>
+
+  
+  <link type="text/css" rel="stylesheet" href="http://cxjava.github.io/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="http://cxjava.github.io/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="http://cxjava.github.io/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="http://cxjava.github.io/css/hyde.css">
+  
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="点滴记录" />
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai-sublime.min.css">
+
+<script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+  <body class=" ">
+  <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="http://cxjava.github.io/"><h1>点滴记录</h1></a>
+      <p class="lead">
+       Charles的个人博客 
+      </p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="http://cxjava.github.io/">Home</a> </li>
+      <li><a href="/categories/"> Categories </a></li><li><a href="/tags/"> Tags </a></li><li><a href="/about-me/"> About Me </a></li>
+    </ul>
+
+    <p>&copy; 2018. All rights reserved. </p>
+  </div>
+</div>
+
+    <div class="content container">
+    <div class="post">
+  <h1>SLF4J错误</h1>
+  <span class="post-date">2011-06-29</span>
+  <blockquote>
+<p>前些天在写一个基于JMS的程序时报这个错误，开始编译阶段还好好的，后来打包发布的时候就出现这个问题 </p>
+</blockquote>
+
+<p>前些天在写一个基于<code>JMS</code>的程序时报这个错误，开始编译阶段还好好的，后来打包发布的时候就出现这个问题，后来发现是<code>activemq-all-5.5.0.jar</code>里面包含了一个<code>SLF4J</code>的旧版本的<code>class</code>。后来删除里面的<code>slf4j</code>就没有出现这个情况了，如果你也遇到了类似的错误，不妨找找是不是你的其他的<code>jar</code>包里面包含了<code>slf4j</code>低版本的<code>class</code>或者<code>jar</code>。</p>
+
+<pre><code class="language-java">SLF4J: The requested version 1.6 by your slf4j binding is not compatible with [1.5.5, 1.5.6, 1.5.7, 1.5.8, 1.5.9, 1.5.10, 1.5.11]
+SLF4J: See http://www.slf4j.org/codes.html#version_mismatch for further details.
+Exception in thread &quot;main&quot; java.lang.NoSuchMethodError: org.slf4j.spi.LocationAwareLogger.log(Lorg/slf4j/Marker;Ljava/lang/String;ILjava/lang/String;[Ljava/lang/Object;Ljava/lang/Throwable;)V
+at org.apache.commons.logging.impl.SLF4JLocationAwareLog.info(SLF4JLocationAwareLog.java:159)
+at org.springframework.context.support.AbstractApplicationContext.prepareRefresh(AbstractApplicationContext.java:456)
+at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:394)
+at org.springframework.context.support.FileSystemXmlApplicationContext.&lt;init&gt;(FileSystemXmlApplicationContext.java:140)
+at org.springframework.context.support.FileSystemXmlApplicationContext.&lt;init&gt;(FileSystemXmlApplicationContext.java:94)
+at main.Run.main(Run.java:33)
+</code></pre>
+
+<h4 id="原文链接">原文链接</h4>
+
+<p><a href="http://matychen.iteye.com/blog/1108827">SLF4J错误</a></p>
+</div>
+
+
+    </div>
+
+    
+  </body>
+</html>

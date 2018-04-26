@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-cn" lang="zh-cn">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.37.1" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>扩展ibator1.2.1支持Oracle、MySQL分页 &middot; 点滴记录</title>
+
+  
+  <link type="text/css" rel="stylesheet" href="http://cxjava.github.io/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="http://cxjava.github.io/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="http://cxjava.github.io/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="http://cxjava.github.io/css/hyde.css">
+  
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="点滴记录" />
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai-sublime.min.css">
+
+<script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+  <body class=" ">
+  <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="http://cxjava.github.io/"><h1>点滴记录</h1></a>
+      <p class="lead">
+       Charles的个人博客 
+      </p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="http://cxjava.github.io/">Home</a> </li>
+      <li><a href="/categories/"> Categories </a></li><li><a href="/tags/"> Tags </a></li><li><a href="/about-me/"> About Me </a></li>
+    </ul>
+
+    <p>&copy; 2018. All rights reserved. </p>
+  </div>
+</div>
+
+    <div class="content container">
+    <div class="post">
+  <h1>扩展ibator1.2.1支持Oracle、MySQL分页</h1>
+  <span class="post-date">2010-05-25</span>
+  <blockquote>
+<p>最近在项目中用到ibator1.2.1，但是感觉其自动生成的代码不能满足自己的需要，
+自己下载代码进行了相关扩展：
+1.支持Oracle、MySQL分页
+2.在生成的example类增加了Oracle、MySQL分页的相关字段
+0.3版本：
+增加了控制生成Oracle分页和MySQL分页的属性 </p>
+</blockquote>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ul>
+<li><a href="http://www.iteye.com/topic/159272">eclipse ibabis代码生成插件abator功能扩展</a></li>
+<li><a href="http://code.google.com/p/smartpagination/source/browse/trunk/src/org/powerstone/smartpagination/sample/UserModelSql.xml">aquan198163 写道 可以用iBatis的include标签设计类似模板的东西，简化分页sql</a></li>
+</ul>
+
+<pre><code class="language-xml">&lt;!--
+    &lt;table tableName=&quot;BROWSELOGS&quot; enableMysqlPagination=&quot;true&quot;&gt;
+    &lt;table tableName=&quot;BROWSELOGS&quot; enableOraclePagination=&quot;false&quot; &gt;
+         --&gt;
+    &lt;table tableName=&quot;BROWSELOGS&quot;&gt;
+        &lt;columnOverride column=&quot;ID&quot; javaType=&quot;Integer&quot; /&gt;
+        &lt;columnOverride column=&quot;VISITOR&quot; javaType=&quot;Integer&quot; /&gt;
+        &lt;columnOverride column=&quot;DOTIME&quot; jdbcType=&quot;Timestamp&quot; /&gt;
+    &lt;/table&gt;
+</code></pre>
+
+<p>当然这个时候，xml会报错，因为你引用的是网络上面的dtd（&rdquo; <a href="http://ibatis.apache.org/dtd/ibator-config_1_0.dtd">http://ibatis.apache.org/dtd/ibator-config_1_0.dtd</a> &ldquo;），不用理会，一样可以生成，如果都不填写，就是都不生成。
+建议在ibatorContext加上<strong>Ibatis2Java5</strong>：</p>
+
+<pre><code class="language-xml">&lt;classPathEntry location=&quot;D:\UserLibraries\Oracle10g_driver.jar&quot; /&gt;
+&lt;ibatorContext id=&quot;context&quot; targetRuntime=&quot;Ibatis2Java5&quot;  &gt;
+</code></pre>
+
+<p>完整版的配置：</p>
+
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;!DOCTYPE ibatorConfiguration PUBLIC &quot;-//Apache Software Foundation//DTD Apache iBATIS Ibator Configuration 1.0//EN&quot; &quot;http://ibatis.apache.org/dtd/ibator-config_1_0.dtd&quot; &gt;
+&lt;ibatorConfiguration&gt;
+    &lt;classPathEntry location=&quot;D:\UserLibraries\mysql-connector-java-5.1.12-bin.jar&quot; /&gt;
+    &lt;ibatorContext id=&quot;context1&quot; targetRuntime=&quot;Ibatis2Java5&quot;&gt;
+        &lt;jdbcConnection driverClass=&quot;com.mysql.jdbc.Driver&quot;
+            connectionURL=&quot;jdbc:mysql://localhost:3306/demo&quot; userId=&quot;root&quot;
+            password=&quot;aaa&quot; /&gt;
+        &lt;javaModelGenerator targetPackage=&quot;com.ibatis.pojo&quot;
+            targetProject=&quot;test&quot; /&gt;
+        &lt;sqlMapGenerator targetPackage=&quot;com.ibatis.sqlmap&quot;
+            targetProject=&quot;test&quot; /&gt;
+        &lt;daoGenerator targetPackage=&quot;com.ibatis.dao&quot;
+            targetProject=&quot;test&quot; type=&quot;SPRING&quot; /&gt;
+        &lt;table tableName=&quot;ueye_account&quot; enableMysqlPagination=&quot;true&quot;&gt;
+        &lt;columnOverride column=&quot;ID&quot; javaType=&quot;Integer&quot; /&gt;
+            &lt;columnOverride column=&quot;VISITOR&quot; javaType=&quot;Integer&quot; /&gt;
+            &lt;columnOverride column=&quot;DOTIME&quot; jdbcType=&quot;Timestamp&quot; /&gt;
+        &lt;/table&gt;
+    &lt;/ibatorContext&gt;
+&lt;/ibatorConfiguration&gt;
+</code></pre>
+
+<p><strong>0.2版本增加了4个list的set方法：</strong></p>
+
+<pre><code class="language-java">protected List criteriaWithoutValue;
+
+protected List criteriaWithSingleValue;
+
+protected List criteriaWithListValue;
+
+protected List criteriaWithBetweenValue;
+</code></pre>
+
+<p>原来的方法里面没有set。只有get方法，我觉得有时候我不知道传入的是哪个字段，要自己定义一个条件不知道怎么放进去，我就想法先取出list，在set进去，如下</p>
+
+<pre><code class="language-java">//      //过滤条件，仿造的是example类中的情况
+//      Criteria criteria=example.createCriteria();
+//      //得到example里面的list
+//      List&lt;Object&gt; listSingle=criteria.getCriteriaWithSingleValue();
+//      //再把它注入回去
+//      criteria.setCriteriaWithSingleValue(this.processFilterInfo(listSingle, sigma.getFilterInfo()));
+processFilterInfo方法：
+public List&lt;Object&gt; processFilterInfo(List&lt;Object&gt; listSingle,List&lt;FilterInfo&gt; filterInfos){
+        for (int i = 0; i &lt; filterInfos.size(); i++) {
+            String columnId=filterInfos.get(i).getColumnId();
+            String logic=filterInfos.get(i).getLogic();
+            String value=filterInfos.get(i).getValue();
+            if(logic.equalsIgnoreCase(&quot;equal&quot;)){
+                Map&lt;String,Object&gt; map = new HashMap&lt;String,Object&gt;();
+                map.put(&quot;condition&quot;, columnId+&quot; =&quot;);
+                map.put(&quot;value&quot;, value);
+                listSingle.add(map);
+            }else if(logic.equalsIgnoreCase(&quot;notequal&quot;)){
+                Map&lt;String,Object&gt; map = new HashMap&lt;String,Object&gt;();
+                map.put(&quot;condition&quot;, columnId+&quot; &lt;&gt;&quot;);
+                map.put(&quot;value&quot;, value);
+                listSingle.add(map);
+</code></pre>
+
+<p>清单一（修改的相关类）:</p>
+
+<pre><code class="language-java">org.apache.ibatis.ibator.generator.ibatis2.sqlmap---SqlMapGenerator
+org.apache.ibatis.ibator.generator.ibatis2.sqlmap.elements---OraclePaginationHeadGenerator
+org.apache.ibatis.ibator.generator.ibatis2.sqlmap.elements---OraclePaginationTailGenerator
+org.apache.ibatis.ibator.generator.ibatis2.sqlmap.elements---MysqlPaginationLimitGenerator
+org.apache.ibatis.ibator.generator.ibatis2.model---ExampleGenerator
+org.apache.ibatis.ibator.generator.ibatis2.sqlmap.elements---SelectByExampleWithBLOBsElementGenerator
+org.apache.ibatis.ibator.generator.ibatis2.sqlmap.elements---SelectByExampleWithoutBLOBsElementGenerator
+org.apache.ibatis.ibator.api.dom.java---FullyQualifiedJavaType
+//搜索“增加开始”或者“增加结束”就能找到修改的地方
+</code></pre>
+
+<p>SQL_MAP.xml部分：</p>
+
+<pre><code class="language-xml">&lt;!-- oracle 分页头 --&gt;
+ &lt;sql id=&quot;oracle_Pagination_Head&quot; &gt;
+   &lt;dynamic &gt;
+     &lt;isNotEmpty property=&quot;oracleStart&quot; &gt;
+       &lt;isNotEmpty property=&quot;oracleEnd&quot; &gt;
+         &lt;![CDATA[select * from ( select row_.*, rownum rownum_ from ( ]]&gt;
+       &lt;/isNotEmpty&gt;
+     &lt;/isNotEmpty&gt;
+   &lt;/dynamic&gt;
+ &lt;/sql&gt;
+  &lt;!-- oracle 分页尾 --&gt;
+ &lt;sql id=&quot;oracle_Pagination_Tail&quot; &gt;
+   &lt;dynamic &gt;
+     &lt;isNotEmpty property=&quot;oracleStart&quot; &gt;
+       &lt;isNotEmpty property=&quot;oracleEnd&quot; &gt;
+         &lt;![CDATA[) row_ where rownum &lt;= #oracleEnd# ) where rownum_ &gt; #oracleStart#]]&gt;
+       &lt;/isNotEmpty&gt;
+     &lt;/isNotEmpty&gt;
+   &lt;/dynamic&gt;
+ &lt;/sql&gt;
+  &lt;!-- MySQL 分页 --&gt;
+ &lt;sql id=&quot;mysql_Pagination_Limit&quot; &gt;
+   &lt;dynamic &gt;
+     &lt;isNotEmpty property=&quot;mysqlOffset&quot; &gt;
+       &lt;isNotEmpty property=&quot;mysqlLength&quot; &gt;
+         &lt;![CDATA[ limit #mysqlOffset# , #mysqlLength# ]]&gt;
+       &lt;/isNotEmpty&gt;
+     &lt;/isNotEmpty&gt;
+   &lt;/dynamic&gt;
+ &lt;/sql&gt;
+ &lt;select id=&quot;ibatorgenerated_selectByExample&quot; resultMap=&quot;ibatorgenerated_BaseResultMap&quot; parameterClass=&quot;com.ibatis.pojo.GoodsExample&quot; &gt;
+   &lt;!-- 增加oracle分页头部 --&gt;
+   &lt;include refid=&quot;oracle_Pagination_Head&quot; /&gt;
+   select id, name, stand, money, leavings, orders
+   from goods
+   &lt;isParameterPresent &gt;
+     &lt;include refid=&quot;goods.ibatorgenerated_Example_Where_Clause&quot; /&gt;
+     &lt;isNotNull property=&quot;orderByClause&quot; &gt;
+       order by $orderByClause$
+     &lt;/isNotNull&gt;
+   &lt;/isParameterPresent&gt;
+   &lt;!-- 增加oracle分页尾部 --&gt;
+   &lt;include refid=&quot;oracle_Pagination_Tail&quot; /&gt;
+   &lt;!-- 增加MySQL分页 --&gt;
+   &lt;include refid=&quot;mysql_Pagination_Limit&quot; /&gt;
+ &lt;/select&gt;
+</code></pre>
+
+<p>Example类部分：</p>
+
+<pre><code class="language-java">public class GoodsExample {
+    protected String orderByClause;
+
+    private Integer oracleStart;
+
+    private Integer oracleEnd;
+
+    private Integer mysqlOffset;
+
+    private Integer mysqlLength;
+
+    protected List oredCriteria;
+
+    public GoodsExample() {
+        oredCriteria = new ArrayList();
+    }
+}
+</code></pre>
+
+<h3 id="所有源码可以在github上面找到"><strong>所有源码可以在github上面找到</strong></h3>
+
+<ul>
+<li><a href="https://github.com/cxjava/mybatis-generator-core">mybatis-generator-core</a></li>
+<li><a href="https://github.com/cxjava/mybatis-generator-testor">mybatis-generator-testor</a></li>
+</ul>
+
+<h4 id="原文链接">原文链接</h4>
+
+<p><a href="http://matychen.iteye.com/blog/674839">扩展ibator1.2.1支持Oracle、MySQL分页</a></p>
+</div>
+
+
+    </div>
+
+    
+  </body>
+</html>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Eclipse on 点滴记录</title>
+    <link>http://cxjava.github.io/tags/eclipse/</link>
+    <description>Recent content in Eclipse on 点滴记录</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 24 Jun 2011 13:45:00 +0800</lastBuildDate>
+    
+	<atom:link href="http://cxjava.github.io/tags/eclipse/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>优化eclipse</title>
+      <link>http://cxjava.github.io/post/%E4%BC%98%E5%8C%96eclipse/</link>
+      <pubDate>Fri, 24 Jun 2011 13:45:00 +0800</pubDate>
+      
+      <guid>http://cxjava.github.io/post/%E4%BC%98%E5%8C%96eclipse/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;分享下eclipse的一个优化设置&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

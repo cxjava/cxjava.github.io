@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-cn" lang="zh-cn">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.37.1" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>一个自动切换12306CDN的代理 &middot; 点滴记录</title>
+
+  
+  <link type="text/css" rel="stylesheet" href="http://cxjava.github.io/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="http://cxjava.github.io/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="http://cxjava.github.io/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="http://cxjava.github.io/css/hyde.css">
+  
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="点滴记录" />
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai-sublime.min.css">
+
+<script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+  <body class=" ">
+  <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="http://cxjava.github.io/"><h1>点滴记录</h1></a>
+      <p class="lead">
+       Charles的个人博客 
+      </p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="http://cxjava.github.io/">Home</a> </li>
+      <li><a href="/categories/"> Categories </a></li><li><a href="/tags/"> Tags </a></li><li><a href="/about-me/"> About Me </a></li>
+    </ul>
+
+    <p>&copy; 2018. All rights reserved. </p>
+  </div>
+</div>
+
+    <div class="content container">
+    <div class="post">
+  <h1>一个自动切换12306CDN的代理</h1>
+  <span class="post-date">2014-09-13</span>
+  
+
+<p>一个自动切换12306 CDN的代理，只需设置浏览器的代理为此软件监听端口，每次查询请求都会更换CDN，达到快速刷票的目的。</p>
+
+<p>思路来自<a href="http://www.cnblogs.com/guozili/p/3512490.html">分享12306秒票杀手锏源码</a></p>
+
+<h1 id="更新-推荐使用此方法-fiddler设置教程-https-gitee-com-charles-autochange12306cdn-wikis-fiddler">【更新】推荐使用此方法 <a href="https://gitee.com/charles/AutoChange12306CDN/wikis/fiddler">Fiddler设置教程</a></h1>
+
+<h1 id="使用方法">使用方法</h1>
+
+<ul>
+<li>查找自己当前环境最快的CDN地址，运行findIP/findIP.exe，相同目录下面会生成12306_ip.txt，IP是Ping速度由快到慢进行排列，只需选取前30个IP写入到config.ini里面的cdn= []</li>
+<li>添加自己需要查票的起点站和终点站到config.ini，请仔细阅读config.ini里面的相关项配置，如果不清楚，不要随意修改配置</li>
+<li>打开本软件，设置谷歌浏览器的代理地址为本软件监听地址：127.0.0.1:8080，修改代理的软件有<a href="https://chrome.google.com/webstore/detail/dpplabbmogkhghncfbfdeeokoefdjegm">Proxy SwitchySharp</a> 安装教程请参考 <a href="https://github.com/goagent/goagent/blob/wiki/InstallGuide.md#%E6%B5%8F%E8%A7%88%E5%99%A8%E8%AE%BE%E7%BD%AE%E6%96%B9%E6%B3%95">谷歌 Chrome 配合 SwitchySharp 扩展</a></li>
+<li>如果使用谷歌浏览器订票，请在订票页面，按F12，选择下面的console栏，在光标位置输入：window.autoSearchTime = 2000; 再按回车。此操作为了设置每次查询间隔为2秒，官网默认为5秒，自己可以设置其他值。</li>
+<li>如果使用<a href="http://www.fishlee.net/soft/12306/#C-308">12306订票助手.NET版</a>订票，请设置其中的代理地址为本软件的监听地址:127.0.0.1:8080</li>
+<li>谷歌浏览器如果通过本软件访问： <a href="https://kyfw.12306.cn/otn/leftTicket/init">https://kyfw.12306.cn/otn/leftTicket/init</a> ，会出现证书错误问题，消息如下：</li>
+</ul>
+
+<blockquote>
+<h4 id="您的连接不是私密连接">您的连接不是私密连接</h4>
+
+<h4 id="攻击者可能会试图从kyfw-12306-cn窃取您的信息-例如-密码-通讯内容或信用卡信息">攻击者可能会试图从kyfw.12306.cn窃取您的信息（例如：密码、通讯内容或信用卡信息）。</h4>
+
+<h4 id="高级">高级</h4>
+
+<p>点击 高级 ，再次点击 &ldquo;继续kyfw.12306.cn（不安全）&rdquo;</p>
+</blockquote>
+
+<h1 id="打包好的下载地址">打包好的下载地址</h1>
+
+<p>链接：<a href="http://pan.baidu.com/s/1qW8tMhA">http://pan.baidu.com/s/1qW8tMhA</a> 密码: ua1x</p>
+
+<h4 id="最后希望大家都能早日买到火车票票回家团圆">最后希望大家都能早日买到火车票票回家团圆</h4>
+
+<h1 id="代码相关">代码相关</h1>
+
+<p><a href="https://gitee.com/charles/AutoChange12306CDN">AutoChange12306CDN</a></p>
+
+</div>
+
+
+    </div>
+
+    
+  </body>
+</html>

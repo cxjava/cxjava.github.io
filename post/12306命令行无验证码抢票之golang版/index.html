@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-cn" lang="zh-cn">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.37.1" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>12306命令行无验证码抢票之Golang版 &middot; 点滴记录</title>
+
+  
+  <link type="text/css" rel="stylesheet" href="http://cxjava.github.io/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="http://cxjava.github.io/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="http://cxjava.github.io/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="http://cxjava.github.io/css/hyde.css">
+  
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="点滴记录" />
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai-sublime.min.css">
+
+<script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+  <body class=" ">
+  <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="http://cxjava.github.io/"><h1>点滴记录</h1></a>
+      <p class="lead">
+       Charles的个人博客 
+      </p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="http://cxjava.github.io/">Home</a> </li>
+      <li><a href="/categories/"> Categories </a></li><li><a href="/tags/"> Tags </a></li><li><a href="/about-me/"> About Me </a></li>
+    </ul>
+
+    <p>&copy; 2018. All rights reserved. </p>
+  </div>
+</div>
+
+    <div class="content container">
+    <div class="post">
+  <h1>12306命令行无验证码抢票之Golang版</h1>
+  <span class="post-date">2014-01-06</span>
+  
+
+<p>前些天在网上看见12306可以在最后一步的时候绕过验证码提交买票请求，然后结合到这段时间的抢票经验和技巧，加上golang在网络方面的强大以及异步操作，所以想自己实现一个自动抢票神器。</p>
+
+<h2 id="功能特点">功能特点</h2>
+
+<ul>
+<li>支持自动提交，适合无人刷票，适合服务器刷票</li>
+<li>支持自动切换相似站点（避免缓存）</li>
+<li>自定义刷票间隔时间，可以达到100毫秒级别</li>
+<li>支持代理刷票，方便公司内网刷票</li>
+<li>支持自动切换CDN</li>
+</ul>
+
+<h2 id="使用">使用</h2>
+
+<ul>
+<li><p>首先需要登录12306系统，并获取到cookie，并更新config.toml文件的login.cookie字段的值，具体获取方法，可以参见《登录到查询车票页面.pdf》</p></li>
+
+<li><p>配置好order_info下面需要抢票的车次，乘车日期，起点站，终点站，乘客姓名，席别信息。起点站和终点站可以写上相似站点，比如：上海，上海南。这样可以避免缓存。</p></li>
+
+<li><p>如果你会使用pinginfoview工具，那么可以把里面的cdn都ping一次，筛选出你当前网络访问最快的cdn列表，这样在抢票提交的时候会更快。</p></li>
+</ul>
+
+<h5 id="配置文件">配置文件</h5>
+
+<pre><code class="language-toml"># This is a TOML document. Boom.
+
+[login]
+cookie=&quot;JSESSIONID=6CAEB766DD49864E8EB61CE5C9BB6A17; BIGipServerotn=1591279882.38945.0000; _jc_save_fromStation=%u5B9C%u660C%u4E1C%2CHAN; _jc_save_toStation=%u91CD%u5E86%2CCQW; _jc_save_fromDate=2014-04-30; _jc_save_toDate=2014-04-11; _jc_save_wfdc_flag=dc&quot;
+
+user_agent=&quot;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36&quot;
+
+[order_info]
+#车次
+train_code=[
+&quot;K8084&quot;,
+&quot;t258&quot;,
+&quot;t252&quot;,
+]
+#出发时间
+train_date=[
+&quot;2014-04-22&quot;,
+]
+#起点站
+from_station=[
+&quot;武汉&quot;,
+&quot;武昌&quot;,
+&quot;汉口&quot;,
+]
+#终点站
+to_station=[
+&quot;京山&quot;,
+]
+#乘客姓名
+passenger_name=[
+ &quot;唐小文&quot;,
+]
+
+# 一等座==&quot;M&quot; 二等座=&quot;O&quot;
+# 硬座==&quot;1&quot; 软座==&quot;2&quot; 硬卧==&quot;3&quot; 软卧==&quot;4&quot;
+seat_type = &quot;3&quot;
+seat_type_name = &quot;硬卧&quot;
+
+[system]
+proxy=false
+proxy_url= &quot;http://127.0.0.1:9087&quot;
+#日志级别
+log_level=2
+#查询间隔时间 毫秒
+refresh_time=900
+#订单提交队列 默认为1,改为其他容易被踢掉
+order_size=1
+#订单提交前冻结时间 毫秒
+submit_time=100
+
+#成功或者出错后打开的东西，用于提醒
+#open=&quot;C:/Program Files/Internet Explorer/iexplore.exe&quot;
+open =&quot;explorer&quot;
+open_params =&quot;https://kyfw.12306.cn/otn/&quot;
+
+mobile=&quot;&quot;
+#show_cdn=true
+query_size=11
+time_out=5
+#是否并行执行 getQueueCount()和confirmSingleForQueue()
+#go_both=true
+
+#切换请修cdnXX为cdn，配置文件只会读取cdn开头的配置
+#长城宽带
+cdn444 = [
+&quot;113.57.187.29&quot;,
+&quot;162.105.28.232&quot;,
+&quot;219.243.47.166&quot;,
+&quot;219.243.47.167&quot;,
+&quot;162.105.28.233&quot;,
+&quot;125.219.33.163&quot;,
+&quot;202.204.80.76&quot;,
+&quot;202.120.1.61&quot;,
+&quot;202.118.10.111&quot;,
+&quot;112.25.35.62&quot;,
+]
+
+#移动
+cdn = [
+&quot;106.120.170.19&quot;,
+&quot;111.1.53.220&quot;,
+&quot;111.206.169.4&quot;,
+&quot;111.8.9.195&quot;,
+&quot;111.8.9.196&quot;,
+&quot;111.8.9.197&quot;,
+&quot;112.117.216.47&quot;,
+&quot;112.194.138.176&quot;,
+&quot;112.25.35.35&quot;,
+&quot;112.25.35.62&quot;,
+&quot;112.253.19.173&quot;,
+&quot;112.65.220.39&quot;,
+&quot;112.84.105.38&quot;,
+&quot;112.91.29.16&quot;,
+&quot;113.107.236.12&quot;,
+&quot;113.107.56.83&quot;,
+&quot;113.207.63.162&quot;,
+&quot;115.231.82.101&quot;,
+&quot;117.135.194.17&quot;,
+&quot;117.135.194.19&quot;,
+&quot;117.135.194.20&quot;,
+&quot;117.135.194.22&quot;,
+&quot;119.146.206.105&quot;,
+&quot;119.84.113.55&quot;,
+&quot;120.198.232.60&quot;,
+&quot;120.209.142.56&quot;,
+&quot;121.11.92.178&quot;,
+&quot;121.11.94.183&quot;,
+&quot;121.14.228.43&quot;,
+&quot;121.205.7.52&quot;,
+&quot;122.136.46.112&quot;,
+&quot;122.224.7.38&quot;,
+&quot;122.227.2.87&quot;,
+&quot;122.228.246.88&quot;,
+&quot;122.70.142.160&quot;,
+&quot;123.125.92.28&quot;,
+&quot;123.138.60.183&quot;,
+&quot;124.126.126.108&quot;,
+&quot;124.126.126.109&quot;,
+&quot;124.163.221.44&quot;,
+&quot;125.39.19.91&quot;,
+&quot;125.78.240.189&quot;,
+&quot;162.105.28.233&quot;,
+&quot;163.177.242.54&quot;,
+&quot;175.43.124.200&quot;,
+&quot;182.132.33.42&quot;,
+&quot;182.140.147.106&quot;,
+&quot;182.140.147.57&quot;,
+&quot;183.61.133.46&quot;,
+&quot;218.203.13.119&quot;,
+&quot;218.203.13.120&quot;,
+&quot;218.203.13.121&quot;,
+&quot;218.60.98.161&quot;,
+&quot;218.61.27.54&quot;,
+&quot;218.92.227.120&quot;,
+&quot;219.145.161.19&quot;,
+&quot;220.162.97.165&quot;,
+&quot;220.165.142.5&quot;,
+&quot;221.181.6.81&quot;,
+&quot;221.238.252.180&quot;,
+&quot;222.192.185.12&quot;,
+&quot;222.192.185.7&quot;,
+&quot;222.216.188.94&quot;,
+&quot;222.216.188.98&quot;,
+&quot;223.87.1.58&quot;,
+&quot;36.250.64.50&quot;,
+&quot;58.222.18.97&quot;,
+&quot;59.63.173.166&quot;,
+&quot;60.210.18.169&quot;,
+&quot;60.211.208.236&quot;,
+&quot;60.212.19.64&quot;,
+&quot;60.214.70.66&quot;,
+&quot;60.220.213.145&quot;,
+&quot;60.28.236.112&quot;,
+&quot;60.28.236.116&quot;,
+&quot;61.135.175.84&quot;,
+&quot;61.138.219.43&quot;,
+&quot;61.155.141.17&quot;,]
+
+
+#联通
+cdnaaa = [
+&quot;119.36.195.228&quot;,&quot;110.18.244.166&quot;,&quot;202.102.254.188&quot;,&quot;123.125.92.28&quot;,&quot;112.65.220.39&quot;,&quot;112.84.105.38&quot;,&quot;125.39.19.91&quot;,&quot;182.118.15.39&quot;,&quot;112.253.19.173&quot;,&quot;123.159.205.208&quot;,&quot;113.229.252.37&quot;,&quot;202.102.254.190&quot;,&quot;202.102.254.189&quot;,&quot;175.43.124.200&quot;,&quot;163.177.242.54&quot;,&quot;175.43.20.80&quot;,&quot;112.91.29.16&quot;,&quot;124.163.221.44&quot;,&quot;113.207.63.162&quot;,&quot;123.138.60.197&quot;,&quot;112.194.138.173&quot;,&quot;112.194.138.176&quot;,&quot;123.138.60.183&quot;
+]
+
+#电信
+cdnaaad = [
+&quot;113.57.187.29&quot;, &quot;112.117.216.47&quot;, &quot;113.107.236.12&quot;, &quot;113.107.56.83&quot;, &quot;113.107.56.85&quot;, &quot;115.231.82.101&quot;, &quot;115.231.82.102&quot;, &quot;115.231.82.65&quot;, &quot;115.231.82.66&quot;, &quot;115.231.82.67&quot;, &quot;115.231.82.68&quot;, &quot;115.231.84.89&quot;, &quot;116.10.190.62&quot;, &quot;116.6.73.238&quot;, &quot;118.123.118.50&quot;, &quot;119.146.200.16&quot;, &quot;119.84.113.55&quot;, &quot;124.112.124.26&quot;, &quot;124.112.124.27&quot;, &quot;124.112.124.28&quot;, &quot;124.112.124.29&quot;, &quot;124.112.124.38&quot;, &quot;124.112.124.39&quot;, &quot;124.112.124.40&quot;, &quot;124.115.20.93&quot;, &quot;124.205.178.59&quot;, &quot;125.78.240.189&quot;, &quot;14.18.17.75&quot;, &quot;182.140.147.57&quot;, &quot;183.61.133.46&quot;, &quot;183.61.140.171&quot;, &quot;183.61.140.172&quot;, &quot;183.61.140.173&quot;, &quot;202.107.244.72&quot;, &quot;202.107.244.73&quot;, &quot;211.162.127.77&quot;, &quot;211.162.127.78&quot;, &quot;211.162.127.93&quot;, &quot;211.162.127.94&quot;, &quot;211.162.127.95&quot;, &quot;211.162.127.96&quot;, &quot;211.162.127.97&quot;, &quot;220.162.97.165&quot;, &quot;220.168.132.61&quot;, &quot;221.238.252.180&quot;, &quot;222.216.188.84&quot;, &quot;222.216.188.86&quot;, &quot;222.243.110.166&quot;, &quot;222.243.88.168&quot;, &quot;222.88.91.156&quot;, &quot;222.88.93.137&quot;, &quot;27.24.190.90&quot;]
+
+
+
+[order_request]
+tour_flag=&quot;dc&quot;
+purpose_codes=&quot;ADULT&quot;
+cancel_flag=&quot;2&quot;
+bed_level_order_num=&quot;000000000000000000000000000000&quot;
+
+[get_queue_count]
+train_date=&quot;Thu+Feb+22+2014+11%3A38%3A27+GMT%2B0800+(China+Standard+Time)&quot;
+purpose_codes=&quot;ADULT&quot;
+_json_att=&quot;&quot;
+
+[confirm_single_for_queue]
+randCode=&quot;&quot;
+purpose_codes=&quot;ADULT&quot;
+_json_att=&quot;&quot;
+
+[urls]
+queryLeftTicket=&quot;http://kyfw.12306.cn/otn/leftTicket/query?&quot;
+getPassengerDTO=&quot;http://kyfw.12306.cn/otn/confirmPassenger/getPassengerDTOs&quot;
+submitOrderRequest=&quot;http://kyfw.12306.cn/otn/confirmPassenger/autoSubmitOrderRequest&quot;
+confirmSingle=&quot;http://kyfw.12306.cn/otn/confirmPassenger/confirmSingle&quot;
+getQueueCount=&quot;http://kyfw.12306.cn/otn/confirmPassenger/getQueueCountAsync&quot;
+</code></pre>
+
+<h5 id="参见日志">参见日志</h5>
+
+<pre><code>2014/01/20 21:38:35 [I] ==========乘客信息===========
+2014/01/20 21:38:35 [I] 从 [武汉 武昌 汉口] 到 [京山]
+2014/01/20 21:38:35 [I] 日期 [2014-02-02]
+2014/01/20 21:38:35 [I] 车次 [K8084 t258 t252]
+2014/01/20 21:38:35 [I] 席别 硬卧
+2014/01/20 21:38:35 [I] 乘客 [testa testb testc]
+2014/01/20 21:38:35 [I] ==========乘客信息===========
+2014/01/20 21:38:35 [I] 111.11.27.88 查询余票
+2014/01/20 21:38:35 [I] 开始获取联系人！
+2014/01/20 21:38:35 [I] 111.11.27.88 开始订票 2014-02-02 车次 K8084 余票 map[无座:660 软卧:31 硬座:356 硬卧:34]
+2014/01/20 21:38:36 [I] submitOrderRequest body: {&quot;validateMessagesShowId&quot;:&quot;_validatorMessage&quot;,&quot;url&quot;:&quot;/leftTicket/init&quot;,&quot;status&quot;:false,&quot;httpstatus&quot;:200,&quot;messages&quot;:[&quot;系统忙，请稍后重试&quot;],&quot;validateMessages&quot;:{}}
+2014/01/20 21:38:36 [W] 111.11.27.88 订票请求警告: {&quot;validateMessagesShowId&quot;:&quot;_validatorMessage&quot;,&quot;url&quot;:&quot;/leftTicket/init&quot;,&quot;status&quot;:false,&quot;httpstatus&quot;:200,&quot;messages&quot;:[&quot;系统忙，请稍后重试&quot;],&quot;validateMessages&quot;:{}}
+2014/01/20 21:38:36 [I] 111.8.9.195 查询余票
+2014/01/20 21:38:36 [I] 111.8.9.195 开始订票 2014-02-02 车次 K8084 余票 map[无座:660 软卧:31 硬座:356 硬卧:34]
+2014/01/20 21:38:37 [I] submitOrderRequest body: {&quot;validateMessagesShowId&quot;:&quot;_validatorMessage&quot;,&quot;url&quot;:&quot;/leftTicket/init&quot;,&quot;status&quot;:false,&quot;httpstatus&quot;:200,&quot;messages&quot;:[&quot;系统忙，请稍后重试&quot;],&quot;validateMessages&quot;:{}}
+2014/01/20 21:38:37 [W] 111.8.9.195 订票请求警告: {&quot;validateMessagesShowId&quot;:&quot;_validatorMessage&quot;,&quot;url&quot;:&quot;/leftTicket/init&quot;,&quot;status&quot;:false,&quot;httpstatus&quot;:200,&quot;messages&quot;:[&quot;系统忙，请稍后重试&quot;],&quot;validateMessages&quot;:{}}
+2014/01/20 21:38:37 [I] 111.8.9.196 查询余票
+2014/01/20 21:38:38 [I] 111.8.9.196 开始订票 2014-02-02 车次 K8084 余票 map[无座:660 软卧:31 硬座:356 硬卧:34]
+2014/01/20 21:38:38 [I] submitOrderRequest body: {&quot;validateMessagesShowId&quot;:&quot;_validatorMessage&quot;,&quot;url&quot;:&quot;/leftTicket/init&quot;,&quot;status&quot;:false,&quot;httpstatus&quot;:200,&quot;messages&quot;:[&quot;系统忙，请稍后重试&quot;],&quot;validateMessages&quot;:{}}
+2014/01/20 21:38:38 [W] 111.8.9.196 订票请求警告: {&quot;validateMessagesShowId&quot;:&quot;_validatorMessage&quot;,&quot;url&quot;:&quot;/leftTicket/init&quot;,&quot;status&quot;:false,&quot;httpstatus&quot;:200,&quot;messages&quot;:[&quot;系统忙，请稍后重试&quot;],&quot;validateMessages&quot;:{}}
+2014/01/20 21:38:39 [I] 221.179.172.4 查询余票
+2014/01/20 21:38:39 [I] 221.179.172.4 开始订票 2014-02-02 车次 K8084 余票 map[无座:660 软卧:31 硬座:356 硬卧:34]
+2014/01/20 21:38:39 [I] submitOrderRequest body: {&quot;validateMessagesShowId&quot;:&quot;_validatorMessage&quot;,&quot;url&quot;:&quot;/leftTicket/init&quot;,&quot;status&quot;:false,&quot;httpstatus&quot;:200,&quot;messages&quot;:[&quot;系统忙，请稍后重试&quot;],&quot;validateMessages&quot;:{}}
+2014/01/20 21:38:39 [W] 221.179.172.4 订票请求警告: {&quot;validateMessagesShowId&quot;:&quot;_validatorMessage&quot;,&quot;url&quot;:&quot;/leftTicket/init&quot;,&quot;status&quot;:false,&quot;httpstatus&quot;:200,&quot;messages&quot;:[&quot;系统忙，请稍后重试&quot;],&quot;validateMessages&quot;:{}}
+2014/01/20 21:38:40 [I] 202.120.1.62 查询余票
+2014/01/20 21:38:40 [I] 202.120.1.62 开始订票 2014-02-02 车次 K8084 余票 map[无座:660 软卧:31 硬座:356 硬卧:34]
+2014/01/20 21:38:40 [E] DoForWardRequest error: dial tcp 113.57.187.29:80: ConnectEx tcp: i/o timeout
+2014/01/20 21:38:40 [E] 获取联系人出错!!!!!!返回:
+2014/01/20 21:38:40 [E] 貌似你还没有登录了,或者你的网速太慢了～～
+2014/01/20 21:38:40 [I] 开始获取联系人！
+2014/01/20 21:38:40 [I] submitOrderRequest body: {&quot;validateMessagesShowId&quot;:&quot;_validatorMessage&quot;,&quot;url&quot;:&quot;/leftTicket/init&quot;,&quot;status&quot;:false,&quot;httpstatus&quot;:200,&quot;messages&quot;:[&quot;系统忙，请稍后重试&quot;],&quot;validateMessages&quot;:{}}
+2014/01/20 21:38:40 [W] 202.120.1.62 订票请求警告: {&quot;validateMessagesShowId&quot;:&quot;_validatorMessage&quot;,&quot;url&quot;:&quot;/leftTicket/init&quot;,&quot;status&quot;:false,&quot;httpstatus&quot;:200,&quot;messages&quot;:[&quot;系统忙，请稍后重试&quot;],&quot;validateMessages&quot;:{}}
+2014/01/20 21:38:40 [I] 111.11.27.82 获取成功！
+2014/01/20 21:38:40 [I] 3,0,1,testa,1,150203197001013490,,N_3,0,1,testb,1,150203197001019577,,N_3,0,1,testc,1,150203197001018136,,N
+2014/01/20 21:38:40 [I] testa,1,150203197001013490,1_testb,1,150203197001019577,1_testc,1,150203197001018136,1_
+2014/01/20 21:38:41 [I] 202.204.80.76 查询余票
+2014/01/20 21:38:41 [I] 202.204.80.76 开始订票 2014-02-02 车次 K8084 余票 map[无座:660 软卧:31 硬座:356 硬卧:34]
+2014/01/20 21:38:41 [I] submitOrderRequest body: {&quot;validateMessagesShowId&quot;:&quot;_validatorMessage&quot;,&quot;status&quot;:true,&quot;httpstatus&quot;:200,&quot;data&quot;:{&quot;result&quot;:&quot;N2#534E9CA9360B1485CF6DC080E91026902B8A394150C34F673A65A61C#1002353660401115003110023513563007450034#1&quot;,&quot;submitStatus&quot;:true},&quot;messages&quot;:[],&quot;validateMessages&quot;:{}}
+2014/01/20 21:38:41 [I] key_check_isChange: 534E9CA9360B1485CF6DC080E91026902B8A394150C34F673A65A61C leftTicket: 1002353660401115003110023513563007450034
+2014/01/20 21:38:41 [I] getQueueCount Params: _json_att=&amp;fromStationTelecode=WCN&amp;leftTicket=1002353660401115003110023513563007450034&amp;purpose_codes=ADULT&amp;seatType=3&amp;stationTrainCode=K8084&amp;toStationTelecode=JCN&amp;train_date=Thu+Jan+30+2014+11%3A38%3A27+GMT%2B0800+(China+Standard+Time)&amp;train_no=39000K808430
+2014/01/20 21:38:41 [I] getQueueCount body: {&quot;validateMessagesShowId&quot;:&quot;_validatorMessage&quot;,&quot;status&quot;:true,&quot;httpstatus&quot;:200,&quot;data&quot;:{&quot;count&quot;:&quot;0&quot;,&quot;ticket&quot;:&quot;1002353149401115000010023501593007450001&quot;,&quot;op_2&quot;:&quot;false&quot;,&quot;countT&quot;:&quot;0&quot;,&quot;op_1&quot;:&quot;false&quot;},&quot;messages&quot;:[],&quot;validateMessages&quot;:{}}
+2014/01/20 21:38:41 [I] confirmSingleForQueue Params: _json_att=&amp;key_check_isChange=534E9CA9360B1485CF6DC080E91026902B8A394150C34F673A65A61C&amp;leftTicketStr=1002353660401115003110023513563007450034&amp;oldPassengerStr=testa%2C1%2C150203197001013490%2C1_testb%2C1%2C150203197001019577%2C1_testc%2C1%2C150203197001018136%2C1_&amp;passengerTicketStr=3%2C0%2C1%2Ctesta%2C1%2C150203197001013490%2C%2CN_3%2C0%2C1%2Ctestb%2C1%2C150203197001019577%2C%2CN_3%2C0%2C1%2Ctestc%2C1%2C150203197001018136%2C%2CN&amp;purpose_codes=ADULT&amp;randCode=&amp;train_location=N2
+2014/01/20 21:38:42 [I] confirmSingleForQueue body: {&quot;validateMessagesShowId&quot;:&quot;_validatorMessage&quot;,&quot;status&quot;:true,&quot;httpstatus&quot;:200,&quot;data&quot;:{&quot;submitStatus&quot;:true},&quot;messages&quot;:[],&quot;validateMessages&quot;:{}}
+2014/01/20 21:38:42 [I] 提交订单成功 body: {&quot;validateMessagesShowId&quot;:&quot;_validatorMessage&quot;,&quot;status&quot;:true,&quot;httpstatus&quot;:200,&quot;data&quot;:{&quot;submitStatus&quot;:true},&quot;messages&quot;:[],&quot;validateMessages&quot;:{}}
+2014/01/20 21:38:42 [I] 111.11.27.82 查询余票
+2014/01/20 21:38:42 [I] 111.11.27.82 开始订票 2014-02-02 车次 K8084 余票 map[无座:660 软卧:31 硬座:356 硬卧:34]
+2014/01/20 21:38:42 [I] submitOrderRequest body: {&quot;validateMessagesShowId&quot;:&quot;_validatorMessage&quot;,&quot;status&quot;:true,&quot;httpstatus&quot;:200,&quot;data&quot;:{&quot;result&quot;:&quot;N2#82A730DA41D7FD5C0FE24434BFEAECF799D7A453F7D7083A14F1DC1B#1002353660401115003110023513563007450034#1&quot;,&quot;submitStatus&quot;:true},&quot;messages&quot;:[],&quot;validateMessages&quot;:{}}
+2014/01/20 21:38:42 [I] key_check_isChange: 82A730DA41D7FD5C0FE24434BFEAECF799D7A453F7D7083A14F1DC1B leftTicket: 1002353660401115003110023513563007450034
+2014/01/20 21:38:42 [I] getQueueCount Params: _json_att=&amp;fromStationTelecode=WCN&amp;leftTicket=1002353660401115003110023513563007450034&amp;purpose_codes=ADULT&amp;seatType=3&amp;stationTrainCode=K8084&amp;toStationTelecode=JCN&amp;train_date=Thu+Jan+30+2014+11%3A38%3A27+GMT%2B0800+(China+Standard+Time)&amp;train_no=39000K808430
+2014/01/20 21:38:43 [I] getQueueCount body: {&quot;validateMessagesShowId&quot;:&quot;_validatorMessage&quot;,&quot;status&quot;:true,&quot;httpstatus&quot;:200,&quot;data&quot;:{&quot;count&quot;:&quot;0&quot;,&quot;ticket&quot;:&quot;1002353149401115000010023501593007450001&quot;,&quot;op_2&quot;:&quot;false&quot;,&quot;countT&quot;:&quot;0&quot;,&quot;op_1&quot;:&quot;false&quot;},&quot;messages&quot;:[],&quot;validateMessages&quot;:{}}
+2014/01/20 21:38:43 [I] confirmSingleForQueue Params: _json_att=&amp;key_check_isChange=82A730DA41D7FD5C0FE24434BFEAECF799D7A453F7D7083A14F1DC1B&amp;leftTicketStr=1002353660401115003110023513563007450034&amp;oldPassengerStr=testa%2C1%2C150203197001013490%2C1_testb%2C1%2C150203197001019577%2C1_testc%2C1%2C150203197001018136%2C1_&amp;passengerTicketStr=3%2C0%2C1%2Ctesta%2C1%2C150203197001013490%2C%2CN_3%2C0%2C1%2Ctestb%2C1%2C150203197001019577%2C%2CN_3%2C0%2C1%2Ctestc%2C1%2C150203197001018136%2C%2CN&amp;purpose_codes=ADULT&amp;randCode=&amp;train_location=N2
+2014/01/20 21:38:43 [I] 111.8.9.197 查询余票
+2014/01/20 21:38:43 [I] confirmSingleForQueue body: {&quot;repeatSubmitToken&quot;:&quot;aece6c2b580de9d823d5557278be636f&quot;,&quot;validateMessagesShowId&quot;:&quot;_validatorMessage&quot;,&quot;status&quot;:true,&quot;httpstatus&quot;:200,&quot;data&quot;:{&quot;errMsg&quot;:&quot;互联网售票实行实名制：testa(二代身份证-150203197001013490)已购买2014年02月02日K8084次的车票!!&quot;,&quot;submitStatus&quot;:false},&quot;messages&quot;:[],&quot;validateMessages&quot;:{}}
+2014/01/20 21:38:43 [I] 貌似你已经购买了相同的车票！！
+2014/01/20 21:39:16 [I] ==========乘客信息===========
+2014/01/20 21:39:16 [I] 从 [武汉 武昌 汉口] 到 [京山]
+2014/01/20 21:39:16 [I] 日期 [2014-02-02]
+2014/01/20 21:39:16 [I] 车次 [K8084 t258 t252]
+2014/01/20 21:39:16 [I] 席别 硬卧
+2014/01/20 21:39:16 [I] 乘客 [testa testc]
+2014/01/20 21:39:16 [I] ==========乘客信息===========
+2014/01/20 21:39:16 [I] 111.11.27.88 查询余票
+2014/01/20 21:39:16 [I] 开始获取联系人！
+2014/01/20 21:39:17 [I] 111.11.27.88 开始订票 2014-02-02 车次 K8084 余票 map[无座:660 软卧:31 硬座:356 硬卧:34]
+2014/01/20 21:39:17 [I] submitOrderRequest body: {&quot;validateMessagesShowId&quot;:&quot;_validatorMessage&quot;,&quot;url&quot;:&quot;/leftTicket/init&quot;,&quot;status&quot;:false,&quot;httpstatus&quot;:200,&quot;messages&quot;:[&quot;系统忙，请稍后重试&quot;],&quot;validateMessages&quot;:{}}
+2014/01/20 21:39:17 [W] 111.11.27.88 订票请求警告: {&quot;validateMessagesShowId&quot;:&quot;_validatorMessage&quot;,&quot;url&quot;:&quot;/leftTicket/init&quot;,&quot;status&quot;:false,&quot;httpstatus&quot;:200,&quot;messages&quot;:[&quot;系统忙，请稍后重试&quot;],&quot;validateMessages&quot;:{}}
+2014/01/20 21:39:18 [I] 111.8.9.197 查询余票
+2014/01/20 21:39:18 [I] 111.8.9.197 开始订票 2014-02-02 车次 K8084 余票 map[无座:660 软卧:31 硬座:356 硬卧:34]
+2014/01/20 21:39:19 [I] submitOrderRequest body: {&quot;validateMessagesShowId&quot;:&quot;_validatorMessage&quot;,&quot;url&quot;:&quot;/leftTicket/init&quot;,&quot;status&quot;:false,&quot;httpstatus&quot;:200,&quot;messages&quot;:[&quot;系统忙，请稍后重试&quot;],&quot;validateMessages&quot;:{}}
+2014/01/20 21:39:19 [W] 111.8.9.197 订票请求警告: {&quot;validateMessagesShowId&quot;:&quot;_validatorMessage&quot;,&quot;url&quot;:&quot;/leftTicket/init&quot;,&quot;status&quot;:false,&quot;httpstatus&quot;:200,&quot;messages&quot;:[&quot;系统忙，请稍后重试&quot;],&quot;validateMessages&quot;:{}}
+2014/01/20 21:39:19 [I] 221.179.172.5 查询余票
+2014/01/20 21:39:19 [I] 221.179.172.5 开始订票 2014-02-02 车次 K8084 余票 map[无座:660 软卧:31 硬座:356 硬卧:34]
+2014/01/20 21:39:20 [I] submitOrderRequest body: {&quot;validateMessagesShowId&quot;:&quot;_validatorMessage&quot;,&quot;url&quot;:&quot;/leftTicket/init&quot;,&quot;status&quot;:false,&quot;httpstatus&quot;:200,&quot;messages&quot;:[&quot;系统忙，请稍后重试&quot;],&quot;validateMessages&quot;:{}}
+2014/01/20 21:39:20 [W] 221.179.172.5 订票请求警告: {&quot;validateMessagesShowId&quot;:&quot;_validatorMessage&quot;,&quot;url&quot;:&quot;/leftTicket/init&quot;,&quot;status&quot;:false,&quot;httpstatus&quot;:200,&quot;messages&quot;:[&quot;系统忙，请稍后重试&quot;],&quot;validateMessages&quot;:{}}
+2014/01/20 21:39:20 [I] 221.179.172.6 查询余票
+2014/01/20 21:39:20 [I] 221.179.172.6 开始订票 2014-02-02 车次 K8084 余票 map[无座:660 软卧:31 硬座:356 硬卧:34]
+2014/01/20 21:39:21 [I] submitOrderRequest body: {&quot;validateMessagesShowId&quot;:&quot;_validatorMessage&quot;,&quot;url&quot;:&quot;/leftTicket/init&quot;,&quot;status&quot;:false,&quot;httpstatus&quot;:200,&quot;messages&quot;:[&quot;系统忙，请稍后重试&quot;],&quot;validateMessages&quot;:{}}
+2014/01/20 21:39:21 [W] 221.179.172.6 订票请求警告: {&quot;validateMessagesShowId&quot;:&quot;_validatorMessage&quot;,&quot;url&quot;:&quot;/leftTicket/init&quot;,&quot;status&quot;:false,&quot;httpstatus&quot;:200,&quot;messages&quot;:[&quot;系统忙，请稍后重试&quot;],&quot;validateMessages&quot;:{}}
+2014/01/20 21:39:21 [I] 221.179.172.7 查询余票
+2014/01/20 21:39:21 [I] 221.179.172.7 开始订票 2014-02-02 车次 K8084 余票 map[无座:660 软卧:31 硬座:356 硬卧:34]
+2014/01/20 21:39:21 [E] DoForWardRequest error: dial tcp 113.57.187.29:80: ConnectEx tcp: i/o timeout
+2014/01/20 21:39:21 [E] 获取联系人出错!!!!!!返回:
+2014/01/20 21:39:21 [E] 貌似你还没有登录了,或者你的网速太慢了～～
+2014/01/20 21:39:21 [I] 开始获取联系人！
+2014/01/20 21:39:22 [I] submitOrderRequest body: {&quot;validateMessagesShowId&quot;:&quot;_validatorMessage&quot;,&quot;url&quot;:&quot;/leftTicket/init&quot;,&quot;status&quot;:false,&quot;httpstatus&quot;:200,&quot;messages&quot;:[&quot;系统忙，请稍后重试&quot;],&quot;validateMessages&quot;:{}}
+2014/01/20 21:39:22 [W] 221.179.172.7 订票请求警告: {&quot;validateMessagesShowId&quot;:&quot;_validatorMessage&quot;,&quot;url&quot;:&quot;/leftTicket/init&quot;,&quot;status&quot;:false,&quot;httpstatus&quot;:200,&quot;messages&quot;:[&quot;系统忙，请稍后重试&quot;],&quot;validateMessages&quot;:{}}
+2014/01/20 21:39:22 [I] 111.11.27.82 获取成功！
+2014/01/20 21:39:22 [I] 3,0,1,testa,1,150203197001013490,,N_3,0,1,testc,1,150203197001018136,,N
+2014/01/20 21:39:22 [I] testa,1,150203197001013490,1_testc,1,150203197001018136,1_
+2014/01/20 21:39:22 [I] 125.219.33.163 查询余票
+2014/01/20 21:39:23 [I] 125.219.33.163 开始订票 2014-02-02 车次 K8084 余票 map[无座:660 软卧:31 硬座:356 硬卧:34]
+2014/01/20 21:39:23 [I] submitOrderRequest body: {&quot;validateMessagesShowId&quot;:&quot;_validatorMessage&quot;,&quot;status&quot;:true,&quot;httpstatus&quot;:200,&quot;data&quot;:{&quot;result&quot;:&quot;N2#0F26E9D45F0A8A068010B8021EEE75F6EF0357133668AB5F19B15F2E#1002353660401115003110023513563007450034#1&quot;,&quot;submitStatus&quot;:true},&quot;messages&quot;:[],&quot;validateMessages&quot;:{}}
+2014/01/20 21:39:23 [I] key_check_isChange: 0F26E9D45F0A8A068010B8021EEE75F6EF0357133668AB5F19B15F2E leftTicket: 1002353660401115003110023513563007450034
+2014/01/20 21:39:23 [I] getQueueCount Params: _json_att=&amp;fromStationTelecode=WCN&amp;leftTicket=1002353660401115003110023513563007450034&amp;purpose_codes=ADULT&amp;seatType=3&amp;stationTrainCode=K8084&amp;toStationTelecode=JCN&amp;train_date=Thu+Jan+30+2014+11%3A38%3A27+GMT%2B0800+(China+Standard+Time)&amp;train_no=39000K808430
+2014/01/20 21:39:23 [I] getQueueCount body: {&quot;validateMessagesShowId&quot;:&quot;_validatorMessage&quot;,&quot;status&quot;:true,&quot;httpstatus&quot;:200,&quot;data&quot;:{&quot;count&quot;:&quot;0&quot;,&quot;ticket&quot;:&quot;1002353149401115000010023501593007450001&quot;,&quot;op_2&quot;:&quot;false&quot;,&quot;countT&quot;:&quot;0&quot;,&quot;op_1&quot;:&quot;false&quot;},&quot;messages&quot;:[],&quot;validateMessages&quot;:{}}
+2014/01/20 21:39:23 [I] confirmSingleForQueue Params: _json_att=&amp;key_check_isChange=0F26E9D45F0A8A068010B8021EEE75F6EF0357133668AB5F19B15F2E&amp;leftTicketStr=1002353660401115003110023513563007450034&amp;oldPassengerStr=testa%2C1%2C150203197001013490%2C1_testc%2C1%2C150203197001018136%2C1_&amp;passengerTicketStr=3%2C0%2C1%2Ctesta%2C1%2C150203197001013490%2C%2CN_3%2C0%2C1%2Ctestc%2C1%2C150203197001018136%2C%2CN&amp;purpose_codes=ADULT&amp;randCode=&amp;train_location=N2
+2014/01/20 21:39:23 [I] 202.118.10.111 查询余票
+2014/01/20 21:39:24 [I] 202.118.10.111 开始订票 2014-02-02 车次 K8084 余票 map[无座:660 软卧:31 硬座:356 硬卧:34]
+2014/01/20 21:39:24 [I] confirmSingleForQueue body: {&quot;validateMessagesShowId&quot;:&quot;_validatorMessage&quot;,&quot;status&quot;:true,&quot;httpstatus&quot;:200,&quot;data&quot;:{&quot;submitStatus&quot;:true},&quot;messages&quot;:[],&quot;validateMessages&quot;:{}}
+2014/01/20 21:39:24 [I] 提交订单成功 body: {&quot;validateMessagesShowId&quot;:&quot;_validatorMessage&quot;,&quot;status&quot;:true,&quot;httpstatus&quot;:200,&quot;data&quot;:{&quot;submitStatus&quot;:true},&quot;messages&quot;:[],&quot;validateMessages&quot;:{}}
+2014/01/20 21:39:24 [I] submitOrderRequest body: {&quot;validateMessagesShowId&quot;:&quot;_validatorMessage&quot;,&quot;status&quot;:true,&quot;httpstatus&quot;:200,&quot;data&quot;:{&quot;result&quot;:&quot;N2#1871F993C0157993E742F995EE1484C1B63798C5224127137865094B#1002353660401115003110023513563007450034#1&quot;,&quot;submitStatus&quot;:true},&quot;messages&quot;:[],&quot;validateMessages&quot;:{}}
+2014/01/20 21:39:24 [I] key_check_isChange: 1871F993C0157993E742F995EE1484C1B63798C5224127137865094B leftTicket: 1002353660401115003110023513563007450034
+2014/01/20 21:39:24 [I] getQueueCount Params: _json_att=&amp;fromStationTelecode=WCN&amp;leftTicket=1002353660401115003110023513563007450034&amp;purpose_codes=ADULT&amp;seatType=3&amp;stationTrainCode=K8084&amp;toStationTelecode=JCN&amp;train_date=Thu+Jan+30+2014+11%3A38%3A27+GMT%2B0800+(China+Standard+Time)&amp;train_no=39000K808430
+2014/01/20 21:39:24 [I] getQueueCount body: {&quot;validateMessagesShowId&quot;:&quot;_validatorMessage&quot;,&quot;status&quot;:true,&quot;httpstatus&quot;:200,&quot;data&quot;:{&quot;count&quot;:&quot;0&quot;,&quot;ticket&quot;:&quot;1002353149401115000010023501593007450001&quot;,&quot;op_2&quot;:&quot;false&quot;,&quot;countT&quot;:&quot;0&quot;,&quot;op_1&quot;:&quot;false&quot;},&quot;messages&quot;:[],&quot;validateMessages&quot;:{}}
+2014/01/20 21:39:24 [I] confirmSingleForQueue Params: _json_att=&amp;key_check_isChange=1871F993C0157993E742F995EE1484C1B63798C5224127137865094B&amp;leftTicketStr=1002353660401115003110023513563007450034&amp;oldPassengerStr=testa%2C1%2C150203197001013490%2C1_testc%2C1%2C150203197001018136%2C1_&amp;passengerTicketStr=3%2C0%2C1%2Ctesta%2C1%2C150203197001013490%2C%2CN_3%2C0%2C1%2Ctestc%2C1%2C150203197001018136%2C%2CN&amp;purpose_codes=ADULT&amp;randCode=&amp;train_location=N2
+</code></pre>
+
+<h3 id="代码下载">代码下载</h3>
+
+<h2 id="gettrain-https-gitee-com-charles-gettrain"><a href="https://gitee.com/charles/GetTrain">GetTrain</a></h2>
+
+</div>
+
+
+    </div>
+
+    
+  </body>
+</html>

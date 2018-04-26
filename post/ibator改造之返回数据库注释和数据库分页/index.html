@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-cn" lang="zh-cn">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.37.1" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>ibator改造之返回数据库注释和数据库分页 &middot; 点滴记录</title>
+
+  
+  <link type="text/css" rel="stylesheet" href="http://cxjava.github.io/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="http://cxjava.github.io/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="http://cxjava.github.io/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="http://cxjava.github.io/css/hyde.css">
+  
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="点滴记录" />
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai-sublime.min.css">
+
+<script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+  <body class=" ">
+  <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="http://cxjava.github.io/"><h1>点滴记录</h1></a>
+      <p class="lead">
+       Charles的个人博客 
+      </p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="http://cxjava.github.io/">Home</a> </li>
+      <li><a href="/categories/"> Categories </a></li><li><a href="/tags/"> Tags </a></li><li><a href="/about-me/"> About Me </a></li>
+    </ul>
+
+    <p>&copy; 2018. All rights reserved. </p>
+  </div>
+</div>
+
+    <div class="content container">
+    <div class="post">
+  <h1>ibator改造之返回数据库注释和数据库分页</h1>
+  <span class="post-date">2010-11-24</span>
+  <blockquote>
+<p>插件基于ibator1.2.2（<a href="http://svn.apache.org/repos/asf/ibatis/java/ibator）">http://svn.apache.org/repos/asf/ibatis/java/ibator）</a></p>
+
+<p>个人感觉用ibator Eclipse插件不如直接用这种方式生产代码方便，出错几率小的多，还能log跟踪 </p>
+</blockquote>
+
+<h2 id="参考资料">参考资料</h2>
+
+<ul>
+<li><p><a href="http://matychen.iteye.com/topic/715935">Ibator支持分页的plugin</a></p></li>
+
+<li><p><a href="http://lj-zhu.iteye.com/blog/732325">ibator改进，生成中文注释</a></p></li>
+</ul>
+
+<h2 id="更新"><strong>更新：</strong></h2>
+
+<ul>
+<li><p><a href="http://dl.iteye.com/topics/download/a979b4a4-bddf-3d37-bca2-eaab1d8789e6">ibator_cx.rar</a>为最新版的src。具体增加和修改的，参见ConfigIbatisOracle.xml</p></li>
+
+<li><p>ibator_2010-12-7.jar版本增加了一个插件，ChangeReturnPlugin，功能：</p></li>
+
+<li><p>把所有delete、update、insert返回为int类型的方法改为返回布尔值类型</p></li>
+
+<li><p>大部分都用不到返回的行数，多数情况只是关心是否执行成功在配置文件中加入如下配置即可：</p></li>
+</ul>
+
+<pre><code class="language-xml">  &lt;!-- 修改dao里面返回值，把增删改的返回值由整型改为布尔型 --&gt;
+  &lt;ibatorPlugin type=&quot;org.apache.ibatis.ibator.plugins.ChangeReturnPlugin&quot; /&gt;
+</code></pre>
+
+<ul>
+<li><p>和插件<code>SerializablePlugin</code>一样使用，如果没有配置，就不会修改<code>dao</code>类里面的部分方法的返回值，方法还是默认返回<code>int</code>类型。<code>ibator_2010-12-7.jar</code>对应的源码过些天在上传。</p></li>
+
+<li><p>强烈建议用一下的<code>java</code>方法生成所需的<code>xml、dao、pojo</code>。不建议用<code>ibator</code>的<code>eclipse</code>插件方式。</p></li>
+
+<li><p>自己可以新建一个<code>java</code>工程，里面存放这个<code>.java</code>文件和<code>ibator.jar</code>文件。如果要生成代码到其他工程里面去可以在<code>xml</code>里面配置：<code>targetProject=&quot;../你要生成的目的工程名/src&quot;&gt;</code>  记得<code>xml</code>里面的3个<code>targetProject</code>都要修改哦。</p></li>
+</ul>
+
+<pre><code class="language-java">package ibator;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.ibatis.ibator.api.Ibator;
+import org.apache.ibatis.ibator.config.IbatorConfiguration;
+import org.apache.ibatis.ibator.config.xml.IbatorConfigurationParser;
+import org.apache.ibatis.ibator.internal.DefaultShellCallback;
+
+public class IbatorRunTest {
+
+    public static void main(String... strings) {
+        try {
+            List&lt;String&gt; warnings = new ArrayList&lt;String&gt;();
+            boolean overwrite = true;
+            File configFile = new File(ClassLoader.getSystemResource(&quot;ConfigIbatisExample.xml&quot;).getFile());
+            IbatorConfigurationParser cp = new IbatorConfigurationParser(
+                    warnings);
+            IbatorConfiguration config = cp
+                    .parseIbatorConfiguration(configFile);
+            DefaultShellCallback callback = new DefaultShellCallback(overwrite);
+            Ibator ibator = new Ibator(config, callback, warnings);
+            ibator.generate(null);
+            for (String warning : warnings) {
+                System.out.println(&quot;warning:&quot; + warning);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+}
+</code></pre>
+
+<h4 id="修改日志">修改日志</h4>
+
+<ul>
+<li>增加数据库注释，oracle默认不返回数据库注释，需要设置一个参数</li>
+<li>当oracle得字段为number没有指定长度时，ibator会设置字段为Big Decimal</li>
+<li>去掉不必要的其他注释</li>
+<li>改进分页的生成方式</li>
+<li>其他详情见附件源码</li>
+</ul>
+
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE ibatorConfiguration
+  PUBLIC &quot;-//Apache Software Foundation//DTD Apache iBATIS Ibator Configuration 1.0//EN&quot;
+  &quot;http://ibatis.apache.org/dtd/ibator-config_1_0.dtd&quot;&gt;
+
+&lt;ibatorConfiguration&gt;
+    &lt;classPathEntry location=&quot;E:/jars/ojdbc/ojdbc14_10.2.0.4.jar&quot; /&gt;
+    &lt;ibatorContext id=&quot;FlatJava5&quot; targetRuntime=&quot;Ibatis2Java5&quot;&gt;
+        &lt;property name=&quot;suppressTypeWarnings&quot; value=&quot;true&quot; /&gt;
+        &lt;!-- Serializable化 --&gt;
+        &lt;ibatorPlugin type=&quot;org.apache.ibatis.ibator.plugins.SerializablePlugin&quot; /&gt;
+        &lt;!-- 这个插件添加方法为例(实际上的内部类)来支持不区分大小写像搜索。这个演示了增加功能,通过一个实例类插件,而不是延长上课。 --&gt;
+        &lt;ibatorPlugin type=&quot;org.apache.ibatis.ibator.plugins.CaseInsensitiveLikePlugin&quot; /&gt;
+        &lt;!-- 分页 --&gt;
+        &lt;ibatorPlugin type=&quot;org.apache.ibatis.ibator.plugins.PaginationPlugin&quot;&gt;
+            &lt;property name=&quot;enablePagination&quot; value=&quot;true&quot; /&gt;
+            &lt;!-- mysql or oracle --&gt;
+            &lt;property name=&quot;databaseType&quot; value=&quot;oracle&quot; /&gt;
+        &lt;/ibatorPlugin&gt;
+        &lt;!-- 重命名example类 --&gt;
+        &lt;ibatorPlugin
+            type=&quot;org.apache.ibatis.ibator.plugins.RenameExampleClassPlugin&quot;&gt;
+            &lt;property name=&quot;searchString&quot; value=&quot;Example$&quot; /&gt;
+            &lt;property name=&quot;replaceString&quot; value=&quot;Criteria&quot; /&gt;
+        &lt;/ibatorPlugin&gt;
+        &lt;!-- 产生sqlmap.xml
+        &lt;ibatorPlugin type=&quot;org.apache.ibatis.ibator.plugins.SqlMapConfigPlugin&quot;&gt;
+            &lt;property name=&quot;targetPackage&quot; value=&quot;ibatortest.generated.flat&quot; /&gt;
+            &lt;property name=&quot;targetProject&quot; value=&quot;src&quot; /&gt;
+        &lt;/ibatorPlugin&gt;
+        --&gt;
+
+        &lt;!-- driverClass=&quot;com.mysql.jdbc.Driver&quot; --&gt;
+        &lt;jdbcConnection driverClass=&quot;oracle.jdbc.driver.OracleDriver&quot;
+            connectionURL=&quot;jdbc:oracle:thin:@127.0.0.1:1521:ora10g&quot; userId=&quot;test&quot;
+            password=&quot;test&quot; &gt;
+            &lt;!-- 是否返回数据库注释，MySQL默认是true，oracle默认是false --&gt;
+            &lt;property name=&quot;remarksReporting&quot; value=&quot;true&quot;/&gt;
+            &lt;/jdbcConnection&gt;
+        &lt;javaModelGenerator targetPackage=&quot;test.pojo&quot;
+            targetProject=&quot;src&quot;&gt;
+            &lt;!-- 如果为TRUE，下面的设置了schema,那么包名就是会增加个schema名，
+            如果schema=“aaa”  , test.pojo.aaa.XXXX;
+            &lt;property name=&quot;enableSubPackages&quot; value=&quot;true&quot; /&gt;
+             --&gt;
+             &lt;!-- 继承哪个父类，这个为了有时候日志需要打印整个对象，而采用的apache打印对象的每个属性 --&gt;
+             &lt;property name=&quot;rootClass&quot; value=&quot;ibator.BaseBean&quot; /&gt;
+        &lt;/javaModelGenerator&gt;
+
+        &lt;sqlMapGenerator targetPackage=&quot;test.sqlmap&quot;
+            targetProject=&quot;src&quot;&gt;
+            &lt;!--
+            &lt;property name=&quot;enableSubPackages&quot; value=&quot;true&quot; /&gt;
+             --&gt;
+        &lt;/sqlMapGenerator&gt;
+
+        &lt;daoGenerator type=&quot;SPRING&quot; targetPackage=&quot;test.dao&quot; implementationPackage=&quot;test.dao.impl&quot;
+            targetProject=&quot;src&quot;&gt;
+            &lt;!--
+            &lt;property name=&quot;enableSubPackages&quot; value=&quot;true&quot; /&gt;
+             --&gt;
+        &lt;/daoGenerator&gt;
+
+        &lt;!--
+        如果数据库里面有多个相同表名在不同的schema下，那么你得加上:
+        schema=&quot;XXXX&quot;和&lt;property name=&quot;ignoreQualifiersAtRuntime&quot; value=&quot;true&quot; /&gt;
+        不然ibator会以找到的最后一个为最终对象，这个问题苦恼了我很久，后来才发现
+         --&gt;
+        &lt;table tableName=&quot;OTA_APPLETE_INFO&quot; schema=&quot;XXX&quot;&gt;
+         &lt;!-- 忽略schema，避免在xml中出现schema.表名
+          --&gt;
+         &lt;property name=&quot;ignoreQualifiersAtRuntime&quot; value=&quot;true&quot; /&gt;
+          &lt;!-- 精确到时分秒时，需要设置下：  jdbcType=&quot;TIMESTAMP&quot;--&gt;
+          &lt;columnOverride column=&quot;UPDATED_DATE&quot; jdbcType=&quot;TIMESTAMP&quot;/&gt;
+        &lt;/table&gt;
+    &lt;/ibatorContext&gt;
+&lt;/ibatorConfiguration&gt;
+</code></pre>
+
+<h3 id="所有源码可以在github上面找到"><strong>所有源码可以在github上面找到</strong></h3>
+
+<ul>
+<li><a href="https://github.com/cxjava/mybatis-generator-core">mybatis-generator-core</a></li>
+<li><a href="https://github.com/cxjava/mybatis-generator-testor">mybatis-generator-testor</a></li>
+</ul>
+
+<h4 id="原文链接">原文链接</h4>
+
+<p><a href="http://matychen.iteye.com/blog/674839">扩展ibator1.2.1支持Oracle、MySQL分页</a></p>
+</div>
+
+
+    </div>
+
+    
+  </body>
+</html>

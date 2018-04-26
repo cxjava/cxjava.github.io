@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Yuicompressor on 点滴记录</title>
+    <link>http://cxjava.github.io/tags/yuicompressor/</link>
+    <description>Recent content in Yuicompressor on 点滴记录</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 06 Apr 2012 15:06:00 +0800</lastBuildDate>
+    
+	<atom:link href="http://cxjava.github.io/tags/yuicompressor/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>maven中用yuicompressor和closure-compiler对js、css文件进行压缩</title>
+      <link>http://cxjava.github.io/post/maven%E4%B8%AD%E7%94%A8yuicompressor%E5%92%8Cclosure-compiler%E5%AF%B9jscss%E6%96%87%E4%BB%B6%E8%BF%9B%E8%A1%8C%E5%8E%8B%E7%BC%A9/</link>
+      <pubDate>Fri, 06 Apr 2012 15:06:00 +0800</pubDate>
+      
+      <guid>http://cxjava.github.io/post/maven%E4%B8%AD%E7%94%A8yuicompressor%E5%92%8Cclosure-compiler%E5%AF%B9jscss%E6%96%87%E4%BB%B6%E8%BF%9B%E8%A1%8C%E5%8E%8B%E7%BC%A9/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;项目采用maven构建的时候，需要压缩js，css等，网上找了相关资料，自己综合了下～&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-cn" lang="zh-cn">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.37.1" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>maven中用yuicompressor和closure-compiler对js、css文件进行压缩 &middot; 点滴记录</title>
+
+  
+  <link type="text/css" rel="stylesheet" href="http://cxjava.github.io/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="http://cxjava.github.io/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="http://cxjava.github.io/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="http://cxjava.github.io/css/hyde.css">
+  
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="点滴记录" />
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai-sublime.min.css">
+
+<script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+  <body class=" ">
+  <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="http://cxjava.github.io/"><h1>点滴记录</h1></a>
+      <p class="lead">
+       Charles的个人博客 
+      </p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="http://cxjava.github.io/">Home</a> </li>
+      <li><a href="/categories/"> Categories </a></li><li><a href="/tags/"> Tags </a></li><li><a href="/about-me/"> About Me </a></li>
+    </ul>
+
+    <p>&copy; 2018. All rights reserved. </p>
+  </div>
+</div>
+
+    <div class="content container">
+    <div class="post">
+  <h1>maven中用yuicompressor和closure-compiler对js、css文件进行压缩</h1>
+  <span class="post-date">2012-04-06</span>
+  <blockquote>
+<p>项目采用maven构建的时候，需要压缩js，css等，网上找了相关资料，自己综合了下～</p>
+</blockquote>
+
+<p>直接放代码：</p>
+
+<pre><code class="language-xml">&lt;!-- js压缩 --&gt;
+            &lt;plugin&gt;
+                &lt;groupId&gt;net.alchim31.maven&lt;/groupId&gt;
+                &lt;artifactId&gt;yuicompressor-maven-plugin&lt;/artifactId&gt;
+                &lt;version&gt;1.3.0&lt;/version&gt;
+                &lt;executions&gt;
+                    &lt;execution&gt;
+                        &lt;phase&gt;install&lt;/phase&gt;
+                        &lt;goals&gt;
+                            &lt;goal&gt;compress&lt;/goal&gt;
+                        &lt;/goals&gt;
+                        &lt;configuration&gt;
+                            &lt;excludes&gt;
+                                &lt;exclude&gt;**/*.min.js&lt;/exclude&gt;
+                                &lt;exclude&gt;**/*-min.js&lt;/exclude&gt;
+                            &lt;/excludes&gt;
+                            &lt;nosuffix&gt;true&lt;/nosuffix&gt;
+                            &lt;linebreakpos&gt;-1&lt;/linebreakpos&gt;
+                        &lt;/configuration&gt;
+                    &lt;/execution&gt;
+                &lt;/executions&gt;
+            &lt;/plugin&gt;
+            &lt;!-- native2ascii --&gt;
+            &lt;plugin&gt;
+                &lt;groupId&gt;org.codehaus.mojo&lt;/groupId&gt;
+                &lt;artifactId&gt;native2ascii-maven-plugin&lt;/artifactId&gt;
+                &lt;version&gt;1.0-beta-1&lt;/version&gt;
+                &lt;executions&gt;
+                    &lt;execution&gt;
+                        &lt;phase&gt;install&lt;/phase&gt;
+                        &lt;goals&gt;
+                            &lt;goal&gt;native2ascii&lt;/goal&gt;
+                        &lt;/goals&gt;
+                        &lt;configuration&gt;
+                            &lt;workDir&gt;${project.build.directory}/${project.build.finalName}&lt;/workDir&gt;
+                            &lt;excludes&gt;
+                                &lt;exclude&gt;**/*.css&lt;/exclude&gt;
+                            &lt;/excludes&gt;
+                            &lt;includes&gt;
+                                &lt;include&gt;resources/js/*.js&lt;/include&gt;
+                            &lt;/includes&gt;
+                        &lt;/configuration&gt;
+                    &lt;/execution&gt;
+                &lt;/executions&gt;
+            &lt;/plugin&gt;
+</code></pre>
+
+<p><strong>更喜欢采用谷歌的closure-compiler + maven-antrun-plugin</strong></p>
+
+<pre><code class="language-xml">&lt;plugin&gt;
+                &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+                &lt;artifactId&gt;maven-dependency-plugin&lt;/artifactId&gt;
+                &lt;version&gt;2.4&lt;/version&gt;
+                &lt;executions&gt;
+                    &lt;execution&gt;
+                        &lt;phase&gt;validate&lt;/phase&gt;
+                        &lt;goals&gt;
+                            &lt;goal&gt;copy&lt;/goal&gt;
+                        &lt;/goals&gt;
+                        &lt;configuration&gt;
+                            &lt;artifactItems&gt;
+                                &lt;artifactItem&gt;
+                                    &lt;groupId&gt;com.google.javascript&lt;/groupId&gt;
+                                    &lt;artifactId&gt;closure-compiler&lt;/artifactId&gt;
+                                    &lt;version&gt;r1810&lt;/version&gt;
+                                    &lt;type&gt;jar&lt;/type&gt;
+                                    &lt;overWrite&gt;true&lt;/overWrite&gt;
+                                    &lt;outputDirectory&gt;${project.build.directory}/compressor&lt;/outputDirectory&gt;
+                                    &lt;destFileName&gt;closure-compiler.jar&lt;/destFileName&gt;
+                                &lt;/artifactItem&gt;
+                                &lt;artifactItem&gt;
+                                    &lt;groupId&gt;com.yahoo.platform.yui&lt;/groupId&gt;
+                                    &lt;artifactId&gt;yuicompressor&lt;/artifactId&gt;
+                                    &lt;version&gt;2.4.6&lt;/version&gt;
+                                    &lt;type&gt;jar&lt;/type&gt;
+                                    &lt;overWrite&gt;true&lt;/overWrite&gt;
+                                    &lt;outputDirectory&gt;${project.build.directory}/compressor&lt;/outputDirectory&gt;
+                                    &lt;destFileName&gt;yuicompressor.jar&lt;/destFileName&gt;
+                                &lt;/artifactItem&gt;
+                            &lt;/artifactItems&gt;
+                        &lt;/configuration&gt;
+                    &lt;/execution&gt;
+                &lt;/executions&gt;
+            &lt;/plugin&gt;
+            &lt;plugin&gt;
+                &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+                &lt;artifactId&gt;maven-antrun-plugin&lt;/artifactId&gt;
+                &lt;version&gt;1.7&lt;/version&gt;
+                &lt;executions&gt;
+                    &lt;execution&gt;
+                        &lt;phase&gt;install&lt;/phase&gt;
+                        &lt;goals&gt;
+                            &lt;goal&gt;run&lt;/goal&gt;
+                        &lt;/goals&gt;
+                        &lt;configuration&gt;
+                            &lt;tasks&gt;
+                                &lt;echo message=&quot;开始压缩 JS 文件. 请耐心等待！&quot; /&gt;
+                                &lt;property name=&quot;yuicompressor&quot; value=&quot;${project.build.directory}/compressor/yuicompressor.jar&quot; /&gt;
+                                &lt;property name=&quot;closure-compiler&quot; value=&quot;${project.build.directory}/compressor/closure-compiler.jar&quot; /&gt;
+                                &lt;property name=&quot;css.compress.directory&quot; value=&quot;${project.build.directory}/${project.build.finalName}/resources&quot; /&gt;
+                                &lt;property name=&quot;js.compress.directory&quot; value=&quot;${css.compress.directory}/js&quot; /&gt;
+                                &lt;apply executable=&quot;java&quot; parallel=&quot;false&quot; failonerror=&quot;true&quot; dest=&quot;${js.compress.directory}&quot;&gt;
+                                    &lt;fileset dir=&quot;${js.compress.directory}&quot; includes=&quot;**/*.js&quot; /&gt;
+                                    &lt;arg line=&quot;-jar&quot; /&gt;
+                                    &lt;arg path=&quot;${closure-compiler}&quot; /&gt;
+                                    &lt;arg line=&quot;--warning_level DEFAULT&quot; /&gt;
+                                    &lt;arg line=&quot;--compilation_level SIMPLE_OPTIMIZATIONS&quot; /&gt;
+                                    &lt;arg line=&quot;--js&quot; /&gt;
+                                    &lt;srcfile /&gt;
+                                    &lt;arg line=&quot;--js_output_file&quot; /&gt;
+                                    &lt;targetfile /&gt;
+                                    &lt;mapper type=&quot;regexp&quot; from=&quot;^(.*)\.(js)$&quot; to=&quot;\1-min.\2&quot; /&gt;
+                                &lt;/apply&gt;
+                                &lt;move todir=&quot;${js.compress.directory}&quot;&gt;
+                                    &lt;fileset dir=&quot;${js.compress.directory}&quot; includes=&quot;**/*.js&quot; /&gt;
+                                    &lt;mapper type=&quot;regexp&quot; from=&quot;^(.*)-min\.(js)$&quot; to=&quot;\1.\2&quot; /&gt;
+                                &lt;/move&gt;
+                                &lt;echo message=&quot;成功压缩 JS 文件&quot; /&gt;
+                                &lt;echo message=&quot;开始压缩 CSS 文件. 请耐心等待！&quot; /&gt;
+                                &lt;apply executable=&quot;java&quot; parallel=&quot;false&quot; failonerror=&quot;true&quot; dest=&quot;${css.compress.directory}&quot;&gt;
+                                    &lt;fileset dir=&quot;${css.compress.directory}&quot; includes=&quot;**/*.css&quot; /&gt;
+                                    &lt;arg line=&quot;-jar&quot; /&gt;
+                                    &lt;arg path=&quot;${yuicompressor}&quot; /&gt;
+                                    &lt;arg line=&quot;--charset UTF-8&quot; /&gt;
+                                    &lt;arg value=&quot;--type&quot;/&gt;
+                                    &lt;arg value=&quot;css&quot;/&gt;
+                                    &lt;srcfile /&gt;
+                                    &lt;arg line=&quot;-o&quot; /&gt;
+                                    &lt;targetfile /&gt;
+                                    &lt;mapper type=&quot;regexp&quot; from=&quot;^(.*)\.(css)$&quot; to=&quot;\1-min.\2&quot; /&gt;
+                                &lt;/apply&gt;
+                                &lt;move todir=&quot;${css.compress.directory}&quot;&gt;
+                                    &lt;fileset dir=&quot;${css.compress.directory}&quot; includes=&quot;**/*.css&quot; /&gt;
+                                    &lt;mapper type=&quot;regexp&quot; from=&quot;^(.*)-min\.(css)$&quot; to=&quot;\1.\2&quot; /&gt;
+                                &lt;/move&gt;
+                                &lt;echo message=&quot;成功压缩 CSS 文件&quot; /&gt;
+                            &lt;/tasks&gt;
+                        &lt;/configuration&gt;
+                    &lt;/execution&gt;
+                &lt;/executions&gt;
+            &lt;/plugin&gt;
+</code></pre>
+
+<p>JQUERY 的压缩工具 <code>uglifyjs</code>版本的配置，必须要有<code>nodejs</code>环境 （<code>executable=&quot;node&quot;</code>）即在<code>cmd</code>中能够执行 <code>node --version. uglifyjs</code>可以在<a href="https://github.com/mishoo/UglifyJS">https://github.com/mishoo/UglifyJS</a> 下载，下载后续稍稍修改<code>bin/uglifyjs</code>，把里面的 <code>var uglify = require(&quot;uglify-js&quot;)</code>  修改为 <code>var uglify = require(&quot;./uglify-js&quot;);//或者 ../uglify-js</code>   因为<code>uglify-js</code>默认是在bin目录外面的。</p>
+
+<p>如需更新uglify的版本，每次覆盖相应文件，只修改上面文件即可。</p>
+
+<pre><code class="language-xml">&lt;echo message=&quot;开始压缩 JS 文件. 请耐心等待！&quot; /&gt;
+                                &lt;property name=&quot;uglifyjs&quot; value=&quot;${project.build.directory}/compressor/uglify/uglifyjs&quot; /&gt;
+                                &lt;property name=&quot;yuicompressor&quot; value=&quot;${project.build.directory}/compressor/yuicompressor.jar&quot; /&gt;
+                                &lt;property name=&quot;closure-compiler&quot; value=&quot;${project.build.directory}/compressor/closure-compiler.jar&quot; /&gt;
+                                &lt;property name=&quot;css.compress.directory&quot; value=&quot;${project.build.directory}/${project.build.finalName}/resources&quot; /&gt;
+                                &lt;property name=&quot;js.compress.directory&quot; value=&quot;${css.compress.directory}/js&quot; /&gt;
+                                &lt;apply executable=&quot;node&quot; parallel=&quot;false&quot; failonerror=&quot;true&quot; dest=&quot;${js.compress.directory}&quot;&gt;
+                                    &lt;fileset dir=&quot;${js.compress.directory}&quot; includes=&quot;**/*.js&quot; /&gt;
+                                    &lt;arg line=&quot; ${uglifyjs}&quot; /&gt;
+                                    &lt;arg line=&quot; --ascii&quot; /&gt;
+                                    &lt;arg line=&quot; -o&quot; /&gt;
+                                    &lt;targetfile /&gt;
+                                    &lt;srcfile /&gt;
+                                    &lt;mapper type=&quot;regexp&quot; from=&quot;^(.*)\.(js)$&quot; to=&quot;\1-min.\2&quot; /&gt;
+                                &lt;/apply&gt;
+                                &lt;move todir=&quot;${js.compress.directory}&quot;&gt;
+                                    &lt;fileset dir=&quot;${js.compress.directory}&quot; includes=&quot;**/*.js&quot; /&gt;
+                                    &lt;mapper type=&quot;regexp&quot; from=&quot;^(.*)-min\.(js)$&quot; to=&quot;\1.\2&quot; /&gt;
+                                &lt;/move&gt;
+</code></pre>
+
+<h4 id="附件下载">附件下载</h4>
+
+<ul>
+<li><a href="http://p6ca8sani.bkt.clouddn.com/static/attachments/uglify.7z">uglify.7z (40.5 KB)</a></li>
+</ul>
+
+<h4 id="原文链接">原文链接</h4>
+
+<p><a href="http://matychen.iteye.com/blog/1477350">maven中用yuicompressor和closure-compiler对js、css文件进行压缩</a></p>
+</div>
+
+
+    </div>
+
+    
+  </body>
+</html>

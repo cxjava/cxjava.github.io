@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-cn" lang="zh-cn">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.37.1" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>Spring3MVC教程(Mybatis&#43;ExtJS基本权限管理) &middot; 点滴记录</title>
+
+  
+  <link type="text/css" rel="stylesheet" href="http://cxjava.github.io/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="http://cxjava.github.io/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="http://cxjava.github.io/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="http://cxjava.github.io/css/hyde.css">
+  
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="点滴记录" />
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai-sublime.min.css">
+
+<script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+  <body class=" ">
+  <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="http://cxjava.github.io/"><h1>点滴记录</h1></a>
+      <p class="lead">
+       Charles的个人博客 
+      </p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="http://cxjava.github.io/">Home</a> </li>
+      <li><a href="/categories/"> Categories </a></li><li><a href="/tags/"> Tags </a></li><li><a href="/about-me/"> About Me </a></li>
+    </ul>
+
+    <p>&copy; 2018. All rights reserved. </p>
+  </div>
+</div>
+
+    <div class="content container">
+    <div class="post">
+  <h1>Spring3MVC教程(Mybatis&#43;ExtJS基本权限管理)</h1>
+  <span class="post-date">2012-01-11</span>
+  <blockquote>
+<p>Spring3 MVC 教程 （Mybatis+ExtJS基本权限管理） </p>
+</blockquote>
+
+<h3 id="说明">说明：</h3>
+
+<ul>
+<li>2016-3-29 更新，最新代码在github <a href="https://github.com/cxjava/authority">cxjava/authority</a>上面</li>
+<li>验证码：采用开源的<a href="https://code.google.com/p/kaptcha/，代码自己修改了部分。">https://code.google.com/p/kaptcha/，代码自己修改了部分。</a></li>
+<li>上传文件：swfupload，参考论坛里面的另外一个帖子。</li>
+<li><strong>ext的tab非iframe模式，只加载一次ExtJS，速度还可以～自己命名jsp里面的变量的时候注意变量ID不要重复</strong> 参考下面部分js代码</li>
+<li>框架采用了mybatis+spring3MVC，应该说是学习springmvc的好例子。代码都有详细注释。</li>
+<li>js的加载采用了yepnope，是一个基于条件的异步资源（JS和CSS）加载工具</li>
+<li>mybatis的配置文件的生成采用了自己修改的mybatis的工具。<a href="http://matychen.iteye.com/admin/blogs/1139009">mybatis-generator 修改版</a>​</li>
+</ul>
+
+<h3 id="其他">其他：</h3>
+
+<ul>
+<li><p>附件为maven构建的工程，需要lib的可以去网盘下载，里面也有base_power.pdm文件，可以自己转为mysql的脚本。</p></li>
+
+<li><p>建库语句在war包里面的readme文件夹下面</p></li>
+
+<li><p>7z的分卷压缩老是搞不好，只好贴网盘地址了</p></li>
+</ul>
+
+<p><a href="http://dl.dbank.com/c0bakwliui">http://dl.dbank.com/c0bakwliui</a></p>
+
+<pre><code class="language-javascript">// tab主面板
+index.tabPanel = new Ext.TabPanel({
+    id: 'mainTabPanel',
+    region: 'center',
+    activeTab: 0,
+    deferredRender: false,
+    enableTabScroll: true,
+    // bodyStyle:'height:100%',
+    defaults: {
+        layout: 'fit',
+        autoScroll: true
+    },
+    plugins: new Ext.ux.TabCloseMenu({
+        closeTabText: '关闭标签页',
+        closeOtherTabsText: '关闭其他标签页',
+        closeAllTabsText: '关闭所有标签页'
+    }),
+    items: [{
+        id: 'home',
+        title: '我的主页',
+        iconCls: 'home',
+        closable: false,
+        autoScroll: true,
+        autoLoad: {
+            url: index.welcome,
+            scripts: true,
+            nocache: true
+        }
+    }],
+    listeners: {
+        'bodyresize': function (panel, neww, newh) {
+            // 自动调整tab下面的panel的大小
+            var tab = panel.getActiveTab();
+            var centerpanel = Ext.getCmp(tab.id + &quot;_div_panel&quot;);
+            if (centerpanel) {
+                centerpanel.setHeight(newh - 2);
+                centerpanel.setWidth(neww - 2);
+            }
+        }
+    }
+});
+</code></pre>
+
+<pre><code class="language-javascript">&lt;%@ page language=&quot;java&quot; contentType=&quot;text/html; charset=UTF-8&quot;%&gt;
+&lt;%@ include file=&quot;/WEB-INF/views/commons/taglibs.jsp&quot;%&gt;
+&lt;div id=&quot;changePwdDiv&quot; style=&quot;width: 100%; height: 100%;&quot;&gt;
+    &lt;div id=&quot;changePwdToolBarDiv&quot;&gt;&lt;/div&gt;
+    &lt;div id=&quot;changePwdFormDiv&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script type=&quot;text/javascript&quot;&gt;
+$(document).ready(function() {
+    //yepnope(&quot;${ctx}/resources/js/user/changepwd.js&quot;);
+    Ext.ns(&quot;Ext.Authority.changepassword&quot;); // 自定义一个命名空间
+    changepwd = Ext.Authority.changepassword; // 定义命名空间的别名
+    changepwd = {
+        changeurl : ctx + &quot;/user/changepwd&quot;
+    };
+    // 编辑用户Form
+    changepwd.changePwdFormPanel = new Ext.form.FormPanel({
+        renderTo : 'changePwdFormDiv',
+        border : false,
+        defaults : {
+            xtype : &quot;textfield&quot;,
+            labelWidth : 50
+        },
+        bodyStyle : 'padding:5px;background-color:transparent;',
+        items : [ {// 原密码
+            id : 'old_password',
+            name : 'old_password',
+            inputType : &quot;password&quot;,
+            fieldLabel : '原密码',
+            anchor : '99%',
+            allowBlank : false,
+            maxLength : 32
+        }, { // 新密码
+            id : 'new_password',
+            name : 'new_password',
+            inputType : &quot;password&quot;,
+            fieldLabel : '新密码',
+            anchor : '99%',
+            allowBlank : false,
+            maxLength : 32
+        }, {// 确认密码
+            id : 'compare_password',
+            name : 'compare_password',
+            inputType : &quot;password&quot;,
+            fieldLabel : '确认密码',
+            vtype : &quot;password&quot;,// 自定义的验证类型
+            vtypeText : &quot;两次输入的密码不一致！&quot;,
+            confirmTo : &quot;new_password&quot;,// 要比较的另外一个的组件的id
+            anchor : '99%',
+            allowBlank : false,
+            maxLength : 32
+        }, {// 账户ID
+            xtype : 'hidden',
+            name : 'userId',
+            value : '${user.userId}'
+        } ]
+    });
+    // 工具栏
+    changepwd.changePwdToolbar = new Ext.Toolbar({
+        renderTo : 'changePwdToolBarDiv',
+        items : [ new Ext.Button({
+            text : '保存',
+            iconCls : 'save',
+            handler : function() {
+                var form = changepwd.changePwdFormPanel.getForm();
+                if (form.isValid()) {
+                    var values = form.getValues();
+                    // 发送请求
+                    Share.AjaxRequest({
+                        url : changepwd.changeurl,
+                        params : {
+                            oldPassword : Ext.MD5(values.old_password),
+                            newPassword : Ext.MD5(values.new_password),
+                            comparePassword : Ext.MD5(values.compare_password),
+                            userId : values.userId
+                        },
+                        callback : function(json) {
+                            // 重新登录
+                            Share.getWin().location = ctx;
+                        },
+                        falseFun : function(json) {//失败后想做的个性化操作函数
+                            if (json.msg.indexOf('原密码不正确！请重新输入') &gt; -1) {
+                                $(&quot;#old_password&quot;).focus().val('');
+                                return;
+                            }
+                            if (json.msg.indexOf('两次输入的新密码不一致') &gt; -1) {
+                                $(&quot;#new_password&quot;).val('');
+                                $(&quot;#compare_password&quot;).val('').focus();
+                                return;
+                            }
+                            if (json.msg.indexOf('请输入正确的帐号和其注册邮箱') &gt; -1) {
+                                return;
+                            }
+                        }
+                    });
+                }
+            }
+        }), new Ext.Button({
+            text : '取消',
+            iconCls : 'cancel',
+            handler : function() {
+                header.changePwdWindow.close();
+            }
+        }) ]
+    });
+    var events = &quot;beforecopy beforepaste beforedrag contextmenu selectstart drag paste copy cut dragenter&quot;;
+    $(&quot;#old_password&quot;).bind(events, function(e) {
+        if (e &amp;&amp; e.preventDefault)
+            e.preventDefault();
+        else
+            window.event.returnValue = false;
+        return false;
+    });
+    $(&quot;#new_password&quot;).bind(events, function(e) {
+        return false;
+    });
+    $(&quot;#compare_password&quot;).bind(events, function(e) {
+        return false;
+    });
+});
+&lt;/script&gt;
+</code></pre>
+
+<p>代码不多贴了，上图片吧：</p>
+
+<p><img src="http://p6ca8sani.bkt.clouddn.com/static/images/springmvc/275facc9-ee4c-3ec5-96e2-2aca6e49250c.jpg" alt="springmvc" />
+<img src="http://p6ca8sani.bkt.clouddn.com/static/images/springmvc/64f1e286-62bb-3e10-bc1e-36b53502fee0.jpg" alt="springmvc" />
+<img src="http://p6ca8sani.bkt.clouddn.com/static/images/springmvc/399f011e-0b7f-3a15-bf21-05d7c32c8821.jpg" alt="springmvc" />
+<img src="http://p6ca8sani.bkt.clouddn.com/static/images/springmvc/8b206924-fd09-390c-8c1d-bd9664353ab2.jpg" alt="springmvc" />
+<img src="http://p6ca8sani.bkt.clouddn.com/static/images/springmvc/32e3ecbf-9b7f-3801-9db1-1e479d3824c0.jpg" alt="springmvc" />
+<img src="http://p6ca8sani.bkt.clouddn.com/static/images/springmvc/a25c551b-ce0a-36d9-9541-2194cc9b7993.jpg" alt="springmvc" />
+<img src="http://p6ca8sani.bkt.clouddn.com/static/images/springmvc/af39b198-ed1a-3e88-8f82-e4e40a114a8f.jpg" alt="springmvc" /></p>
+
+<h4 id="附件下载">附件下载</h4>
+
+<ul>
+<li><a href="http://p6ca8sani.bkt.clouddn.com/static/attachments/Authority.7z">Authority.7z (1.2 MB)</a>描述: maven构建</li>
+</ul>
+
+<h4 id="原文链接">原文链接</h4>
+
+<p><a href="http://matychen.iteye.com/blog/1342408">Spring3MVC教程(Mybatis+ExtJS基本权限管理)</a></p>
+</div>
+
+
+    </div>
+
+    
+  </body>
+</html>

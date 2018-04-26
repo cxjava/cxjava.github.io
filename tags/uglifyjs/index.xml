@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Uglifyjs on 点滴记录</title>
+    <link>http://cxjava.github.io/tags/uglifyjs/</link>
+    <description>Recent content in Uglifyjs on 点滴记录</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 06 Apr 2012 15:06:00 +0800</lastBuildDate>
+    
+	<atom:link href="http://cxjava.github.io/tags/uglifyjs/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>UglifyJS压缩js文件和jsp里面的js代码</title>
+      <link>http://cxjava.github.io/post/uglifyjs%E5%8E%8B%E7%BC%A9js%E6%96%87%E4%BB%B6%E5%92%8Cjsp%E9%87%8C%E9%9D%A2%E7%9A%84js%E4%BB%A3%E7%A0%81/</link>
+      <pubDate>Fri, 06 Apr 2012 15:06:00 +0800</pubDate>
+      
+      <guid>http://cxjava.github.io/post/uglifyjs%E5%8E%8B%E7%BC%A9js%E6%96%87%E4%BB%B6%E5%92%8Cjsp%E9%87%8C%E9%9D%A2%E7%9A%84js%E4%BB%A3%E7%A0%81/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;如果你不知道UglifyJS就out了，jquery的官方压缩工具啦～
+本来UglifyJS没有windows的客户端压缩工具，后来自己参照YUI的BAT工具（好像是淘宝一个哥们写的）改写了一个，具体见下面的说明。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

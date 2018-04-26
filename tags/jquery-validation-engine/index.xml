@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Jquery Validation Engine on 点滴记录</title>
+    <link>http://cxjava.github.io/tags/jquery-validation-engine/</link>
+    <description>Recent content in Jquery Validation Engine on 点滴记录</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 24 Dec 2009 09:37:44 +0800</lastBuildDate>
+    
+	<atom:link href="http://cxjava.github.io/tags/jquery-validation-engine/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>不错的jQuery验证框架Form Validation使用总结</title>
+      <link>http://cxjava.github.io/post/%E4%B8%8D%E9%94%99%E7%9A%84jquery%E9%AA%8C%E8%AF%81%E6%A1%86%E6%9E%B6form-validation%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93/</link>
+      <pubDate>Thu, 24 Dec 2009 09:37:44 +0800</pubDate>
+      
+      <guid>http://cxjava.github.io/post/%E4%B8%8D%E9%94%99%E7%9A%84jquery%E9%AA%8C%E8%AF%81%E6%A1%86%E6%9E%B6form-validation%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;前天看了&lt;a href=&#34;http://www.iteye.com/topic/550761&#34;&gt;不错的jquery验证框架&lt;/a&gt;这个帖子，自己下载下来看看，感觉还不错。就自己动手试一试。同时自己汉化了一下，官方只有英文的。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
